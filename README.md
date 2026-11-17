@@ -37,6 +37,22 @@ web app (React, strict TypeScript, Lightweight Charts, ECharts), PostgreSQL, a
 Redis-protocol cache/pub-sub, and DuckDB + Parquet for research. Details:
 [`docs/architecture.md`](docs/architecture.md).
 
+## Run the Phase 1 workspace
+
+From the repository root, select one Compose profile. Set `KLOWB_DB_PASSWORD`
+and `KLOWB_MIGRATION_PASSWORD` to separate local alphanumeric secrets before
+the first start. Keep them available for the lifetime of the database volume.
+
+```sh
+docker compose --profile dev up --build -d
+scripts/smoke.sh
+```
+
+The web shell listens on loopback port 3000 and the research API on port 8000.
+The shell displays system health, trading mode, and the feed-quality legend.
+Other research areas are placeholders. See [the runbook](docs/runbook.md) for
+private CA builds, profile isolation, local web development, and browser setup.
+
 ## Documentation
 
 | Start here | |

@@ -213,3 +213,17 @@ Record the outcome here when settled.
 | C-05 | Is the `httpx2` API (AsyncClient, timeouts, mock transport) as expected? | **Settled 2026-11-17:** installed 2.16.2; exposes `MockTransport`, `ASGITransport`, `AsyncHTTPTransport`. Starlette 1.10's `TestClient` imports `httpx2` (plain `httpx` is deprecated there), so it is a runtime dependency in Phase 1. |
 | C-06 | Can Docker pull images through the agent proxy in this environment? | Record the Docker gates as `blocked` with evidence; validate `docker compose config` only. |
 | C-07 | Does Valkey pass the Redis integration tests with redis-py 8.1.0? | Use a BSD-licensed Redis 7.2 image. |
+
+Phase 1 web tooling: @types/react and @types/react-dom 19.3.0 (MIT), and
+@types/node 24.19.2 (MIT) provide build-time declarations. Keep major versions
+aligned with runtime packages. Use the §3.3 Hey API generator with its TypeScript
+and Zod plugins; verify generated output against the OpenAPI snapshot on regeneration.
+@testing-library/dom 10.4.2 (MIT) supplies DOM queries for component tests; pin alongside the React adapter to avoid peer drift.
+Pin transitive js-yaml to 4.3.2 (MIT) for the generator. Earlier 4.x versions
+reported three high advisories. Regenerate and compile to check compatibility.
+
+Phase 1 verification (2026-11-17): the Next 16.4.6 flat configs and JSX
+accessibility rules ran cleanly on strict TS 6.0.3 with ESLint 10.15.0 despite
+older declared ESLint peers. Hey API 0.99.0 generates both TS and Zod contracts.
+The full audit has one development advisory at two versions; see docs/security.md.
+PostgreSQL 16 and Valkey 9.1.3 answered the actual API readiness probes in Compose.

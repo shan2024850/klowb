@@ -96,24 +96,64 @@ uv run alembic upgrade head
 uv run pytest
 ```
 
-API server `[PLANNED — not yet run as a server; only exercised via TestClient]`:
+### Compose
+
+Choose one profile per project. Before first start, set KLOWB_DB_PASSWORD
+and KLOWB_MIGRATION_PASSWORD to separate alphanumeric secrets in the shell or
+an ignored local environment file. PostgreSQL reads these on initial volume
+creation. Reuse the same secrets for subsequent starts of that volume. The
+migration job and API have distinct roles. Do not point the migration job at a
+shared development database. The test profile keeps PostgreSQL in tmpfs.
+
+On a normal registry connection, build with `docker compose --profile dev build`.
+In the Codex environment, the optional overlay mounts the host trust bundle only
+during dependency installation. Override KLOWB_CA_FILE if the trusted bundle
+is in another location.
+
+Private-CA build and dev smoke `[VERIFIED 2026-11-17]`
 
 ```bash
-uv run uvicorn apps.api.main:create_app --factory --reload --port 8000
+docker compose -f docker-compose.yml -f infra/compose.build-ca.yml --profile dev build
+docker compose --profile dev up -d
+scripts/smoke.sh
 ```
 
-Web and smoke `[PLANNED — Phase 1]`:
+The UI is on port 3000 and the API on 8000. To run independent test/prod
+stacks, select distinct project names with `-p`, use matching `--profile` on
+build and up, and export unused KLOWB_WEB_PORT and KLOWB_API_PORT values.
+Use the same values for scripts/smoke.sh. Set KLOWB_WEB_URL to the published
+web origin for Playwright. Use `docker compose --profile dev watch` to sync web
+source and rebuild API code during local development.
+
+### Local frontend and contracts
+
+From the root, use pnpm 10.28.0 as declared in package.json and the frozen
+workspace lockfile. API_ORIGIN configures the **web server's** upstream, default
+http://127.0.0.1:8000. With FastAPI running, start the shell with
+`pnpm --filter @klowb/web dev`. In this sandbox put XDG_CACHE_HOME, XDG_DATA_HOME,
+UV_CACHE_DIR and PLAYWRIGHT_BROWSERS_PATH in writable directories.
+
+Workspace gates and schema generation `[VERIFIED 2026-11-17]`
 
 ```bash
-
-# Web
-pnpm install
-pnpm --filter @klowb/web dev            # http://localhost:3000
-
-# Smoke
-curl -s localhost:8000/healthz
-curl -s localhost:8000/readyz
+uv run python -m scripts.export_openapi
+pnpm --filter @klowb/types generate
+pnpm -r typecheck
+pnpm -r lint
+pnpm -r test
+pnpm --filter @klowb/web build
 ```
+
+Browser gate `[BLOCKED 2026-11-17 — matching Chromium download returned 403]`
+
+```bash
+pnpm --filter @klowb/web exec playwright install chromium
+pnpm --filter @klowb/web e2e
+```
+
+Use the matching binary for acceptance. For the permitted diagnostic, the
+explicit KLOWB_DIAGNOSTIC_CHROMIUM path selects an alternate binary. See
+the verification log for the observed mismatch and results.
 
 ## 5. Quality gates
 
@@ -123,18 +163,18 @@ commands and results in `progress.md` and update `tests.json`.
 | # | Gate | Command | Status |
 |---|------|---------|--------|
 | 0 | Brain integrity | `python3 scripts/validate_brain.py` | `[VERIFIED 2026-11-17]` |
-| 1 | Backend tests | `uv run pytest` | `[VERIFIED 2026-11-17]` (143 passed; integration tests not written yet) |
+| 1 | Backend tests | `uv run pytest` | `[VERIFIED 2026-11-17]` (165 passed with PostgreSQL and Redis) |
 | 2 | Backend lint | `uv run ruff check . && uv run ruff format --check .` | `[VERIFIED 2026-11-17]` |
 | 3 | Backend type check | `uv run mypy` (files configured in `pyproject.toml`) | `[VERIFIED 2026-11-17]` |
 | 4 | Module boundaries | `uv run lint-imports` | `[VERIFIED 2026-11-17]` |
-| 5 | Frontend tests | `pnpm -r test` | `[PLANNED — Phase 1]` |
-| 6 | Frontend lint | `pnpm -r lint` | `[PLANNED — Phase 1]` |
-| 7 | Frontend type check | `pnpm -r typecheck` | `[PLANNED — Phase 1]` |
-| 8 | Playwright e2e | `pnpm --filter @klowb/web e2e -- --trace off` | `[PLANNED — Phase 1]` |
-| 9 | Database migrations | `uv run alembic upgrade head && uv run alembic downgrade base && uv run alembic upgrade head && uv run alembic check` | `[VERIFIED 2026-11-17]` (manual; automated test P1-INT-003 pending) |
-| 10 | Docker build | `docker compose build` | `[PLANNED — Phase 1]` |
-| 11 | Compose smoke test | `docker compose --profile dev up -d && scripts/smoke.sh` | `[PLANNED — Phase 1]` |
-| 12 | Dependency scan | `uv run pip-audit` and `pnpm audit --prod` | `[PLANNED — Phase 1]` |
+| 5 | Frontend tests | `pnpm -r test` | `[VERIFIED 2026-11-17]` |
+| 6 | Frontend lint | `pnpm -r lint` | `[VERIFIED 2026-11-17]` |
+| 7 | Frontend type check | `pnpm -r typecheck` | `[VERIFIED 2026-11-17]` |
+| 8 | Playwright e2e | `pnpm --filter @klowb/web e2e` | `[BLOCKED 2026-11-17: matching binary unavailable; diagnostic passed]` |
+| 9 | Database migrations | `uv run alembic upgrade head && uv run alembic downgrade base && uv run alembic upgrade head && uv run alembic check` | `[VERIFIED 2026-11-17]` (also covered by P1-INT-003) |
+| 10 | Docker build | private-CA build in §4 | `[VERIFIED 2026-11-17]` |
+| 11 | Compose smoke test | `docker compose --profile dev up -d && scripts/smoke.sh` | `[VERIFIED 2026-11-17]` |
+| 12 | Dependency scan | `uv run pip-audit --cache-dir /tmp/klowb-audit` and `pnpm audit --prod` | `[VERIFIED 2026-11-17]` | See docs/security.md for the full development audit exception.
 
 If a gate cannot run for an environmental reason, record it as `blocked` with the
 evidence (command + error) — never as passed.

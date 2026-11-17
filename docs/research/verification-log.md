@@ -203,3 +203,24 @@ chromium` via the project-local CLI.
 FastAPI 0.163.1: the P1-INT-005 regression first failed with /system/info as
 the access-log route. The matched effective route context in the ASGI scope
 contains the full path template. With that context the regression passed.
+
+### 2026-11-17 — Phase 1 web, browser and deployment
+The pinned Next package includes its own App Router, Vitest, ESLint and output
+docs. Verified TypeScript 6.0.3, Next 16.4.6, React 19.3.1, and the ESLint 10
+flat config with accessibility rules. pnpm still reports older plugin peers.
+Hey API generated TypeScript and Zod; regeneration produced no diff.
+
+The project-local 1.63.0 CLI requested Chromium v1243, version 153.0.8010.12.
+`pnpm --filter @klowb/web exec playwright install chromium` failed with
+"Download failed: server returned code 403 body 'Domain forbidden'" at
+https://cdn.playwright.dev/builds/cft/153.0.8010.12/linux64/chrome-linux64.zip.
+Default test launch also reported the missing v1243 shell. In the ADR-0012
+diagnostic only, system Chromium 156.0.8078.79 with the 1.63.0 runner passed
+all three tests against the Compose test stack, including the axe scan.
+
+The build initially failed TLS validation inside the base images; mounting the
+host CA bundle as a BuildKit secret resolved it. Private-mode checkout files
+also needed explicit runtime read permissions. All three profiles subsequently
+built and passed smoke. The Valkey/redis-py readiness probe succeeded. Prod
+reported environment=prod and live_trading_available=false. The pnpm development
+advisory and exception are recorded in docs/security.md.

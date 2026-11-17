@@ -1,0 +1,20 @@
+{
+  "name": "@klowb/types",
+  "private": true,
+  "types": "./generated/types.gen.ts",
+  "scripts": {
+    "generate": "openapi-ts -i ../../data/schemas/openapi.json -o generated -p @hey-api/typescript zod",
+    "typecheck": "tsc --strict --skipLibCheck --noEmit --target ES2022 --module NodeNext generated/types.gen.ts"
+  },
+  "devDependencies": {
+    "@hey-api/openapi-ts": "0.99.0",
+    "typescript": "6.0.3"
+  },
+  "dependencies": {
+    "zod": "4.6.7"
+  },
+  "exports": {
+    ".": "./generated/types.gen.ts",
+    "./validators": "./generated/zod.gen.ts"
+  }
+}

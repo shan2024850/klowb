@@ -168,3 +168,13 @@ every external provider as untrusted.
 4. Any request reaching a live broker endpoint in this codebase.
 5. A state-changing endpoint reachable without authentication + CSRF.
 6. Unbounded retry or reconnect loops.
+
+### Phase 1 dependency scan exception — 2026-11-17
+
+GHSA-fc5q-39xc-vjpf (high) affects picomatch 4.0.7 via Vite and 2.3.2 via
+the Next ESLint plugin. The registry had no patched version in either major.
+These development tools evaluate repository-controlled globs during builds and
+lint. Do not accept user-supplied glob patterns. The production dependency audit
+returned no findings. Retain this scoped exception until patched versions are
+available; recheck on each dependency update and before deployment. Earlier
+high js-yaml findings were resolved by the 4.3.2 override.

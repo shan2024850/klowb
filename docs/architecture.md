@@ -427,13 +427,18 @@ and the app runs normally. No live broker adapter exists in this repository
 
 ## 13. Deployment topology
 
-Docker Compose with profiles:
+Phase 1 provides a same-origin web shell, versioned system information,
+readiness, liveness and metrics. The web calls two fixed server-side proxy
+routes, validates responses with generated Zod schemas and reads the generated
+TypeScript contracts. Screens beyond the shell remain planned.
+
+Docker Compose profiles (choose one per project):
 
 | Profile | Services | Use |
 |---------|----------|-----|
 | `dev` | postgres, valkey, api (reload), web (dev server) | local development |
-| `test` | postgres, valkey (ephemeral volumes) | integration tests / CI |
-| `prod` | postgres, valkey, api, web (built), reverse proxy | single-host deployment (hardened in Phase 15) |
+| `test` | tmpfs postgres, valkey, API in test mode, standalone web | isolated integration and browser gates |
+| `prod` | postgres, valkey, production API, standalone web | loopback-only on one host; reverse proxy and external deployment hardening are Phase 15 work |
 
 Images run as non-root, with health checks. Secrets come from environment/secret
 files, never baked into images.

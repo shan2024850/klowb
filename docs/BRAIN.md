@@ -337,3 +337,8 @@ through uv, Docker for local PostgreSQL/Redis, and a writable UV_CACHE_DIR.
 Its Playwright 1.62.1 lacks the expected headless binary. The browser mismatch
 is recorded in progress.md. The §7 metrics-prefix defect has a passing regression
 using FastAPI's matched effective route context.
+
+### Phase 1 web verification (2026-11-17)
+The pnpm workspace, generated contracts, Next shell, builds and Compose profiles
+are implemented. Use progress.md for live status. ADR-0012 was followed: the
+pinned browser CDN returned HTTP 403 here; the system Chromium run is diagnostic.

@@ -578,8 +578,13 @@
       "phase": 1,
       "type": "contract",
       "description": "The OpenAPI document matches the committed snapshot, and the generated TypeScript types compile.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T21:40:45Z",
+        "command": "uv run python -m scripts.export_openapi && pnpm --filter @klowb/types generate && git diff --exit-code -- packages/types/generated data/schemas/openapi.json && pnpm -r typecheck && uv run pytest -q tests/contract/test_openapi_snapshot.py",
+        "result": "pass",
+        "commit": "e135a5f+dirty"
+      },
       "relevant_files": [
         "data/schemas/openapi.json",
         "packages/types",
@@ -686,8 +691,13 @@
       "phase": 1,
       "type": "static",
       "description": "Web type check passes with strict TypeScript.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T21:40:45Z",
+        "command": "pnpm -r typecheck",
+        "result": "pass",
+        "commit": "e135a5f+dirty"
+      },
       "relevant_files": [
         "apps/web/tsconfig.json"
       ],
@@ -699,8 +709,13 @@
       "phase": 1,
       "type": "static",
       "description": "Web lint passes (ESLint with Next and jsx-a11y rules).",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T21:40:45Z",
+        "command": "pnpm -r lint",
+        "result": "pass",
+        "commit": "e135a5f+dirty"
+      },
       "relevant_files": [
         "apps/web/eslint.config.mjs"
       ],
@@ -712,8 +727,13 @@
       "phase": 1,
       "type": "unit",
       "description": "App shell renders header/nav/main landmarks, a skip link, and the trading-mode banner showing RESEARCH by default.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T21:40:45Z",
+        "command": "pnpm -r test",
+        "result": "pass",
+        "commit": "e135a5f+dirty"
+      },
       "relevant_files": [
         "apps/web/src/components/shell",
         "apps/web/src/components/shell/app-shell.test.tsx"
@@ -726,8 +746,13 @@
       "phase": 1,
       "type": "unit",
       "description": "FeedQualityBadge renders a distinct text label for each of the seven feed-quality values and never labels a non-consolidated feed as real-time consolidated.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T21:40:45Z",
+        "command": "pnpm -r test",
+        "result": "pass",
+        "commit": "e135a5f+dirty"
+      },
       "relevant_files": [
         "apps/web/src/components/feed-quality-badge.tsx",
         "apps/web/src/components/feed-quality-badge.test.tsx"
@@ -740,8 +765,13 @@
       "phase": 1,
       "type": "unit",
       "description": "System status panel renders loading, ok, degraded and error states from API health data.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T21:40:45Z",
+        "command": "pnpm -r test",
+        "result": "pass",
+        "commit": "e135a5f+dirty"
+      },
       "relevant_files": [
         "apps/web/src/components/system-status.tsx",
         "apps/web/src/components/system-status.test.tsx"
@@ -754,67 +784,77 @@
       "phase": 1,
       "type": "e2e",
       "description": "Shell loads against the running API and shows API/DB/Redis health; skip link and keyboard navigation reach the main content.",
-      "status": "planned",
+      "status": "blocked",
       "last_execution": null,
       "relevant_files": [
         "apps/web/e2e/shell.spec.ts"
       ],
       "covers": [],
-      "notes": "Unblocked 2026-11-17 by ADR-0012: install the matching browser with 'pnpm --filter @klowb/web exec playwright install chromium'. Earlier block (global playwright 1.62.1, no /opt/pw-browsers) came from a mis-stated handoff rule."
+      "notes": "pnpm --filter @klowb/web exec playwright install chromium: Download failed: server returned code 403 body 'Domain forbidden'. URL: https://cdn.playwright.dev/builds/cft/153.0.8010.12/linux64/chrome-linux64.zip. Diagnostic only: KLOWB_WEB_URL=http://127.0.0.1:13000 KLOWB_DIAGNOSTIC_CHROMIUM=/usr/bin/chromium pnpm --filter @klowb/web e2e passed all 3 against Compose (runner 1.63.0, system Chromium 156.0.8078.79)."
     },
     {
       "id": "P1-E2E-002",
       "phase": 1,
       "type": "e2e",
       "description": "With the API unreachable the UI shows an explicit error state (not a blank page or an endless spinner).",
-      "status": "planned",
+      "status": "blocked",
       "last_execution": null,
       "relevant_files": [
         "apps/web/e2e/shell-degraded.spec.ts"
       ],
       "covers": [],
-      "notes": "Unblocked 2026-11-17 by ADR-0012: install the matching browser with 'pnpm --filter @klowb/web exec playwright install chromium'. Earlier block (global playwright 1.62.1, no /opt/pw-browsers) came from a mis-stated handoff rule."
+      "notes": "pnpm --filter @klowb/web exec playwright install chromium: Download failed: server returned code 403 body 'Domain forbidden'. URL: https://cdn.playwright.dev/builds/cft/153.0.8010.12/linux64/chrome-linux64.zip. Diagnostic only: KLOWB_WEB_URL=http://127.0.0.1:13000 KLOWB_DIAGNOSTIC_CHROMIUM=/usr/bin/chromium pnpm --filter @klowb/web e2e passed all 3 against Compose (runner 1.63.0, system Chromium 156.0.8078.79)."
     },
     {
       "id": "P1-E2E-003",
       "phase": 1,
       "type": "e2e",
       "description": "Automated axe scan of the shell reports no serious or critical accessibility violations.",
-      "status": "planned",
+      "status": "blocked",
       "last_execution": null,
       "relevant_files": [
         "apps/web/e2e/a11y.spec.ts"
       ],
       "covers": [],
-      "notes": "Unblocked 2026-11-17 by ADR-0012: install the matching browser with 'pnpm --filter @klowb/web exec playwright install chromium'. Earlier block (global playwright 1.62.1, no /opt/pw-browsers) came from a mis-stated handoff rule."
+      "notes": "pnpm --filter @klowb/web exec playwright install chromium: Download failed: server returned code 403 body 'Domain forbidden'. URL: https://cdn.playwright.dev/builds/cft/153.0.8010.12/linux64/chrome-linux64.zip. Diagnostic only: KLOWB_WEB_URL=http://127.0.0.1:13000 KLOWB_DIAGNOSTIC_CHROMIUM=/usr/bin/chromium pnpm --filter @klowb/web e2e passed all 3 against Compose (runner 1.63.0, system Chromium 156.0.8078.79)."
     },
     {
       "id": "P1-SMOKE-001",
       "phase": 1,
       "type": "smoke",
       "description": "docker compose config is valid, images build, and the stack starts with /healthz and /readyz returning 200 and the web shell responding.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T21:42:26Z",
+        "command": "KLOWB_API_PORT=18000 KLOWB_WEB_PORT=13000 scripts/smoke.sh",
+        "result": "pass",
+        "commit": "e135a5f+dirty"
+      },
       "relevant_files": [
         "docker-compose.yml",
         "scripts/smoke.sh"
       ],
       "covers": [],
-      "notes": ""
+      "notes": "Test-profile images built with the CA overlay. dev, test and prod Compose configurations validated. The smoke script verifies liveness, both readiness probes, the web shell and research mode."
     },
     {
       "id": "P1-SEC-001",
       "phase": 1,
       "type": "security",
       "description": "Dependency scan (pip-audit, pnpm audit) reports no known high/critical vulnerability, or each finding has a dated documented exception.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T21:40:48Z",
+        "command": "pnpm audit --prod && uv run pip-audit --cache-dir /tmp/klowb-audit",
+        "result": "pass",
+        "commit": "e135a5f+dirty"
+      },
       "relevant_files": [
         "pyproject.toml",
         "package.json"
       ],
       "covers": [],
-      "notes": ""
+      "notes": "Production JS and Python scans clean. Full pnpm audit --json reports GHSA-fc5q-39xc-vjpf in two dev-only versions of picomatch. Dated exception, limits, and review trigger in docs/security.md."
     },
     {
       "id": "P1-SEC-002",
