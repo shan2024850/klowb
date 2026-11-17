@@ -117,3 +117,37 @@ BEFORE YOU STOP FOR ANY REASON (finished, blocked, or running low on budget)
 A half-finished task with an accurate progress.md is fine; an undocumented
 change is not.
 ```
+
+---
+
+## Session log
+
+| Date | Agent | Result | Commit |
+|------|-------|--------|--------|
+| 2026-11-17 | Claude (Fable 5.2 → Opus 5.5) | Phase 0 complete; Phase 1 backend core | `980be4b`, `11fc401` |
+| 2026-11-17 | Codex | Phase 1 steps 2–3: backend tests, metrics-prefix fix, JSON Schema exports, `.env.example`; 164 tests; Phase 1 at 27/38. Stopped at the web step on a browser-provisioning rule. | `5e9eee8` |
+| 2026-11-17 | Claude (Opus 5.5), review | Re-ran every gate on `5e9eee8` in the original environment: 164 passed; ruff, mypy, import contracts, brain checks clean. Found the browser rule was a mis-stated environment fact; replaced it with ADR-0012 and unblocked P1-E2E-001…003. | this commit |
+
+## Follow-up prompt for Codex (after the ADR-0012 fix)
+
+```text
+Pull the latest `claude/hopeful-einstein-krs00n` and follow AGENTS.md and the
+original handoff prompt in docs/HANDOFF.md (all rules still apply).
+
+What changed since your last session: your browser blocker was caused by a rule
+in the handoff docs that described the previous agent's container, not the
+project. It has been replaced by docs/decisions/0012-e2e-browser-provisioning.md.
+Read that ADR. In short: pin @playwright/test to exactly 1.63.0 in
+apps/web/package.json, then install its matching browser with
+`pnpm --filter @klowb/web exec playwright install chromium`. Ignore the globally
+installed playwright 1.62.1. P1-E2E-001..003 are back to `planned`.
+
+Re-run the baseline from the original prompt (expect 164 pytest cases passing and
+27 of 38 Phase 1 tests passing), then continue Phase 1 from step 4 of
+"Next action" in progress.md: read the installed Next.js 16 package/docs before
+writing any config, scaffold apps/web and packages/types, run the web gates, then
+steps 5–6 (Docker Compose profiles + smoke script, dependency scans, full gate
+run, adversarial self-review). Do not start Phase 2. If the browser download
+itself fails, record the exact command and error with --status blocked and
+continue with the non-browser work.
+```

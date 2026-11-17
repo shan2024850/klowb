@@ -58,7 +58,15 @@ Status: `OPEN` · `ANSWERED` (answer recorded here and in the relevant doc).
 | B-10 | Risk defaults (`docs/risk-model.md` §4) | Conservative defaults listed there | Config only. |
 | B-11 | Pull request | Not opened unless requested; work is pushed to the designated branch | — |
 
-### Codex browser environment
+### Codex browser environment — ANSWERED 2026-11-17
 Can the web workflow use an environment preconfigured with Playwright 1.63.0
 and its matching Chromium, or should the project adopt a different tested
 browser and runner pair? See the Codex preflight in the verification log.
+
+**Answer:** neither is required. The "preinstalled 1.63.0, never run
+`playwright install`" rule described the first session's container only and was
+wrongly written as a project rule. Decision recorded in
+`docs/decisions/0012-e2e-browser-provisioning.md`: keep `@playwright/test`
+pinned to 1.63.0 in `apps/web/package.json` and install its matching Chromium
+with `pnpm --filter @klowb/web exec playwright install chromium`. The global
+`playwright` 1.62.1 in the Codex environment is irrelevant.

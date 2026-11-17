@@ -30,3 +30,4 @@ Template:
 | [0009](0009-trading-safety-modes.md) | Trading safety modes and the live gate | Accepted |
 | [0010](0010-background-work.md) | Background work: supervised asyncio tasks | Accepted |
 | [0011](0011-in-house-analytics.md) | Indicators, performance analytics and sizing in-house | Accepted |
+| [0012](0012-e2e-browser-provisioning.md) | End-to-end browser provisioning | Accepted (amends 0003) |

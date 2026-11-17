@@ -18,7 +18,7 @@ tag when it has actually been run. Never tag something verified that was not run
 | PostgreSQL | 16.x | local service or Compose |
 | Redis-protocol server | Redis 7.0.x locally; Valkey in Compose | optional at runtime (the API degrades without it) |
 | Docker Engine + Compose | 29.x / v5.x | daemon must be started manually in the cloud dev container |
-| Playwright | **1.63.0 with the preinstalled Chromium** | do not run `playwright install`; do not change the version |
+| Playwright | `@playwright/test` **1.63.0** (project pin) + its matching Chromium | install the browser with `pnpm --filter @klowb/web exec playwright install chromium` unless the environment already provides it (ADR-0012) |
 
 ---
 
@@ -150,7 +150,7 @@ evidence (command + error) — never as passed.
 | HTTP 451 from `api.binance.com` | Geo restriction | Use Kraken/Coinbase; do not attempt to bypass. |
 | `Cannot connect to the Docker daemon` | Daemon not started | Start `dockerd` (§2.2). |
 | `psql: connection refused` | PostgreSQL not started | `service postgresql start`. |
-| Playwright "browser not found" / version mismatch | A different Playwright version was installed | Pin `@playwright/test` to `1.63.0`; if a project must pin another version, launch with `executablePath: '/opt/pw-browsers/chromium'`. |
+| Playwright "browser not found" / headless shell missing | Matching browser for the pinned runner is not installed | `pnpm --filter @klowb/web exec playwright install chromium` (ADR-0012). Use the project's `@playwright/test`, never a globally installed `playwright`. |
 | `No space left on device` | Session disk allowance used | Delete build artifacts/caches (`.next`, `node_modules/.cache`, Docker images) and retry. |
 | Chart code fails with `addCandlestickSeries is not a function` | v4 API used with v5 library | Use `chart.addSeries(CandlestickSeries, …)`; read the skill and installed typings. |
 

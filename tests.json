@@ -754,39 +754,39 @@
       "phase": 1,
       "type": "e2e",
       "description": "Shell loads against the running API and shows API/DB/Redis health; skip link and keyboard navigation reach the main content.",
-      "status": "blocked",
+      "status": "planned",
       "last_execution": null,
       "relevant_files": [
         "apps/web/e2e/shell.spec.ts"
       ],
       "covers": [],
-      "notes": "Browser preflight: node -p \"require('playwright/package.json').version\" returns 1.62.1 (required preinstalled 1.63.0). playwright.chromium.launch() reports missing chromium_headless_shell-1234. Browser installation is prohibited by the project handoff. Shell and E2E specs are still unimplemented."
+      "notes": "Unblocked 2026-11-17 by ADR-0012: install the matching browser with 'pnpm --filter @klowb/web exec playwright install chromium'. Earlier block (global playwright 1.62.1, no /opt/pw-browsers) came from a mis-stated handoff rule."
     },
     {
       "id": "P1-E2E-002",
       "phase": 1,
       "type": "e2e",
       "description": "With the API unreachable the UI shows an explicit error state (not a blank page or an endless spinner).",
-      "status": "blocked",
+      "status": "planned",
       "last_execution": null,
       "relevant_files": [
         "apps/web/e2e/shell-degraded.spec.ts"
       ],
       "covers": [],
-      "notes": "Browser preflight: node -p \"require('playwright/package.json').version\" returns 1.62.1 (required preinstalled 1.63.0). playwright.chromium.launch() reports missing chromium_headless_shell-1234. Browser installation is prohibited by the project handoff. Shell and E2E specs are still unimplemented."
+      "notes": "Unblocked 2026-11-17 by ADR-0012: install the matching browser with 'pnpm --filter @klowb/web exec playwright install chromium'. Earlier block (global playwright 1.62.1, no /opt/pw-browsers) came from a mis-stated handoff rule."
     },
     {
       "id": "P1-E2E-003",
       "phase": 1,
       "type": "e2e",
       "description": "Automated axe scan of the shell reports no serious or critical accessibility violations.",
-      "status": "blocked",
+      "status": "planned",
       "last_execution": null,
       "relevant_files": [
         "apps/web/e2e/a11y.spec.ts"
       ],
       "covers": [],
-      "notes": "Browser preflight: node -p \"require('playwright/package.json').version\" returns 1.62.1 (required preinstalled 1.63.0). playwright.chromium.launch() reports missing chromium_headless_shell-1234. Browser installation is prohibited by the project handoff. Shell and E2E specs are still unimplemented."
+      "notes": "Unblocked 2026-11-17 by ADR-0012: install the matching browser with 'pnpm --filter @klowb/web exec playwright install chromium'. Earlier block (global playwright 1.62.1, no /opt/pw-browsers) came from a mis-stated handoff rule."
     },
     {
       "id": "P1-SMOKE-001",

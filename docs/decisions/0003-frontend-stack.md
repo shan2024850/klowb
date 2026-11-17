@@ -1,6 +1,6 @@
 # 0003 — Frontend stack and version pins
 
-- Status: Accepted
+- Status: Accepted — Playwright provisioning amended by [0012](0012-e2e-browser-provisioning.md)
 - Date: 2026-11-17
 
 ## Context
@@ -26,7 +26,8 @@ is 1.65.1.
 - **Lightweight Charts 5** for price charts, **ECharts 6** for analytical charts
   (modular imports, lazy-loaded, thin in-house React wrapper).
 - **ESLint** (Next config + typescript-eslint + jsx-a11y), **vitest** + Testing
-  Library + jsdom for unit/component tests, **Playwright pinned to 1.63.0** with
+  Library + jsdom for unit/component tests, **Playwright pinned to 1.63.0**
+  (browser provisioning per ADR-0012) with
   `@axe-core/playwright` for end-to-end and accessibility checks.
 - Browser → API traffic is same-origin (`/api/*` rewritten to the backend); the
   market stream is a WebSocket to the API with an Origin allowlist.

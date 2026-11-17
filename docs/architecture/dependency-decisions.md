@@ -169,7 +169,7 @@ installed package before use (do not assume it is identical to `httpx`).
 | @vitejs/plugin-react | 6.3.0 | MIT | JSX transform for vitest | 1 |
 | @testing-library/react | 16.3.3 | MIT | Component tests | 1 |
 | jsdom | 31.0.1 | MIT | DOM for tests | 1 |
-| @playwright/test | **1.63.0** (environment pin) | Apache-2.0 | E2E | 1 |
+| @playwright/test | **1.63.0** (exact project pin; browser per ADR-0012) | Apache-2.0 | E2E | 1 |
 | @axe-core/playwright | 4.14.0 | MPL-2.0 (dev only) | Automated a11y checks | 1 |
 | OpenAPI → TypeScript generator | to be chosen in Phase 1 (`@hey-api/openapi-ts` 0.99.0 MIT supports TS ≥6; `openapi-typescript` 7.13.0 MIT declares peer TS ^5) | MIT | Generated API types | 1 |
 

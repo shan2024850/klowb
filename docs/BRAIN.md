@@ -174,7 +174,7 @@ Full detail: `docs/architecture.md`. Decisions: `docs/decisions/`.
 |-----|----------|-----------------|
 | 0001 | Modular monolith; adapted version of the brief's repo layout | Brief default; empty repo gave no reason to deviate. |
 | 0002 | Python 3.13, uv, single root project, ruff, mypy strict, pytest, hypothesis, import-linter | Smallest reliable toolchain; boundaries enforced mechanically. |
-| 0003 | Next.js 16 / React 19 / **TypeScript 6.0.x (not 7)** / Tailwind 4 / Radix / pnpm / vitest / Playwright pinned to the preinstalled 1.63.0 | typescript-eslint 8.73 supports `<6.1.0`; Playwright must match the installed browser. |
+| 0003 | Next.js 16 / React 19 / **TypeScript 6.0.x (not 7)** / Tailwind 4 / Radix / pnpm / vitest / Playwright pinned to 1.63.0 (browser provisioning: ADR-0012) | typescript-eslint 8.73 supports `<6.1.0`; Playwright must match the installed browser. |
 | 0004 | PostgreSQL 16 via SQLAlchemy 2.1 async + **asyncpg** (not psycopg), Alembic, Redis, DuckDB + Parquet; no TimescaleDB yet | asyncpg is Apache-2.0 (psycopg is LGPL); Timescale not yet justified. |
 | 0005 | Canonical `Observation` model + feed-quality semantics + quarantine pipeline | Provenance and N4. |
 | 0006 | First real streaming provider = **Kraken WebSocket v2** (native adapter); Coinbase Exchange is the documented alternate | No auth, documented heartbeat/status/ping, per-book `trade_id`; verified reachable; Binance global returns HTTP 451 here. |
@@ -183,6 +183,7 @@ Full detail: `docs/architecture.md`. Decisions: `docs/decisions/`.
 | 0009 | Trading modes `research` / `paper` / `live`; live needs five independent gates and is not implemented | Brief + N2. |
 | 0010 | Background work = supervised asyncio tasks inside the API process | Simplest reliable approach. |
 | 0011 | Indicators, performance analytics and sizing implemented in-house; `ta`, `quantstats`, `Riskfolio-Lib` not adopted (Riskfolio re-evaluated in Phase 10) | Determinism, testability, small dependency surface; `ta` is stale. |
+| 0012 | `@playwright/test` pinned to 1.63.0 in `apps/web`; its matching Chromium is installed with `pnpm --filter @klowb/web exec playwright install chromium` unless the environment already provides it | The earlier "never run playwright install" rule described one container, not the project. |
 
 Every ADR lists the evidence, the alternatives and the triggers that would justify
 revisiting it.
@@ -203,7 +204,7 @@ environment may differ — re-verify with the commands in `docs/runbook.md`.
 | Redis | 7.0.15 installed locally, **not running by default** |
 | Docker | Engine 29.9.2 + Compose v5.6.1 installed; daemon is **not running by default** but starts with `dockerd` (verified) |
 | DuckDB CLI | not installed (the Python package is used instead) |
-| Playwright | 1.63.0 with Chromium preinstalled at `/opt/pw-browsers`. **Do not run `playwright install` and do not install another Playwright version** — pin `@playwright/test` to `1.63.0`. |
+| Playwright | 1.63.0 with Chromium preinstalled at `/opt/pw-browsers` **in this container only**, so no browser download was needed here. Other environments install the matching browser with the project-local CLI (ADR-0012). |
 | Outbound network | HTTPS through an agent proxy (`HTTPS_PROXY`, CA bundle `/root/.ccr/ca-bundle.crt`). PyPI and npm registries reachable. |
 | GitHub from the container | `api.github.com` and `github.com` return **403 from the container** (policy). `git push/fetch` of *this* repo works. Third-party repo pages are readable only through the WebFetch tool. `npx skills add` worked (it fetched the skill files). |
 | Exchange reachability | Kraken REST + WS v2: OK. Coinbase Exchange REST + WS: OK. Binance global REST: **HTTP 451** (geo-restricted from this network). Binance.US REST: 200. |

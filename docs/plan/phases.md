@@ -79,7 +79,8 @@ health, and every quality gate wired up.
    migration (instruments, bars, quarantined events, audit log skeleton). Redis
    client with graceful degradation.
 7. Web: pnpm workspace, Next.js 16 app (`@klowb/web`), strict TypeScript 6.0.x,
-   Tailwind 4, ESLint (+ jsx-a11y), vitest + Testing Library, Playwright 1.63.0 +
+   Tailwind 4, ESLint (+ jsx-a11y), vitest + Testing Library, Playwright 1.63.0 (browser
+   installed per ADR-0012) +
    axe. App shell: landmarks, skip link, navigation to the planned routes,
    trading-mode banner, `FeedQualityBadge`, system status panel with
    loading/ok/degraded/error states. Generated API types in `packages/types`.

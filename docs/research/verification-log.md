@@ -195,6 +195,11 @@ Playwright cache. /opt/pw-browsers is absent. The separately packaged system
 Chromium reports 156.0.8078.79. The handoff requires a preinstalled 1.63.0
 pair and prohibits downloading another browser or installing another version.
 
+**Resolution (2026-11-17, reviewed in the original environment):** the handoff
+rule was an environment fact mis-stated as a project rule. Superseded by
+ADR-0012: project-pinned `@playwright/test` 1.63.0 + `playwright install
+chromium` via the project-local CLI.
+
 FastAPI 0.163.1: the P1-INT-005 regression first failed with /system/info as
 the access-log route. The matched effective route context in the ASGI scope
 contains the full path template. With that context the regression passed.

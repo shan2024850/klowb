@@ -92,10 +92,19 @@ A system chromium binary exists. The project prohibits downloading a browser
 or substituting a runner version. See docs/open-questions.md. Frontend
 compatibility, the integrated Compose smoke test and dependency scans remain open.
 
+**Browser blocker resolved (2026-11-17, owner-side review):** the "never run
+`playwright install`" rule was a fact about the first session's container,
+mis-stated as a project rule. ADR-0012 replaces it: pin `@playwright/test`
+1.63.0 in `apps/web/package.json` and install its matching Chromium with
+`pnpm --filter @klowb/web exec playwright install chromium`. P1-E2E-001…003 are
+back to `planned`.
+
 ## Next action
 
-Resume Phase 1 step 4 once the browser baseline is reconciled: provision the
-documented Playwright 1.63.0 + Chromium image or record an approved alternative.
+Resume Phase 1 step 4 now (browser baseline reconciled by ADR-0012): add
+`@playwright/test` 1.63.0 to `apps/web`, run
+`pnpm --filter @klowb/web exec playwright install chromium` (record blocked with
+the error only if the download itself fails).
 Read installed Next 16 docs, scaffold apps/web and generated API types, run the
 web/static, component, contract and browser gates. Then complete steps 5–6
 (Compose, audits, full-stack smoke, self-review). Phase 2 has not started.
