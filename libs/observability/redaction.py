@@ -45,7 +45,8 @@ def redact_value(value: Any, *, _depth: int = 0) -> Any:
     if isinstance(value, str):
         return redact_text(value)
     if _depth >= _MAX_DEPTH:
-        return value
+        # Never hand an uninspected subtree to the JSON renderer.
+        return REDACTED
     if isinstance(value, Mapping):
         return {
             key: REDACTED

@@ -57,3 +57,8 @@ Status: `OPEN` · `ANSWERED` (answer recorded here and in the relevant doc).
 | B-09 | Account base currency | USD | Portfolio accounting, FX conversion. |
 | B-10 | Risk defaults (`docs/risk-model.md` §4) | Conservative defaults listed there | Config only. |
 | B-11 | Pull request | Not opened unless requested; work is pushed to the designated branch | — |
+
+### Codex browser environment
+Can the web workflow use an environment preconfigured with Playwright 1.63.0
+and its matching Chromium, or should the project adopt a different tested
+browser and runner pair? See the Codex preflight in the verification log.

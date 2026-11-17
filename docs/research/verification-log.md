@@ -182,3 +182,19 @@ Sample of a real Coinbase Exchange message:
 | 2026-11-17 | Kraken WS v2 `status` | Core shape: `api_version`, `connection_id`, `system`, `version` (optional maintenance arrays "only on deployments with the maintenance-status integration enabled") | Production sends `upcoming_maintenance` | Parse optional arrays; expose upcoming maintenance in provider health. |
 | 2026-11-17 | Twelve Data pricing | Web pricing page vs machine-readable `pricing.md` list different Grow prices ($79 vs from $29 with three tiers) | — | Use the plan table in `pricing.md`; re-check before relying on it. |
 | 2026-11-17 | valkey.io | "Latest release 9.1.3, October 26, 2026" while 9.0.7 is dated October 27, 2026 | — | Dates on the page are inconsistent; pick the image tag at Phase 1 from the registry. |
+
+### 2026-11-17 — Codex baseline
+The local-service instructions describe the previous environment. Here the host
+has neither server nor sudo. The same DB bootstrap succeeded inside postgres:16;
+redis:7 answered PONG. Docker image pulls succeeded for both. uv selected
+/usr/bin/python3 (3.13.5) with a writable UV_CACHE_DIR. See progress.md.
+
+Browser preflight: the installed playwright package reports 1.62.1. Its default
+headless launch failed because chromium_headless_shell-1234 is missing from the
+Playwright cache. /opt/pw-browsers is absent. The separately packaged system
+Chromium reports 156.0.8078.79. The handoff requires a preinstalled 1.63.0
+pair and prohibits downloading another browser or installing another version.
+
+FastAPI 0.163.1: the P1-INT-005 regression first failed with /system/info as
+the access-log route. The matched effective route context in the ASGI scope
+contains the full path template. With that context the regression passed.

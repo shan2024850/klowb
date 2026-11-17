@@ -310,29 +310,39 @@
       "phase": 1,
       "type": "unit",
       "description": "Settings: TRADING_MODE defaults to research; live mode with any missing gate fails to load with an explicit error; paper never implies live; unknown modes are rejected.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
       "relevant_files": [
         "apps/api/settings.py",
         "tests/unit/test_settings.py"
       ],
       "covers": [],
-      "notes": "Code exists in apps/api/settings.py (gates verified by a manual smoke run on 2026-11-17). Automated test NOT written yet."
+      "notes": "Verified in the Codex Phase 1 backend run."
     },
     {
       "id": "P1-UNIT-008",
       "phase": 1,
       "type": "security",
       "description": "Secrets are SecretStr and never appear in repr(settings), the system info endpoint or log output.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
       "relevant_files": [
         "apps/api/settings.py",
         "libs/observability/logging.py",
         "tests/unit/test_secrets_redaction.py"
       ],
       "covers": [],
-      "notes": "Code exists (SecretStr settings, libs/observability/redaction.py). Automated test NOT written yet."
+      "notes": "Verified in the Codex Phase 1 backend run."
     },
     {
       "id": "P1-UNIT-009",
@@ -395,128 +405,173 @@
       "phase": 1,
       "type": "integration",
       "description": "GET /healthz returns 200 without touching PostgreSQL or Redis.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
       "relevant_files": [
         "apps/api/routers/health.py",
         "tests/integration/test_health.py"
       ],
       "covers": [],
-      "notes": "Endpoint exists (apps/api/routers/health.py); manual smoke returned 200 on 2026-11-17. Automated test NOT written yet."
+      "notes": "Verified in the Codex Phase 1 backend run."
     },
     {
       "id": "P1-INT-002",
       "phase": 1,
       "type": "integration",
       "description": "GET /readyz returns 200 with per-dependency status when PostgreSQL and Redis are reachable.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
       "relevant_files": [
         "apps/api/routers/health.py",
         "tests/integration/test_health.py"
       ],
       "covers": [],
-      "notes": "Endpoint exists; manual smoke returned 200 with postgres+redis up. Automated test NOT written yet."
+      "notes": "Verified in the Codex Phase 1 backend run."
     },
     {
       "id": "P1-FAIL-001",
       "phase": 1,
       "type": "failure-injection",
       "description": "PostgreSQL unavailable: /readyz returns 503 with db=down, /healthz stays 200, the process does not crash, and the failure is logged with a correlation id.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
       "relevant_files": [
         "tests/integration/test_health_failures.py"
       ],
       "covers": [
         "DB unavailable"
       ],
-      "notes": "Manual smoke: unreachable DB -> /readyz 503 'unavailable', /healthz 200. Automated test NOT written yet."
+      "notes": "Verified in the Codex Phase 1 backend run."
     },
     {
       "id": "P1-FAIL-002",
       "phase": 1,
       "type": "failure-injection",
       "description": "Redis unavailable: /readyz reports redis=down (degraded), /healthz stays 200, API requests that do not need Redis still succeed.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
       "relevant_files": [
         "tests/integration/test_health_failures.py"
       ],
       "covers": [
         "Redis unavailable"
       ],
-      "notes": ""
+      "notes": "Verified in the Codex Phase 1 backend run."
     },
     {
       "id": "P1-INT-003",
       "phase": 1,
       "type": "integration",
       "description": "Alembic migrations apply on an empty database, downgrade to base, and apply again (round trip) without error.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
       "relevant_files": [
         "migrations",
         "tests/integration/test_migrations.py"
       ],
       "covers": [],
-      "notes": "migrations/versions/20261117_dc947b200818_initial_schema.py exists; upgrade/downgrade/upgrade and 'alembic check' verified manually on 2026-11-17. Automated test NOT written yet."
+      "notes": "Verified in the Codex Phase 1 backend run."
     },
     {
       "id": "P1-INT-004",
       "phase": 1,
       "type": "integration",
       "description": "Structured JSON logs include a correlation id; an incoming X-Request-ID is honoured and echoed, otherwise one is generated.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
       "relevant_files": [
         "libs/observability",
         "tests/integration/test_correlation.py"
       ],
       "covers": [],
-      "notes": "Middleware exists (libs/observability/correlation.py); manual smoke echoed X-Request-ID. Automated test NOT written yet."
+      "notes": "Verified in the Codex Phase 1 backend run."
     },
     {
       "id": "P1-INT-005",
       "phase": 1,
       "type": "integration",
       "description": "GET /metrics exposes Prometheus metrics including HTTP request counters/latency and dependency health gauges.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
       "relevant_files": [
         "libs/observability/metrics.py",
         "tests/integration/test_metrics.py"
       ],
       "covers": [],
-      "notes": "/metrics exists. Known defect: route label for prefixed routers is '/system/info' instead of '/api/v1/system/info' (FastAPI 0.163 includes routers as _IncludedRouter). Fix + test needed."
+      "notes": "Verified in the Codex Phase 1 backend run."
     },
     {
       "id": "P1-INT-006",
       "phase": 1,
       "type": "integration",
       "description": "GET /api/v1/system/info returns version, trading mode and the feed-quality legend and contains no secret.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
       "relevant_files": [
         "apps/api/routers/system.py",
         "tests/integration/test_system_info.py"
       ],
       "covers": [],
-      "notes": "Endpoint exists (apps/api/routers/system.py). Automated test NOT written yet."
+      "notes": "Verified in the Codex Phase 1 backend run."
     },
     {
       "id": "P1-INT-007",
       "phase": 1,
       "type": "integration",
       "description": "Errors use the standard envelope {error:{code,message,correlation_id}}; validation errors return 422 with field details; unknown routes return 404 in the same envelope.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
       "relevant_files": [
         "apps/api/errors.py",
         "tests/integration/test_errors.py"
       ],
       "covers": [],
-      "notes": "Error envelope exists (apps/api/errors.py); manual smoke of 404 OK. Automated test NOT written yet."
+      "notes": "Verified in the Codex Phase 1 backend run."
     },
     {
       "id": "P1-CONTRACT-001",
@@ -538,14 +593,19 @@
       "phase": 1,
       "type": "contract",
       "description": "JSON Schemas exported from canonical models match the committed files in data/schemas.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
       "relevant_files": [
         "data/schemas",
         "tests/contract/test_json_schema_export.py"
       ],
       "covers": [],
-      "notes": ""
+      "notes": "Verified in the Codex Phase 1 backend run."
     },
     {
       "id": "P1-STATIC-001",
@@ -606,13 +666,20 @@
       "phase": 1,
       "type": "static",
       "description": "datetime.now()/utcnow() and naive datetime construction are banned outside the SystemClock implementation (lint rule or test).",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
       "relevant_files": [
-        "tests/unit/test_no_naive_time.py"
+        "tests/unit/domain/test_no_naive_time.py",
+        "pyproject.toml",
+        "libs/domain/clock.py"
       ],
       "covers": [],
-      "notes": ""
+      "notes": "Verified in the Codex Phase 1 backend run."
     },
     {
       "id": "P1-WEB-001",
@@ -687,39 +754,39 @@
       "phase": 1,
       "type": "e2e",
       "description": "Shell loads against the running API and shows API/DB/Redis health; skip link and keyboard navigation reach the main content.",
-      "status": "planned",
+      "status": "blocked",
       "last_execution": null,
       "relevant_files": [
         "apps/web/e2e/shell.spec.ts"
       ],
       "covers": [],
-      "notes": ""
+      "notes": "Browser preflight: node -p \"require('playwright/package.json').version\" returns 1.62.1 (required preinstalled 1.63.0). playwright.chromium.launch() reports missing chromium_headless_shell-1234. Browser installation is prohibited by the project handoff. Shell and E2E specs are still unimplemented."
     },
     {
       "id": "P1-E2E-002",
       "phase": 1,
       "type": "e2e",
       "description": "With the API unreachable the UI shows an explicit error state (not a blank page or an endless spinner).",
-      "status": "planned",
+      "status": "blocked",
       "last_execution": null,
       "relevant_files": [
         "apps/web/e2e/shell-degraded.spec.ts"
       ],
       "covers": [],
-      "notes": ""
+      "notes": "Browser preflight: node -p \"require('playwright/package.json').version\" returns 1.62.1 (required preinstalled 1.63.0). playwright.chromium.launch() reports missing chromium_headless_shell-1234. Browser installation is prohibited by the project handoff. Shell and E2E specs are still unimplemented."
     },
     {
       "id": "P1-E2E-003",
       "phase": 1,
       "type": "e2e",
       "description": "Automated axe scan of the shell reports no serious or critical accessibility violations.",
-      "status": "planned",
+      "status": "blocked",
       "last_execution": null,
       "relevant_files": [
         "apps/web/e2e/a11y.spec.ts"
       ],
       "covers": [],
-      "notes": ""
+      "notes": "Browser preflight: node -p \"require('playwright/package.json').version\" returns 1.62.1 (required preinstalled 1.63.0). playwright.chromium.launch() reports missing chromium_headless_shell-1234. Browser installation is prohibited by the project handoff. Shell and E2E specs are still unimplemented."
     },
     {
       "id": "P1-SMOKE-001",
@@ -754,28 +821,38 @@
       "phase": 1,
       "type": "security",
       "description": "API responses carry the baseline security headers; CORS is disabled unless an explicit allowlist is configured and never returns * with credentials.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
       "relevant_files": [
         "apps/api/middleware.py",
         "tests/integration/test_security_headers.py"
       ],
       "covers": [],
-      "notes": "Security headers middleware exists (apps/api/middleware.py). Automated test NOT written yet."
+      "notes": "Verified in the Codex Phase 1 backend run."
     },
     {
       "id": "P1-SEC-003",
       "phase": 1,
       "type": "security",
       "description": ".env.example exists, contains no real secret, and every setting the code reads is documented in it.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
       "relevant_files": [
         ".env.example",
         "tests/unit/test_env_example.py"
       ],
       "covers": [],
-      "notes": ""
+      "notes": "Verified in the Codex Phase 1 backend run."
     },
     {
       "id": "P2-UNIT-001",

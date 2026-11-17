@@ -1,0 +1,908 @@
+{
+  "$defs": {
+    "AssetClass": {
+      "enum": [
+        "EQUITY",
+        "ETF",
+        "CRYPTO",
+        "FX",
+        "FUTURE",
+        "OPTION"
+      ],
+      "title": "AssetClass",
+      "type": "string"
+    },
+    "BarObservation": {
+      "additionalProperties": false,
+      "description": "OHLCV bar. ``event_timestamp`` is the interval START (UTC).",
+      "properties": {
+        "asset_class": {
+          "$ref": "#/$defs/AssetClass"
+        },
+        "canonical_symbol": {
+          "title": "Canonical Symbol",
+          "type": "string"
+        },
+        "close": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "gt": 0,
+          "title": "Close"
+        },
+        "currency": {
+          "pattern": "^[A-Z0-9]{2,10}$",
+          "title": "Currency",
+          "type": "string"
+        },
+        "data_type": {
+          "const": "BAR",
+          "default": "BAR",
+          "title": "Data Type",
+          "type": "string"
+        },
+        "delay_seconds": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Delay Seconds",
+          "type": "integer"
+        },
+        "entitlement": {
+          "pattern": "^[a-z0-9][a-z0-9_.\\-]{0,63}$",
+          "title": "Entitlement",
+          "type": "string"
+        },
+        "event_timestamp": {
+          "format": "date-time",
+          "title": "Event Timestamp",
+          "type": "string"
+        },
+        "feed_quality": {
+          "$ref": "#/$defs/FeedQuality"
+        },
+        "high": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "gt": 0,
+          "title": "High"
+        },
+        "is_adjusted": {
+          "default": false,
+          "title": "Is Adjusted",
+          "type": "boolean"
+        },
+        "is_final": {
+          "default": false,
+          "title": "Is Final",
+          "type": "boolean"
+        },
+        "low": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "gt": 0,
+          "title": "Low"
+        },
+        "open": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "gt": 0,
+          "title": "Open"
+        },
+        "provider": {
+          "pattern": "^[a-z][a-z0-9_]{1,31}$",
+          "title": "Provider",
+          "type": "string"
+        },
+        "provider_symbol": {
+          "maxLength": 64,
+          "minLength": 1,
+          "pattern": "^[\\x21-\\x7e]+$",
+          "title": "Provider Symbol",
+          "type": "string"
+        },
+        "raw_payload_hash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Raw Payload Hash",
+          "type": "string"
+        },
+        "received_timestamp": {
+          "format": "date-time",
+          "title": "Received Timestamp",
+          "type": "string"
+        },
+        "redistribution_allowed": {
+          "default": false,
+          "title": "Redistribution Allowed",
+          "type": "boolean"
+        },
+        "sequence_number": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sequence Number"
+        },
+        "timeframe": {
+          "$ref": "#/$defs/Timeframe"
+        },
+        "trade_count": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Trade Count"
+        },
+        "venue": {
+          "pattern": "^[A-Z0-9][A-Z0-9_.\\-]{0,15}$",
+          "title": "Venue",
+          "type": "string"
+        },
+        "volume": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "ge": 0,
+          "title": "Volume"
+        },
+        "vwap": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "gt": 0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Vwap"
+        }
+      },
+      "required": [
+        "provider",
+        "asset_class",
+        "venue",
+        "canonical_symbol",
+        "provider_symbol",
+        "event_timestamp",
+        "received_timestamp",
+        "feed_quality",
+        "currency",
+        "entitlement",
+        "raw_payload_hash",
+        "timeframe",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "title": "BarObservation",
+      "type": "object"
+    },
+    "FeedQuality": {
+      "description": "Provenance class of market data. Semantics: docs/data-providers.md section 1.",
+      "enum": [
+        "REALTIME_CONSOLIDATED",
+        "REALTIME_EXCHANGE",
+        "REALTIME_SINGLE_VENUE",
+        "DELAYED",
+        "EOD",
+        "UNOFFICIAL",
+        "SIMULATED"
+      ],
+      "title": "FeedQuality",
+      "type": "string"
+    },
+    "QuoteObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "ask": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "gt": 0,
+          "title": "Ask"
+        },
+        "ask_size": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "ge": 0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ask Size"
+        },
+        "asset_class": {
+          "$ref": "#/$defs/AssetClass"
+        },
+        "bid": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "gt": 0,
+          "title": "Bid"
+        },
+        "bid_size": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "ge": 0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bid Size"
+        },
+        "canonical_symbol": {
+          "title": "Canonical Symbol",
+          "type": "string"
+        },
+        "currency": {
+          "pattern": "^[A-Z0-9]{2,10}$",
+          "title": "Currency",
+          "type": "string"
+        },
+        "data_type": {
+          "const": "QUOTE",
+          "default": "QUOTE",
+          "title": "Data Type",
+          "type": "string"
+        },
+        "delay_seconds": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Delay Seconds",
+          "type": "integer"
+        },
+        "entitlement": {
+          "pattern": "^[a-z0-9][a-z0-9_.\\-]{0,63}$",
+          "title": "Entitlement",
+          "type": "string"
+        },
+        "event_timestamp": {
+          "format": "date-time",
+          "title": "Event Timestamp",
+          "type": "string"
+        },
+        "feed_quality": {
+          "$ref": "#/$defs/FeedQuality"
+        },
+        "is_adjusted": {
+          "default": false,
+          "title": "Is Adjusted",
+          "type": "boolean"
+        },
+        "provider": {
+          "pattern": "^[a-z][a-z0-9_]{1,31}$",
+          "title": "Provider",
+          "type": "string"
+        },
+        "provider_symbol": {
+          "maxLength": 64,
+          "minLength": 1,
+          "pattern": "^[\\x21-\\x7e]+$",
+          "title": "Provider Symbol",
+          "type": "string"
+        },
+        "raw_payload_hash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Raw Payload Hash",
+          "type": "string"
+        },
+        "received_timestamp": {
+          "format": "date-time",
+          "title": "Received Timestamp",
+          "type": "string"
+        },
+        "redistribution_allowed": {
+          "default": false,
+          "title": "Redistribution Allowed",
+          "type": "boolean"
+        },
+        "sequence_number": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sequence Number"
+        },
+        "venue": {
+          "pattern": "^[A-Z0-9][A-Z0-9_.\\-]{0,15}$",
+          "title": "Venue",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provider",
+        "asset_class",
+        "venue",
+        "canonical_symbol",
+        "provider_symbol",
+        "event_timestamp",
+        "received_timestamp",
+        "feed_quality",
+        "currency",
+        "entitlement",
+        "raw_payload_hash",
+        "bid",
+        "ask"
+      ],
+      "title": "QuoteObservation",
+      "type": "object"
+    },
+    "Side": {
+      "enum": [
+        "BUY",
+        "SELL"
+      ],
+      "title": "Side",
+      "type": "string"
+    },
+    "TickerObservation": {
+      "additionalProperties": false,
+      "description": "Top-of-book plus rolling summary as published by a provider's ticker feed.",
+      "properties": {
+        "ask": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "gt": 0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ask"
+        },
+        "ask_size": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "ge": 0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ask Size"
+        },
+        "asset_class": {
+          "$ref": "#/$defs/AssetClass"
+        },
+        "bid": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "gt": 0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bid"
+        },
+        "bid_size": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "ge": 0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bid Size"
+        },
+        "canonical_symbol": {
+          "title": "Canonical Symbol",
+          "type": "string"
+        },
+        "currency": {
+          "pattern": "^[A-Z0-9]{2,10}$",
+          "title": "Currency",
+          "type": "string"
+        },
+        "data_type": {
+          "const": "TICKER",
+          "default": "TICKER",
+          "title": "Data Type",
+          "type": "string"
+        },
+        "delay_seconds": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Delay Seconds",
+          "type": "integer"
+        },
+        "entitlement": {
+          "pattern": "^[a-z0-9][a-z0-9_.\\-]{0,63}$",
+          "title": "Entitlement",
+          "type": "string"
+        },
+        "event_timestamp": {
+          "format": "date-time",
+          "title": "Event Timestamp",
+          "type": "string"
+        },
+        "feed_quality": {
+          "$ref": "#/$defs/FeedQuality"
+        },
+        "high": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "gt": 0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "High"
+        },
+        "is_adjusted": {
+          "default": false,
+          "title": "Is Adjusted",
+          "type": "boolean"
+        },
+        "last": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "gt": 0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last"
+        },
+        "low": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "gt": 0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Low"
+        },
+        "provider": {
+          "pattern": "^[a-z][a-z0-9_]{1,31}$",
+          "title": "Provider",
+          "type": "string"
+        },
+        "provider_symbol": {
+          "maxLength": 64,
+          "minLength": 1,
+          "pattern": "^[\\x21-\\x7e]+$",
+          "title": "Provider Symbol",
+          "type": "string"
+        },
+        "raw_payload_hash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Raw Payload Hash",
+          "type": "string"
+        },
+        "received_timestamp": {
+          "format": "date-time",
+          "title": "Received Timestamp",
+          "type": "string"
+        },
+        "redistribution_allowed": {
+          "default": false,
+          "title": "Redistribution Allowed",
+          "type": "boolean"
+        },
+        "sequence_number": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sequence Number"
+        },
+        "venue": {
+          "pattern": "^[A-Z0-9][A-Z0-9_.\\-]{0,15}$",
+          "title": "Venue",
+          "type": "string"
+        },
+        "volume": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "ge": 0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Volume"
+        },
+        "vwap": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "gt": 0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Vwap"
+        }
+      },
+      "required": [
+        "provider",
+        "asset_class",
+        "venue",
+        "canonical_symbol",
+        "provider_symbol",
+        "event_timestamp",
+        "received_timestamp",
+        "feed_quality",
+        "currency",
+        "entitlement",
+        "raw_payload_hash"
+      ],
+      "title": "TickerObservation",
+      "type": "object"
+    },
+    "Timeframe": {
+      "enum": [
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "4h",
+        "1d"
+      ],
+      "title": "Timeframe",
+      "type": "string"
+    },
+    "TradeObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "aggressor_side": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Side"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "asset_class": {
+          "$ref": "#/$defs/AssetClass"
+        },
+        "canonical_symbol": {
+          "title": "Canonical Symbol",
+          "type": "string"
+        },
+        "currency": {
+          "pattern": "^[A-Z0-9]{2,10}$",
+          "title": "Currency",
+          "type": "string"
+        },
+        "data_type": {
+          "const": "TRADE",
+          "default": "TRADE",
+          "title": "Data Type",
+          "type": "string"
+        },
+        "delay_seconds": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Delay Seconds",
+          "type": "integer"
+        },
+        "entitlement": {
+          "pattern": "^[a-z0-9][a-z0-9_.\\-]{0,63}$",
+          "title": "Entitlement",
+          "type": "string"
+        },
+        "event_timestamp": {
+          "format": "date-time",
+          "title": "Event Timestamp",
+          "type": "string"
+        },
+        "feed_quality": {
+          "$ref": "#/$defs/FeedQuality"
+        },
+        "is_adjusted": {
+          "default": false,
+          "title": "Is Adjusted",
+          "type": "boolean"
+        },
+        "last": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "gt": 0,
+          "title": "Last"
+        },
+        "provider": {
+          "pattern": "^[a-z][a-z0-9_]{1,31}$",
+          "title": "Provider",
+          "type": "string"
+        },
+        "provider_symbol": {
+          "maxLength": 64,
+          "minLength": 1,
+          "pattern": "^[\\x21-\\x7e]+$",
+          "title": "Provider Symbol",
+          "type": "string"
+        },
+        "raw_payload_hash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Raw Payload Hash",
+          "type": "string"
+        },
+        "received_timestamp": {
+          "format": "date-time",
+          "title": "Received Timestamp",
+          "type": "string"
+        },
+        "redistribution_allowed": {
+          "default": false,
+          "title": "Redistribution Allowed",
+          "type": "boolean"
+        },
+        "sequence_number": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sequence Number"
+        },
+        "trade_id": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Trade Id"
+        },
+        "trade_size": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "gt": 0,
+          "title": "Trade Size"
+        },
+        "venue": {
+          "pattern": "^[A-Z0-9][A-Z0-9_.\\-]{0,15}$",
+          "title": "Venue",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provider",
+        "asset_class",
+        "venue",
+        "canonical_symbol",
+        "provider_symbol",
+        "event_timestamp",
+        "received_timestamp",
+        "feed_quality",
+        "currency",
+        "entitlement",
+        "raw_payload_hash",
+        "last",
+        "trade_size"
+      ],
+      "title": "TradeObservation",
+      "type": "object"
+    }
+  },
+  "discriminator": {
+    "mapping": {
+      "BAR": "#/$defs/BarObservation",
+      "QUOTE": "#/$defs/QuoteObservation",
+      "TICKER": "#/$defs/TickerObservation",
+      "TRADE": "#/$defs/TradeObservation"
+    },
+    "propertyName": "data_type"
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/TradeObservation"
+    },
+    {
+      "$ref": "#/$defs/QuoteObservation"
+    },
+    {
+      "$ref": "#/$defs/BarObservation"
+    },
+    {
+      "$ref": "#/$defs/TickerObservation"
+    }
+  ]
+}

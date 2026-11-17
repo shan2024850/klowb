@@ -22,7 +22,7 @@ class SystemClock:
     """Wall-clock time in UTC."""
 
     def now(self) -> datetime:
-        return datetime.now(UTC)
+        return datetime.now(UTC)  # noqa: TID251 - SystemClock supplies wall time.
 
 
 class ManualClock:

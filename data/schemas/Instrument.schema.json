@@ -1,0 +1,240 @@
+{
+  "$defs": {
+    "AssetClass": {
+      "enum": [
+        "EQUITY",
+        "ETF",
+        "CRYPTO",
+        "FX",
+        "FUTURE",
+        "OPTION"
+      ],
+      "title": "AssetClass",
+      "type": "string"
+    },
+    "InstrumentKind": {
+      "enum": [
+        "SPOT",
+        "PERPETUAL",
+        "FUTURE",
+        "OPTION"
+      ],
+      "title": "InstrumentKind",
+      "type": "string"
+    },
+    "InstrumentStatus": {
+      "enum": [
+        "ACTIVE",
+        "HALTED",
+        "DELISTED"
+      ],
+      "title": "InstrumentStatus",
+      "type": "string"
+    },
+    "OptionRight": {
+      "enum": [
+        "CALL",
+        "PUT"
+      ],
+      "title": "OptionRight",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "asset_class": {
+      "$ref": "#/$defs/AssetClass"
+    },
+    "base": {
+      "anyOf": [
+        {
+          "pattern": "^[A-Z0-9]{2,10}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Base"
+    },
+    "calendar_id": {
+      "pattern": "^[A-Z0-9_]{2,32}$",
+      "title": "Calendar Id",
+      "type": "string"
+    },
+    "canonical_symbol": {
+      "title": "Canonical Symbol",
+      "type": "string"
+    },
+    "currency": {
+      "pattern": "^[A-Z0-9]{2,10}$",
+      "title": "Currency",
+      "type": "string"
+    },
+    "expiry": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expiry"
+    },
+    "kind": {
+      "$ref": "#/$defs/InstrumentKind",
+      "default": "SPOT"
+    },
+    "min_notional": {
+      "anyOf": [
+        {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "gt": 0
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Min Notional"
+    },
+    "multiplier": {
+      "anyOf": [
+        {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "gt": 0
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Multiplier"
+    },
+    "name": {
+      "anyOf": [
+        {
+          "maxLength": 200,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Name"
+    },
+    "option_right": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/OptionRight"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "price_increment": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "gt": 0,
+      "title": "Price Increment"
+    },
+    "quantity_increment": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "gt": 0,
+      "title": "Quantity Increment"
+    },
+    "quote": {
+      "anyOf": [
+        {
+          "pattern": "^[A-Z0-9]{2,10}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Quote"
+    },
+    "status": {
+      "$ref": "#/$defs/InstrumentStatus",
+      "default": "ACTIVE"
+    },
+    "strike": {
+      "anyOf": [
+        {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "gt": 0
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Strike"
+    },
+    "underlying_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Underlying Id"
+    }
+  },
+  "required": [
+    "asset_class",
+    "canonical_symbol",
+    "currency",
+    "price_increment",
+    "quantity_increment",
+    "calendar_id"
+  ],
+  "title": "Instrument",
+  "type": "object"
+}

@@ -4,11 +4,23 @@
 finished, a blocker appears, or a session ends. A new contributor (human or model)
 should be able to continue from this file alone, with `docs/BRAIN.md` for context.
 
-- Last updated: 2026-11-17 (end of the first working session; handed off because
-  the previous model hit its rate limit)
+- Last updated: 2026-11-17 (Codex Phase 1 backend checkpoint)
 - Work branch: `claude/hopeful-einstein-krs00n` — **all work lives on this branch;
   `main` is still empty.**
 - Handoff instructions for the next agent: `docs/HANDOFF.md`
+
+### Codex baseline (2026-11-17)
+
+Fetched the work branch at 11fc401. Brain checks: 8/8. Tracker: 20/274.
+Host version probes: Python 3.12.14, uv 0.13.6, Node 24.22.1, pnpm 11.25.0,
+Docker 29.9.2. Bare `uv sync` failed on the read-only home cache. With
+`export UV_CACHE_DIR=/tmp/klowb-uv-cache`, uv selected system CPython 3.13.5.
+`uv sync && uv run pytest && uv run ruff check . && uv run mypy && uv run lint-imports`
+passed (143 cases, 59 mypy source files, two import contracts).
+Host psql, redis-server and sudo absent; host `scripts/dev_db_setup.sh` failed.
+Started postgres:16 and redis:7 containers (klowb-pg and klowb-redis) with ports
+5432 and 6379 published on loopback. `docker exec -i klowb-pg bash -s < scripts/dev_db_setup.sh`
+created the dev role and both databases. `docker exec klowb-redis redis-cli ping` returned PONG.
 
 ---
 
@@ -16,11 +28,9 @@ should be able to continue from this file alone, with `docs/BRAIN.md` for contex
 
 - **Phase 0 — audit, research, decisions, environment: COMPLETE** (8/8 tests).
 - **Phase 1 — canonical schemas, FastAPI, PostgreSQL, Redis, Next.js shell,
-  health checks: IN PROGRESS** (12/38 acceptance tests passing).
-  - Backend core (work items 1–6 of `docs/plan/phases.md` Phase 1): **code
-    written**, but only the schema layer has automated tests so far.
-  - Web app, Docker, `.env.example`, dependency scans (work items 7–9): **not
-    started**.
+  health checks: IN PROGRESS** (27/38 acceptance tests passing).
+  - Backend and environment example tested. Web, deployment, and audits outstanding.
+  - Overall: 35/274 passing. Three Phase 1 browser cases are blocked.
 
 ---
 
@@ -34,7 +44,7 @@ tests, brief preserved verbatim, `CLAUDE.md`/`AGENTS.md`/`docs/BRAIN.md`,
 Lightweight Charts agent skills, `scripts/validate_brain.py`,
 `scripts/tests_status.py`. Commit `980be4b`.
 
-### Phase 1 so far (2026-11-17)
+### Phase 1 at the original handoff (historical)
 
 Each line says whether it is **tested** (automated test exists and passes),
 **smoke-checked** (run by hand once, no automated test yet) or **untested**.
@@ -63,76 +73,46 @@ Manual smoke results (2026-11-17, `TestClient`, local PostgreSQL 16 + Redis 7):
 present; `/metrics` exposes `http_requests_total` and `dependency_up`;
 `Settings(trading_mode="live")` raises `LiveTradingRefused`.
 
-### Acceptance tests
+### Phase 1 backend checkpoint (2026-11-17)
 
-| Phase | Total | Passing | Notes |
-|-------|-------|---------|-------|
-| 0 | 8 | 8 | `python3 scripts/validate_brain.py` |
-| 1 | 38 | 12 | P1-UNIT-001…006, P1-UNIT-009, P1-PROP-001…002, P1-STATIC-001…003 |
-| 2–15 | 228 | 0 | planned |
-
-Run `python3 scripts/tests_status.py list --phase 1` for per-test status; tests
-whose code exists but whose test is not written carry a note saying so.
-
----
+Completed steps 2 and 3. Added tests for settings, redaction, time policy,
+liveness/readiness and dependency failures, migration round trip in a private
+transactional schema, correlation, metrics, system info, errors, security
+headers/CORS, canonical JSON exports and the environment example. Fixed the
+prefix-aware route template and prevented opaque nested values past the redaction
+depth limit from reaching log output. Generated six JSON contracts.
 
 ## Unresolved problems
 
-1. **Known defect — metrics route label.** For routers included with a prefix,
-   `scope["route"].path` is the router-relative path (`/system/info`), so
-   `http_requests_total{route=...}` lacks `/api/v1`. Cause: FastAPI 0.163 wraps
-   included routers (`_IncludedRouter`). Fix in `apps/api/middleware.py`
-   `route_template()` (e.g. prepend `scope["root_path"]`/router prefix, or read
-   the full path template another way — inspect the installed FastAPI source
-   first) and cover it with `P1-INT-005`.
-2. **Backend code without automated tests** (listed above). Required by the
-   definition of done before Phase 1 can close.
-3. **Open compatibility items** that Phase 1 must still settle:
-   C-01…C-03 (ESLint 10 + jsx-a11y + eslint-config-next + TypeScript 6.0.x;
-   OpenAPI→TS generator), C-06 (can Docker pull images in this environment?),
-   C-07 (Valkey vs redis-py 8.1.0) — `docs/architecture/dependency-decisions.md` §5.
-   C-05 (httpx2) is settled: Starlette 1.10's `TestClient` requires `httpx2`
-   (installed 2.16.2).
-4. All other open questions: `docs/open-questions.md` (none blocks Phase 1).
-
----
+The metrics defect is fixed. The first regression run failed on the prefix;
+the same test then passed. Browser preflight conflicts with the documented
+environment: preinstalled Playwright is 1.62.1, the expected headless executable
+is absent, and the required 1.63.0 browser installation is not provisioned.
+A system chromium binary exists. The project prohibits downloading a browser
+or substituting a runner version. See docs/open-questions.md. Frontend
+compatibility, the integrated Compose smoke test and dependency scans remain open.
 
 ## Next action
 
-Continue **Phase 1** in this order. Do not start Phase 2.
+Resume Phase 1 step 4 once the browser baseline is reconciled: provision the
+documented Playwright 1.63.0 + Chromium image or record an approved alternative.
+Read installed Next 16 docs, scaffold apps/web and generated API types, run the
+web/static, component, contract and browser gates. Then complete steps 5–6
+(Compose, audits, full-stack smoke, self-review). Phase 2 has not started.
 
-1. Environment: start PostgreSQL and Redis, run `scripts/dev_db_setup.sh`
-   (`docs/runbook.md` §2.2). Confirm the baseline: `uv sync`, `uv run pytest`
-   (expect 143 passed), `uv run ruff check .`, `uv run mypy`, `uv run lint-imports`.
-2. Write the missing backend tests, one ID per behaviour, using the existing code:
-   - `tests/unit/test_settings.py` → P1-UNIT-007
-   - `tests/unit/test_secrets_redaction.py` → P1-UNIT-008
-   - `tests/unit/domain/test_no_naive_time.py` → P1-STATIC-004 (scan sources for
-     `datetime.now(`/`utcnow(`/naive construction outside `SystemClock`)
-   - `tests/integration/test_health.py` → P1-INT-001, P1-INT-002
-   - `tests/integration/test_health_failures.py` → P1-FAIL-001, P1-FAIL-002
-   - `tests/integration/test_migrations.py` → P1-INT-003
-   - `tests/integration/test_correlation.py` → P1-INT-004
-   - `tests/integration/test_metrics.py` → P1-INT-005 (fix the defect above first)
-   - `tests/integration/test_system_info.py` → P1-INT-006
-   - `tests/integration/test_errors.py` → P1-INT-007
-   - `tests/integration/test_security_headers.py` → P1-SEC-002
-   - `tests/contract/test_json_schema_export.py` + export script → P1-CONTRACT-002
-   Integration tests need the `klowb_test` database; mark them
-   `@pytest.mark.integration` (marker already registered in `pyproject.toml`).
-3. `.env.example` + `tests/unit/test_env_example.py` → P1-SEC-003.
-4. Web app (`apps/web`, pnpm workspace) → P1-WEB-*, P1-E2E-*, P1-CONTRACT-001.
-   **Read the installed Next.js 16 package/docs before writing config** (OQ-T23);
-   TypeScript 6.0.x, `@playwright/test` pinned to the environment's version.
-5. Dockerfiles, `docker-compose.yml` (dev/test/prod profiles), `scripts/smoke.sh`
-   → P1-SMOKE-001; dependency scans → P1-SEC-001.
-6. Run every gate in `docs/runbook.md` §5, update `tests.json` via
-   `scripts/tests_status.py`, update this file, write the Phase 1 adversarial
-   self-review, commit, push.
+### Codex verification commands (2026-11-17)
 
----
+- `uv run python -m scripts.export_schemas` generated the snapshots.
+- `uv run pytest`: 164 passed, including service-backed cases.
+- `uv run ruff check . && uv run ruff format --check . && uv run mypy && uv run lint-imports`:
+  clean, 104 formatted files, 74 typed source files, two import contracts kept.
+- `node -p "require('playwright/package.json').version"`: 1.62.1.
+  Default `require('playwright').chromium.launch()` failed (headless shell missing).
+- Tracker updated via `scripts/tests_status.py set`. No web, Docker stack smoke
+  or audit result is claimed. Test services ran in local Docker containers.
+- Baseline commands and the Docker database bootstrap are recorded above.
 
-## Commands used for verification
+## Commands used for verification in the original environment
 
 Executed on 2026-11-17 in the development environment.
 

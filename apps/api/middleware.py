@@ -47,7 +47,9 @@ _DOCS_PATHS = ("/docs", "/redoc", "/openapi.json")
 
 def route_template(scope: Scope) -> str:
     """Low-cardinality label: the matched route's path template, not the raw URL."""
-    route = scope.get("route")
+    # FastAPI 0.163 stores the prefix-aware template on the matched context.
+    context = scope.get("fastapi", {}).get("effective_route_context")
+    route = context if context is not None else scope.get("route")
     path = getattr(route, "path", None)
     return path if isinstance(path, str) else "unmatched"
 

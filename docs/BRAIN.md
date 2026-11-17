@@ -329,3 +329,10 @@ Full list with rationale in `docs/open-questions.md` §B.
 - Deployment target: local Docker Compose only.
 - Auth: single-user, local-first; full session auth lands before any order-capable
   endpoint exists.
+
+### Codex environment addendum (2026-11-17)
+The §6 versions describe the first session. Codex uses system Python 3.13.5
+through uv, Docker for local PostgreSQL/Redis, and a writable UV_CACHE_DIR.
+Its Playwright 1.62.1 lacks the expected headless binary. The browser mismatch
+is recorded in progress.md. The §7 metrics-prefix defect has a passing regression
+using FastAPI's matched effective route context.
