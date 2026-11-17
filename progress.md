@@ -4,7 +4,7 @@
 finished, a blocker appears, or a session ends. A new contributor (human or model)
 should be able to continue from this file alone, with `docs/BRAIN.md` for context.
 
-- Last updated: 2026-11-17 (Phase 1 closed: matching-browser e2e run in the original environment)
+- Last updated: 2026-11-17 (Phase 2 development)
 - Work branch: `claude/hopeful-einstein-krs00n` — **all work lives on this branch;
   `main` is still empty.**
 - Handoff instructions for the next agent: `docs/HANDOFF.md`
@@ -30,7 +30,7 @@ created the dev role and both databases. `docker exec klowb-redis redis-cli ping
 - **Phase 1 — canonical schemas, FastAPI, PostgreSQL, Redis, Next.js shell,
   health checks: COMPLETE** (38/38 acceptance tests passing; 46/274 overall).
   Screenshot of the running shell: `docs/assets/phase1-shell.png`.
-- **Phase 2 — mock market-data provider and replay framework: NOT STARTED.**
+- **Phase 2 — mock market-data provider and replay framework: IN PROGRESS.**
 
 ---
 
@@ -122,9 +122,21 @@ The full JS audit has one high advisory at two dev-only versions of picomatch,
 with no available patched version reported. The dated exception and mitigation
 are in docs/security.md. Python and production JS audits were clean.
 
+## Phase 2 checkpoints
+
+Baseline on b469bdc: 165 pytest cases, clean Ruff/format/mypy/import contracts,
+clean pnpm typecheck/lint and three passing component tests. Brain 8/8, tracker
+46/274 before edits. Local PostgreSQL/Redis bootstrapped in Docker.
+
+1. Virtual timers, token bucket, retry, circuit breaker and classified errors:
+   22 cases passed with `uv run pytest -q tests/unit/providers/test_resilience.py`.
+   Ruff, mypy and import contracts clean. Phase 2: 5/45.
+
 ## Next action
 
-Start **Phase 2 — mock market-data provider and replay framework**
+Continue with group 2, the calendar compatibility test and session windows.
+
+Work plan for **Phase 2 — mock market-data provider and replay framework**
 (`docs/plan/phases.md` → Phase 2; 45 acceptance tests `P2-*`). Suggested order:
 
 1. `libs/providers`: `Clock`-driven `VirtualClock` (reuse/extend

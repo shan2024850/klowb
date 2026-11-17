@@ -1156,11 +1156,16 @@
       "phase": 2,
       "type": "unit",
       "description": "Token-bucket rate limiter enforces the configured rate and burst using the injected clock.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T22:41:14Z",
+        "command": "uv run pytest -q tests/unit/providers/test_resilience.py",
+        "result": "pass",
+        "commit": "b469bdc+dirty"
+      },
       "relevant_files": [
         "libs/providers/resilience.py",
-        "tests/unit/providers/test_rate_limiter.py"
+        "tests/unit/providers/test_resilience.py"
       ],
       "covers": [
         "rate-limit exhaustion"
@@ -1172,11 +1177,16 @@
       "phase": 2,
       "type": "unit",
       "description": "Retry policy: exponential backoff with full jitter, capped delay, bounded attempts, honours Retry-After; non-retryable error kinds are never retried.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T22:41:14Z",
+        "command": "uv run pytest -q tests/unit/providers/test_resilience.py",
+        "result": "pass",
+        "commit": "b469bdc+dirty"
+      },
       "relevant_files": [
         "libs/providers/resilience.py",
-        "tests/unit/providers/test_retry.py"
+        "tests/unit/providers/test_resilience.py"
       ],
       "covers": [],
       "notes": ""
@@ -1186,11 +1196,16 @@
       "phase": 2,
       "type": "unit",
       "description": "Circuit breaker: closed -> open after threshold failures -> half-open probe after cool-down -> closed on success / open on failure.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T22:41:14Z",
+        "command": "uv run pytest -q tests/unit/providers/test_resilience.py",
+        "result": "pass",
+        "commit": "b469bdc+dirty"
+      },
       "relevant_files": [
         "libs/providers/resilience.py",
-        "tests/unit/providers/test_circuit_breaker.py"
+        "tests/unit/providers/test_resilience.py"
       ],
       "covers": [],
       "notes": ""
@@ -1200,11 +1215,16 @@
       "phase": 2,
       "type": "unit",
       "description": "Error classification maps HTTP status codes, timeouts, connection errors and malformed payloads to the closed ProviderError kinds with the correct retryable flag.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T22:41:14Z",
+        "command": "uv run pytest -q tests/unit/providers/test_resilience.py",
+        "result": "pass",
+        "commit": "b469bdc+dirty"
+      },
       "relevant_files": [
         "libs/providers/errors.py",
-        "tests/unit/providers/test_error_classification.py"
+        "tests/unit/providers/test_resilience.py"
       ],
       "covers": [],
       "notes": ""
@@ -1294,11 +1314,16 @@
       "phase": 2,
       "type": "unit",
       "description": "VirtualClock and SystemClock satisfy the Clock protocol; VirtualClock advances only when told and drives timers deterministically.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T22:41:14Z",
+        "command": "uv run pytest -q tests/unit/providers/test_resilience.py",
+        "result": "pass",
+        "commit": "b469bdc+dirty"
+      },
       "relevant_files": [
         "libs/providers/clock.py",
-        "tests/unit/test_clock.py"
+        "tests/unit/providers/test_resilience.py"
       ],
       "covers": [],
       "notes": ""
