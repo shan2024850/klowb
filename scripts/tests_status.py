@@ -27,16 +27,18 @@ import subprocess
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
 TESTS = ROOT / "tests.json"
 
 
-def load() -> dict:
-    return json.loads(TESTS.read_text(encoding="utf-8"))
+def load() -> dict[str, Any]:
+    doc: dict[str, Any] = json.loads(TESTS.read_text(encoding="utf-8"))
+    return doc
 
 
-def save(doc: dict) -> None:
+def save(doc: dict[str, Any]) -> None:
     doc["updated"] = datetime.now(UTC).date().isoformat()
     TESTS.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
@@ -58,7 +60,7 @@ def head_commit() -> str | None:
     return f"{sha}+dirty" if dirty else sha
 
 
-def cmd_summary(doc: dict, _: argparse.Namespace) -> int:
+def cmd_summary(doc: dict[str, Any], _: argparse.Namespace) -> int:
     phases: dict[int, dict[str, int]] = {}
     for test in doc["tests"]:
         phases.setdefault(test["phase"], {}).setdefault(test["status"], 0)
@@ -77,17 +79,19 @@ def cmd_summary(doc: dict, _: argparse.Namespace) -> int:
     return 0
 
 
-def cmd_list(doc: dict, args: argparse.Namespace) -> int:
+def cmd_list(doc: dict[str, Any], args: argparse.Namespace) -> int:
     for test in doc["tests"]:
         if args.phase is not None and test["phase"] != args.phase:
             continue
         if args.status and test["status"] != args.status:
             continue
-        print(f"{test['id']:<18} {test['status']:<12} {test['type']:<18} {test['description'][:90]}")
+        print(
+            f"{test['id']:<18} {test['status']:<12} {test['type']:<18} {test['description'][:90]}"
+        )
     return 0
 
 
-def find(doc: dict, ids: list[str]) -> list[dict]:
+def find(doc: dict[str, Any], ids: list[str]) -> list[dict[str, Any]]:
     by_id = {test["id"]: test for test in doc["tests"]}
     missing = [i for i in ids if i not in by_id]
     if missing:
@@ -95,7 +99,7 @@ def find(doc: dict, ids: list[str]) -> list[dict]:
     return [by_id[i] for i in ids]
 
 
-def cmd_set(doc: dict, args: argparse.Namespace) -> int:
+def cmd_set(doc: dict[str, Any], args: argparse.Namespace) -> int:
     if args.status not in doc["status_values"]:
         sys.exit(f"status must be one of {doc['status_values']}")
     if args.status in {"passing", "failing"} and not args.command:
@@ -120,7 +124,7 @@ def cmd_set(doc: dict, args: argparse.Namespace) -> int:
     return 0
 
 
-def cmd_files(doc: dict, args: argparse.Namespace) -> int:
+def cmd_files(doc: dict[str, Any], args: argparse.Namespace) -> int:
     (test,) = find(doc, [args.id])
     test["relevant_files"] = list(args.paths)
     save(doc)

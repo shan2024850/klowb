@@ -1,0 +1,156 @@
+[project]
+name = "klowb"
+version = "0.1.0"
+description = "Multi-asset quantitative research and day/swing-trading platform (research mode by default)."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi==0.163.1",
+    "uvicorn==0.54.0",
+    "pydantic==2.14.3",
+    "pydantic-settings==2.16.3",
+    "sqlalchemy[asyncio]==2.1.9",
+    "asyncpg==0.32.0",
+    "alembic==1.20.1",
+    "redis==8.1.0",
+    "structlog==26.1.0",
+    "prometheus-client==0.26.0",
+    "httpx2==2.16.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==9.2.0",
+    "pytest-asyncio==1.5.0",
+    "pytest-cov==7.1.0",
+    "hypothesis==6.170.15",
+    "ruff==0.17.5",
+    "mypy==2.4.1",
+    "import-linter==2.16",
+    "pip-audit==2.10.1",
+]
+
+[tool.uv]
+package = false
+
+# --------------------------------------------------------------------------- pytest
+[tool.pytest.ini_options]
+minversion = "9.0"
+testpaths = ["tests"]
+pythonpath = ["."]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+addopts = "-ra --strict-markers --strict-config -m 'not live'"
+xfail_strict = true
+filterwarnings = ["error"]
+markers = [
+    "live: opt-in tests that reach real external services (excluded by default)",
+    "integration: needs local PostgreSQL and Redis",
+]
+
+# --------------------------------------------------------------------------- ruff
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+extend-exclude = ["migrations/versions", ".agents", ".claude", "apps/web", "node_modules"]
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "W",   # pycodestyle / pyflakes
+    "I",             # import order
+    "UP",            # modern syntax
+    "B",             # bugbear
+    "C4",            # comprehensions
+    "SIM",           # simplifications
+    "PT",            # pytest style
+    "RUF",           # ruff-specific
+    "DTZ",           # naive datetime usage
+    "S",             # security (bandit rules)
+    "T20",           # no print
+    "BLE",           # no blind except
+    "ASYNC",         # async pitfalls
+    "PL",            # pylint subset
+]
+ignore = [
+    "PLR0913",  # many arguments are fine for explicit factories
+    "PLR2004",  # magic values are common in tests and domain constants
+    "PLR0911",  # explicit validators/encoders read best as early returns
+    "PLR0912",  # same: one branch per rule keeps validation auditable
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S105", "S106", "PLR0915"]
+"scripts/**" = ["T20", "S603", "S607", "PLR0912", "PLR0915", "C901"]
+"migrations/**" = ["S608"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["apps", "services", "libs", "tests"]
+
+# --------------------------------------------------------------------------- mypy
+[tool.mypy]
+python_version = "3.13"
+strict = true
+warn_unreachable = true
+warn_unused_configs = true
+explicit_package_bases = true
+namespace_packages = true
+mypy_path = "."
+files = ["apps/api", "services", "libs", "tests", "scripts", "migrations"]
+plugins = ["pydantic.mypy"]
+exclude = ["apps/web/", "node_modules/"]
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = false
+warn_required_dynamic_aliases = true
+
+# --------------------------------------------------------------------------- import-linter
+# Module boundaries from docs/architecture.md section 3. Layers in parentheses are
+# optional until the corresponding package exists.
+[tool.importlinter]
+root_packages = ["apps", "services", "libs"]
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "Layered architecture (upper may import lower, never the reverse)"
+type = "layers"
+layers = [
+    "apps.api",
+    "(services.backtesting) | (services.notifications)",
+    "(services.agents)",
+    "(services.execution)",
+    "(services.risk)",
+    "(services.portfolio)",
+    "(services.signals)",
+    "(services.research)",
+    "(services.market_data)",
+    "(libs.providers)",
+    "(libs.calendars) | libs.observability | libs.storage",
+    "libs.schemas",
+    "libs.domain",
+]
+
+[[tool.importlinter.contracts]]
+name = "libs.domain depends on the standard library only"
+type = "forbidden"
+source_modules = ["libs.domain"]
+forbidden_modules = ["pydantic", "sqlalchemy", "fastapi", "starlette", "redis", "structlog", "httpx2"]
+
+# --------------------------------------------------------------------------- coverage
+[tool.coverage.run]
+source = ["apps", "services", "libs"]
+branch = true
+omit = ["apps/web/*"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+
+# --------------------------------------------------------------------------- alembic
+# The database URL is NOT configured here: migrations/env.py reads DATABASE_URL
+# through apps.api.settings.Settings so secrets stay in the environment.
+[tool.alembic]
+script_location = "%(here)s/migrations"
+prepend_sys_path = ["."]
+file_template = "%%(year)d%%(month).2d%%(day).2d_%%(rev)s_%%(slug)s"

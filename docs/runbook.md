@@ -49,8 +49,13 @@ redis-cli ping                                 # PONG
 (dockerd > /tmp/dockerd.log 2>&1 &) ; sleep 8 ; docker info | grep "Server Version"
 ```
 
-Creating the application database and role is part of Phase 1 and will be added
-here with the exact commands once run.
+Create the development/test role and databases `[VERIFIED 2026-11-17]`
+(idempotent; development-only password):
+
+```bash
+scripts/dev_db_setup.sh        # role klowb/klowb, databases klowb and klowb_test
+PGPASSWORD=klowb psql -h localhost -U klowb -d klowb_test -tAc "select current_user"
+```
 
 ### 2.3 Network facts `[VERIFIED 2026-11-17]`
 
@@ -80,13 +85,26 @@ no secret-like file is tracked by git.
 
 ---
 
-## 4. Install, run, test `[PLANNED — Phase 1]`
+## 4. Install, run, test
+
+Backend `[VERIFIED 2026-11-17]` (with local PostgreSQL + Redis running):
 
 ```bash
-# Python
 uv sync
+export DATABASE_URL=postgresql+asyncpg://klowb:klowb@localhost:5432/klowb   # default if unset
 uv run alembic upgrade head
-uv run uvicorn apps.api.main:app --reload --port 8000
+uv run pytest
+```
+
+API server `[PLANNED — not yet run as a server; only exercised via TestClient]`:
+
+```bash
+uv run uvicorn apps.api.main:create_app --factory --reload --port 8000
+```
+
+Web and smoke `[PLANNED — Phase 1]`:
+
+```bash
 
 # Web
 pnpm install
@@ -105,15 +123,15 @@ commands and results in `progress.md` and update `tests.json`.
 | # | Gate | Command | Status |
 |---|------|---------|--------|
 | 0 | Brain integrity | `python3 scripts/validate_brain.py` | `[VERIFIED 2026-11-17]` |
-| 1 | Backend tests | `uv run pytest` | `[PLANNED — Phase 1]` |
-| 2 | Backend lint | `uv run ruff check . && uv run ruff format --check .` | `[PLANNED — Phase 1]` |
-| 3 | Backend type check | `uv run mypy .` | `[PLANNED — Phase 1]` |
-| 4 | Module boundaries | `uv run lint-imports` | `[PLANNED — Phase 1]` |
+| 1 | Backend tests | `uv run pytest` | `[VERIFIED 2026-11-17]` (143 passed; integration tests not written yet) |
+| 2 | Backend lint | `uv run ruff check . && uv run ruff format --check .` | `[VERIFIED 2026-11-17]` |
+| 3 | Backend type check | `uv run mypy` (files configured in `pyproject.toml`) | `[VERIFIED 2026-11-17]` |
+| 4 | Module boundaries | `uv run lint-imports` | `[VERIFIED 2026-11-17]` |
 | 5 | Frontend tests | `pnpm -r test` | `[PLANNED — Phase 1]` |
 | 6 | Frontend lint | `pnpm -r lint` | `[PLANNED — Phase 1]` |
 | 7 | Frontend type check | `pnpm -r typecheck` | `[PLANNED — Phase 1]` |
 | 8 | Playwright e2e | `pnpm --filter @klowb/web e2e -- --trace off` | `[PLANNED — Phase 1]` |
-| 9 | Database migrations | `uv run alembic upgrade head && uv run alembic downgrade base && uv run alembic upgrade head` | `[PLANNED — Phase 1]` |
+| 9 | Database migrations | `uv run alembic upgrade head && uv run alembic downgrade base && uv run alembic upgrade head && uv run alembic check` | `[VERIFIED 2026-11-17]` (manual; automated test P1-INT-003 pending) |
 | 10 | Docker build | `docker compose build` | `[PLANNED — Phase 1]` |
 | 11 | Compose smoke test | `docker compose --profile dev up -d && scripts/smoke.sh` | `[PLANNED — Phase 1]` |
 | 12 | Dependency scan | `uv run pip-audit` and `pnpm audit --prod` | `[PLANNED — Phase 1]` |

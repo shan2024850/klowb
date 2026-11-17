@@ -27,6 +27,7 @@ import subprocess
 import sys
 from collections.abc import Callable
 from pathlib import Path
+from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -48,6 +49,7 @@ REQUIRED_FILES = [
     "docs/plan/phases.md",
     "docs/open-questions.md",
     "docs/research/verification-log.md",
+    "docs/HANDOFF.md",
 ]
 REQUIRED_DIRS = ["docs/decisions"]
 
@@ -188,7 +190,7 @@ def check_required_documents() -> list[str]:
     return errors
 
 
-def load_tests() -> tuple[dict, list[str]]:
+def load_tests() -> tuple[dict[str, Any], list[str]]:
     try:
         doc = json.loads(read("tests.json"))
     except FileNotFoundError:

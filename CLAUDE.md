@@ -73,15 +73,21 @@ python3 scripts/tests_status.py set <ID…> --status passing --command "<exact c
 Update `tests.json` only through `scripts/tests_status.py` (never delete entries,
 never edit descriptions to make something pass).
 
-Planned gate commands (become real in Phase 1; keep this list in sync with the
-runbook):
+Backend gates (verified 2026-11-17; keep in sync with `docs/runbook.md` §5):
 
 ```bash
+scripts/dev_db_setup.sh                   # local role + klowb / klowb_test databases
 uv sync                                   # install Python deps
 uv run ruff check . && uv run ruff format --check .
-uv run mypy .
+uv run mypy                               # strict; file list in pyproject.toml
 uv run lint-imports                       # module boundary contracts
-uv run pytest                             # unit + integration + contract + property + replay
+uv run pytest                             # unit + property (integration tests pending)
+uv run alembic upgrade head               # needs DATABASE_URL or the dev default
+```
+
+Planned (not yet runnable):
+
+```bash
 pnpm install
 pnpm -r typecheck && pnpm -r lint && pnpm -r test
 pnpm --filter @klowb/web e2e -- --trace off   # Playwright

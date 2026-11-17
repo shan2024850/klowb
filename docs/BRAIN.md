@@ -72,9 +72,10 @@ this summary.
 
 ## 2. Where things stand
 
-See `progress.md`. At the time this file was last fully revised the repository
-contained only the Phase 0 brain (documents, `tests.json`, validation script, the
-Lightweight Charts agent skills). No application code existed yet.
+See `progress.md` (authoritative). Snapshot at handoff on 2026-11-17: Phase 0
+complete; Phase 1 in progress — backend core written (schemas tested, the rest
+smoke-checked only), web app and Docker not started; 20/274 acceptance tests
+passing. Taking over from another agent: read `docs/HANDOFF.md`.
 
 ---
 
@@ -85,6 +86,7 @@ Lightweight Charts agent skills). No application code existed yet.
 | `CLAUDE.md` | Operating manual loaded by Claude Code every session: rules, commands, conventions. |
 | `AGENTS.md` | Pointer for non-Claude agents to the same rules. |
 | `progress.md` | **Live status**: current phase, finished work, unresolved problems, next action, verification commands. |
+| `docs/HANDOFF.md` | How to hand the project to another agent (e.g. Codex), exact stopping point, and a ready-to-paste prompt. |
 | `tests.json` | Every acceptance test with id, description, type, status, last execution, relevant files. |
 | `docs/BRAIN.md` | This file. |
 | `docs/brief/original-brief.md` | The owner's brief, verbatim. Requirements baseline. |
@@ -237,6 +239,19 @@ on 2026-11-17 from the PyPI and npm registries** (full table with licenses in
 | AutoGen | `microsoft/autogen` is **archived** ("no longer actively maintained by Microsoft"). | Not a candidate. |
 | Polygon.io | Renamed **Massive** (massive.com). | Use the new name/hosts. |
 | Kraken WS v2 | Live ticker messages contain an undocumented `trades` field; numbers are JSON floats (parse with `parse_float=Decimal`); `BTC/USD` not `XBT/USD`. | Tolerate unknown fields; keep fixtures from real captures. |
+
+### Traps confirmed while writing Phase 1 code (2026-11-17)
+
+| Area | Reality | Consequence |
+|------|---------|-------------|
+| Starlette 1.10 `TestClient` | Imports `httpx2`; plain `httpx` is deprecated there. | `httpx2` is a dependency; tests use `fastapi.testclient.TestClient`. |
+| FastAPI 0.163 | `FastAPI(telemetry=...)` exists: native OpenTelemetry tracing/metrics/logs are **on by default** (global providers; no-op unless an SDK is configured). `strict_content_type=True` by default (bodies without `Content-Type` are not parsed as JSON — a CSRF mitigation). | Leave both defaults; decide on telemetry explicitly in Phase 15. |
+| FastAPI 0.163 routing | Included routers are wrapped (`_IncludedRouter`); `app.routes` items may lack `.path`, and `scope["route"].path` is router-relative (no prefix). | Metrics route label currently drops `/api/v1` (open defect in `progress.md`). |
+| Python `Decimal` | `str(Decimal("0.00000001"))` is `"1E-8"`. | JSON uses `format(value, "f")` (`libs.schemas.types.decimal_to_plain_string`). |
+| Pydantic 2.14 | `AwareDatetime` rejects naive values (`timezone_aware`); `Decimal` fields reject NaN/Infinity (`finite_number`) but accept binary floats unless prevented. | Canonical decimal types reject floats explicitly. |
+| import-linter 2.16 | A `forbidden` contract naming third-party modules requires `include_external_packages = true`. | Set in `pyproject.toml`. |
+| Alembic 1.20 | Template `pyproject_async` writes `[tool.alembic]` to `pyproject.toml` and logging to `alembic.ini`. | URL comes from `Settings` in `migrations/env.py`, never from config files. |
+| uv in this container | Prints a harmless `UV_NATIVE_TLS` deprecation warning. | Ignore. |
 
 General rule: **registry metadata, installed typings and official docs beat memory.**
 When they disagree with documentation, test actual behavior and record the

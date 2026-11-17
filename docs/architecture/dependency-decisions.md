@@ -91,6 +91,15 @@ Versions are the registry `latest` on 2026-11-17 and are the **intended** pins.
 Phase 1 installs them and this table is then reconciled with the lockfiles
 (anything that had to change gets a note in §5).
 
+**Installed so far (Phase 1, 2026-11-17, `uv.lock`):** fastapi 0.163.1,
+uvicorn 0.54.0, pydantic 2.14.3, pydantic-settings 2.16.3, sqlalchemy 2.1.9
+(`[asyncio]`, pulls greenlet), asyncpg 0.32.0, alembic 1.20.1, redis 8.1.0,
+structlog 26.1.0, prometheus-client 0.26.0, httpx2 2.16.2; dev: pytest 9.2.0,
+pytest-asyncio 1.5.0, pytest-cov 7.1.0, hypothesis 6.170.15, ruff 0.17.5,
+mypy 2.4.1, import-linter 2.16, pip-audit 2.10.1 — all exactly the intended pins.
+Transitive: fastapi 0.163 depends on `opentelemetry-api` (Apache-2.0).
+The remaining rows are installed in the phase listed.
+
 ### 3.1 Backend runtime (Python ≥ 3.13)
 
 | Package | Version | License | Purpose | Phase |
@@ -201,6 +210,6 @@ Record the outcome here when settled.
 | C-02 | Does `eslint-config-next` 16.4.6 work with ESLint 10 + TypeScript 6.0.3? | Pin ESLint 9.x. |
 | C-03 | Which OpenAPI→TS generator works cleanly with TypeScript 6.0.3? | Hand-written zod schemas validated against the OpenAPI snapshot. |
 | C-04 | Does `exchange_calendars` 4.13.3 (requires `pandas>=1.5.0`) work with pandas 3.1.1? | Pin pandas to the newest version that passes its calendars. |
-| C-05 | Is the `httpx2` API (AsyncClient, timeouts, mock transport) as expected? | Read the installed package; adapt. |
+| C-05 | Is the `httpx2` API (AsyncClient, timeouts, mock transport) as expected? | **Settled 2026-11-17:** installed 2.16.2; exposes `MockTransport`, `ASGITransport`, `AsyncHTTPTransport`. Starlette 1.10's `TestClient` imports `httpx2` (plain `httpx` is deprecated there), so it is a runtime dependency in Phase 1. |
 | C-06 | Can Docker pull images through the agent proxy in this environment? | Record the Docker gates as `blocked` with evidence; validate `docker compose config` only. |
 | C-07 | Does Valkey pass the Redis integration tests with redis-py 8.1.0? | Use a BSD-licensed Redis 7.2 image. |

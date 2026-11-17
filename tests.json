@@ -187,8 +187,13 @@
       "phase": 1,
       "type": "unit",
       "description": "Canonical Observation schemas carry every provenance field from the brief; FeedQuality enum contains exactly the seven required values; DataType discriminates TRADE/QUOTE/BAR/TICKER.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run pytest tests/unit/schemas tests/property",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
       "relevant_files": [
         "libs/schemas/market.py",
         "libs/domain/enums.py",
@@ -202,8 +207,13 @@
       "phase": 1,
       "type": "unit",
       "description": "Timestamps: naive datetimes are rejected; timezone-aware non-UTC values are normalised to UTC; serialisation is RFC 3339 UTC.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run pytest tests/unit/schemas tests/property",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
       "relevant_files": [
         "libs/schemas/market.py",
         "tests/unit/schemas/test_timestamps.py"
@@ -216,8 +226,13 @@
       "phase": 1,
       "type": "unit",
       "description": "Price/size validation: zero, negative, NaN and infinite prices are rejected; negative sizes rejected; Decimal precision is preserved for crypto (>= 8 dp) and forex pip/pipette precision.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run pytest tests/unit/schemas tests/property",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
       "relevant_files": [
         "libs/schemas/market.py",
         "tests/unit/schemas/test_numeric.py"
@@ -234,8 +249,13 @@
       "phase": 1,
       "type": "unit",
       "description": "A crossed quote (bid > ask) is representable and exposes is_crossed; a locked quote exposes is_locked; spread and mid are computed in Decimal.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run pytest tests/unit/schemas tests/property",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
       "relevant_files": [
         "libs/schemas/market.py",
         "tests/unit/schemas/test_quote.py"
@@ -250,8 +270,13 @@
       "phase": 1,
       "type": "unit",
       "description": "Bar validation: low <= min(open, close), high >= max(open, close), low <= high, volume >= 0; a zero-volume bar is valid and flagged; is_final defaults to false.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run pytest tests/unit/schemas tests/property",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
       "relevant_files": [
         "libs/schemas/market.py",
         "tests/unit/schemas/test_bar.py"
@@ -266,8 +291,13 @@
       "phase": 1,
       "type": "unit",
       "description": "Instrument model: canonical symbol rules per asset class (equity ticker, BASE/QUOTE for crypto and FX), instrument_id format, derivative-ready optional fields default to None, increments must be positive.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run pytest tests/unit/schemas tests/property",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
       "relevant_files": [
         "libs/schemas/instrument.py",
         "tests/unit/schemas/test_instrument.py"
@@ -287,7 +317,7 @@
         "tests/unit/test_settings.py"
       ],
       "covers": [],
-      "notes": ""
+      "notes": "Code exists in apps/api/settings.py (gates verified by a manual smoke run on 2026-11-17). Automated test NOT written yet."
     },
     {
       "id": "P1-UNIT-008",
@@ -302,15 +332,20 @@
         "tests/unit/test_secrets_redaction.py"
       ],
       "covers": [],
-      "notes": ""
+      "notes": "Code exists (SecretStr settings, libs/observability/redaction.py). Automated test NOT written yet."
     },
     {
       "id": "P1-UNIT-009",
       "phase": 1,
       "type": "unit",
       "description": "delay_seconds > 0 if and only if feed_quality is DELAYED; SIMULATED/UNOFFICIAL/EOD observations cannot be marked redistribution_allowed by default.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run pytest tests/unit/schemas tests/property",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
       "relevant_files": [
         "libs/schemas/market.py",
         "tests/unit/schemas/test_feed_quality.py"
@@ -323,8 +358,13 @@
       "phase": 1,
       "type": "property",
       "description": "Property: any valid Observation survives a JSON round trip losslessly (Decimals as strings, timestamps UTC).",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run pytest tests/unit/schemas tests/property",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
       "relevant_files": [
         "tests/property/test_observation_roundtrip.py"
       ],
@@ -336,8 +376,13 @@
       "phase": 1,
       "type": "property",
       "description": "Property: raw_payload_hash is deterministic and independent of JSON key order and whitespace.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run pytest tests/unit/schemas tests/property",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
       "relevant_files": [
         "libs/schemas/hashing.py",
         "tests/property/test_payload_hash.py"
@@ -357,7 +402,7 @@
         "tests/integration/test_health.py"
       ],
       "covers": [],
-      "notes": ""
+      "notes": "Endpoint exists (apps/api/routers/health.py); manual smoke returned 200 on 2026-11-17. Automated test NOT written yet."
     },
     {
       "id": "P1-INT-002",
@@ -371,7 +416,7 @@
         "tests/integration/test_health.py"
       ],
       "covers": [],
-      "notes": ""
+      "notes": "Endpoint exists; manual smoke returned 200 with postgres+redis up. Automated test NOT written yet."
     },
     {
       "id": "P1-FAIL-001",
@@ -386,7 +431,7 @@
       "covers": [
         "DB unavailable"
       ],
-      "notes": ""
+      "notes": "Manual smoke: unreachable DB -> /readyz 503 'unavailable', /healthz 200. Automated test NOT written yet."
     },
     {
       "id": "P1-FAIL-002",
@@ -415,7 +460,7 @@
         "tests/integration/test_migrations.py"
       ],
       "covers": [],
-      "notes": ""
+      "notes": "migrations/versions/20261117_dc947b200818_initial_schema.py exists; upgrade/downgrade/upgrade and 'alembic check' verified manually on 2026-11-17. Automated test NOT written yet."
     },
     {
       "id": "P1-INT-004",
@@ -429,7 +474,7 @@
         "tests/integration/test_correlation.py"
       ],
       "covers": [],
-      "notes": ""
+      "notes": "Middleware exists (libs/observability/correlation.py); manual smoke echoed X-Request-ID. Automated test NOT written yet."
     },
     {
       "id": "P1-INT-005",
@@ -443,7 +488,7 @@
         "tests/integration/test_metrics.py"
       ],
       "covers": [],
-      "notes": ""
+      "notes": "/metrics exists. Known defect: route label for prefixed routers is '/system/info' instead of '/api/v1/system/info' (FastAPI 0.163 includes routers as _IncludedRouter). Fix + test needed."
     },
     {
       "id": "P1-INT-006",
@@ -457,7 +502,7 @@
         "tests/integration/test_system_info.py"
       ],
       "covers": [],
-      "notes": ""
+      "notes": "Endpoint exists (apps/api/routers/system.py). Automated test NOT written yet."
     },
     {
       "id": "P1-INT-007",
@@ -471,7 +516,7 @@
         "tests/integration/test_errors.py"
       ],
       "covers": [],
-      "notes": ""
+      "notes": "Error envelope exists (apps/api/errors.py); manual smoke of 404 OK. Automated test NOT written yet."
     },
     {
       "id": "P1-CONTRACT-001",
@@ -507,8 +552,13 @@
       "phase": 1,
       "type": "static",
       "description": "ruff check and ruff format --check pass on the whole repository.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run ruff check . && uv run ruff format --check .",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
       "relevant_files": [
         "pyproject.toml"
       ],
@@ -520,8 +570,13 @@
       "phase": 1,
       "type": "static",
       "description": "mypy strict passes on apps, services, libs and tests.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run mypy",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
       "relevant_files": [
         "pyproject.toml"
       ],
@@ -533,8 +588,13 @@
       "phase": 1,
       "type": "static",
       "description": "import-linter contracts for the module layering in docs/architecture.md section 3 pass.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run lint-imports",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
       "relevant_files": [
         "pyproject.toml"
       ],
@@ -701,7 +761,7 @@
         "tests/integration/test_security_headers.py"
       ],
       "covers": [],
-      "notes": ""
+      "notes": "Security headers middleware exists (apps/api/middleware.py). Automated test NOT written yet."
     },
     {
       "id": "P1-SEC-003",
