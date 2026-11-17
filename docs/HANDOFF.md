@@ -126,7 +126,9 @@ change is not.
 |------|-------|--------|--------|
 | 2026-11-17 | Claude (Fable 5.2 → Opus 5.5) | Phase 0 complete; Phase 1 backend core | `980be4b`, `11fc401` |
 | 2026-11-17 | Codex | Phase 1 steps 2–3: backend tests, metrics-prefix fix, JSON Schema exports, `.env.example`; 164 tests; Phase 1 at 27/38. Stopped at the web step on a browser-provisioning rule. | `5e9eee8` |
-| 2026-11-17 | Claude (Opus 5.5), review | Re-ran every gate on `5e9eee8` in the original environment: 164 passed; ruff, mypy, import contracts, brain checks clean. Found the browser rule was a mis-stated environment fact; replaced it with ADR-0012 and unblocked P1-E2E-001…003. | this commit |
+| 2026-11-17 | Claude (Opus 5.5), review | Re-ran every gate on `5e9eee8` in the original environment: 164 passed; ruff, mypy, import contracts, brain checks clean. Found the browser rule was a mis-stated environment fact; replaced it with ADR-0012 and unblocked P1-E2E-001…003. | `e135a5f` |
+| 2026-11-17 | Codex | Phase 1 steps 4–6: Next.js shell, generated API contracts, Compose dev/test/prod + smoke, audits (picomatch dev-only exception). Browser CDN blocked (HTTP 403); e2e passed only as a system-Chromium diagnostic. Phase 1 at 35/38. | `5ed43e2` |
+| 2026-11-17 | Claude (Opus 5.5), review | Reproduced every gate on `5ed43e2`; ran P1-E2E-001…003 with the matching Chromium build 1243 → passed. **Phase 1 closed (38/38).** Added Phase 2 prompt below. | this commit |
 
 ## Follow-up prompt for Codex (after the ADR-0012 fix)
 
@@ -150,4 +152,38 @@ steps 5–6 (Docker Compose profiles + smoke script, dependency scans, full gate
 run, adversarial self-review). Do not start Phase 2. If the browser download
 itself fails, record the exact command and error with --status blocked and
 continue with the non-browser work.
+```
+
+## Prompt for Codex — Phase 2
+
+```text
+Pull the latest `claude/hopeful-einstein-krs00n`. Follow AGENTS.md and every
+rule in the original handoff prompt in docs/HANDOFF.md (anti-hallucination,
+safety, and the before-you-stop protocol all still apply).
+
+Status: Phase 1 is COMPLETE (38/38). The three browser tests were run by the
+reviewer with Playwright 1.63.0's matching Chromium build 1243 and passed; see
+progress.md "Phase 1 closing verification".
+
+Re-run the baseline first (expect 165 pytest cases, clean ruff/mypy/
+lint-imports, pnpm typecheck/lint/test clean, 46 of 274 tests passing,
+8/8 brain checks). If anything differs, reconcile before changing code.
+
+Then start Phase 2 (mock market-data provider and replay framework), following
+"Next action" in progress.md and the Phase 2 section of docs/plan/phases.md.
+Before writing code for it, read docs/architecture.md sections 4-5 and
+docs/data-providers.md section 3 (adapter contract). Every new test name or
+docstring carries its P2-* acceptance ID. Record every new dependency
+(e.g. exchange_calendars, pandas) in docs/architecture/dependency-decisions.md
+before installing it, and settle compatibility item C-04 with a test.
+Do not connect any real market-data provider (that is Phase 3).
+
+Browser tests: your environment cannot download Playwright's Chromium (HTTP 403).
+If a Phase 2 task needs a browser test, run it as the ADR-0012 diagnostic with
+KLOWB_DIAGNOSTIC_CHROMIUM set, record it `blocked` with that evidence, and note
+it in progress.md for a matching-browser run later. Never mark a diagnostic run
+as `passing`.
+
+Phase 2 is large (45 tests). Commit and push after each completed group of
+tests, and keep progress.md current so the next session can resume exactly.
 ```

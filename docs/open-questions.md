@@ -57,6 +57,7 @@ Status: `OPEN` · `ANSWERED` (answer recorded here and in the relevant doc).
 | B-09 | Account base currency | USD | Portfolio accounting, FX conversion. |
 | B-10 | Risk defaults (`docs/risk-model.md` §4) | Conservative defaults listed there | Config only. |
 | B-11 | Pull request | Not opened unless requested; work is pushed to the designated branch | — |
+| B-12 | Codex network access for Playwright browsers | Not granted yet: the browser CDN returns HTTP 403 in the Codex environment. Default: Codex records e2e as `blocked` with a system-Chromium diagnostic; the matching-browser run happens in an environment that has Chromium build 1243. | Allowing the Playwright browser download host in Codex's environment settings removes this step for every later phase. |
 
 ### Codex browser environment — ANSWERED 2026-11-17
 Can the web workflow use an environment preconfigured with Playwright 1.63.0

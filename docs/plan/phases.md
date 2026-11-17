@@ -15,7 +15,7 @@ update the marks here when a phase closes.
 | Phase | Title | Tests | Status |
 |-------|-------|-------|--------|
 | 0 | Repository audit, research, architecture decisions, dev environment | `P0-*` (8) | ☑ |
-| 1 | Canonical schemas, FastAPI, PostgreSQL, Redis, Next.js shell, health checks | `P1-*` (38) | ◐ (12/38) |
+| 1 | Canonical schemas, FastAPI, PostgreSQL, Redis, Next.js shell, health checks | `P1-*` (38) | ☑ |
 | 2 | Mock market-data provider and replay framework | `P2-*` (45) | ☐ |
 | 3 | One real crypto streaming provider (Kraken) with reconnect and data quality | `P3-*` (17) | ☐ |
 | 4 | Dashboard with Lightweight Charts and provider-health display | `P4-*` (15) | ☐ |
@@ -55,7 +55,7 @@ found (see `docs/open-questions.md` — none of the open items blocks Phase 1).
 
 ---
 
-## Phase 1 — Canonical schemas, FastAPI, PostgreSQL, Redis, Next.js shell, health checks ◐
+## Phase 1 — Canonical schemas, FastAPI, PostgreSQL, Redis, Next.js shell, health checks ☑
 
 **Goal:** a running, tested, typed skeleton: the canonical data contracts, an API
 with health/readiness/metrics, database migrations, a web shell that shows system

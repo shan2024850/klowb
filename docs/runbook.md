@@ -170,7 +170,7 @@ commands and results in `progress.md` and update `tests.json`.
 | 5 | Frontend tests | `pnpm -r test` | `[VERIFIED 2026-11-17]` |
 | 6 | Frontend lint | `pnpm -r lint` | `[VERIFIED 2026-11-17]` |
 | 7 | Frontend type check | `pnpm -r typecheck` | `[VERIFIED 2026-11-17]` |
-| 8 | Playwright e2e | `pnpm --filter @klowb/web e2e` | `[BLOCKED 2026-11-17: matching binary unavailable; diagnostic passed]` |
+| 8 | Playwright e2e | `pnpm --filter @klowb/web e2e` | `[VERIFIED 2026-11-17]` with the matching Chromium build 1243 in the original environment (Codex environment: browser download blocked, system-Chromium diagnostic passed) |
 | 9 | Database migrations | `uv run alembic upgrade head && uv run alembic downgrade base && uv run alembic upgrade head && uv run alembic check` | `[VERIFIED 2026-11-17]` (also covered by P1-INT-003) |
 | 10 | Docker build | private-CA build in §4 | `[VERIFIED 2026-11-17]` |
 | 11 | Compose smoke test | `docker compose --profile dev up -d && scripts/smoke.sh` | `[VERIFIED 2026-11-17]` |

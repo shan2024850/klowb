@@ -4,7 +4,7 @@
 finished, a blocker appears, or a session ends. A new contributor (human or model)
 should be able to continue from this file alone, with `docs/BRAIN.md` for context.
 
-- Last updated: 2026-11-17 (Phase 1 web and deployment checkpoint)
+- Last updated: 2026-11-17 (Phase 1 closed: matching-browser e2e run in the original environment)
 - Work branch: `claude/hopeful-einstein-krs00n` — **all work lives on this branch;
   `main` is still empty.**
 - Handoff instructions for the next agent: `docs/HANDOFF.md`
@@ -28,8 +28,9 @@ created the dev role and both databases. `docker exec klowb-redis redis-cli ping
 
 - **Phase 0 — audit, research, decisions, environment: COMPLETE** (8/8 tests).
 - **Phase 1 — canonical schemas, FastAPI, PostgreSQL, Redis, Next.js shell,
-  health checks: IN PROGRESS** (35/38 acceptance tests passing).
-  - 43/274 overall. Only the three matching-browser E2E checks remain blocked.
+  health checks: COMPLETE** (38/38 acceptance tests passing; 46/274 overall).
+  Screenshot of the running shell: `docs/assets/phase1-shell.png`.
+- **Phase 2 — mock market-data provider and replay framework: NOT STARTED.**
 
 ---
 
@@ -97,6 +98,20 @@ See docs/runbook.md §4–5 for setup and commands.
 
 ## Unresolved problems
 
+**Resolved — matching-browser e2e (2026-11-17):** P1-E2E-001…003 passed in the
+original Claude environment, which ships Chromium build 1243 (the exact build
+Playwright 1.63.0 expects). Command and environment in "Phase 1 closing
+verification" below and in each test's `notes` in `tests.json`.
+
+**Still open — browser downloads in the Codex environment.** Codex cannot
+download Playwright's browser (CDN returned HTTP 403 "Domain forbidden").
+Later phases add more e2e tests (P4-E2E-*, P6-E2E-*, …). Until the owner
+decides (`docs/open-questions.md` B-12), Codex runs them as an ADR-0012
+diagnostic with system Chromium, records them `blocked` with that evidence, and
+the matching-browser run is done in an environment that has build 1243.
+
+History of the block (kept for the record):
+
 The project-local Playwright 1.63.0 install requested Chromium build 1243.
 The CDN returned HTTP 403 ("Domain forbidden"), including on the network retry.
 The standard E2E run reported its missing headless shell. All three specs passed
@@ -109,11 +124,28 @@ are in docs/security.md. Python and production JS audits were clean.
 
 ## Next action
 
-Allow the approved Playwright browser download or provide its matching cached
-Chromium build. Run `pnpm --filter @klowb/web exec playwright install chromium`
-and then `pnpm --filter @klowb/web e2e` against the healthy Compose stack with
-KLOWB_DIAGNOSTIC_CHROMIUM unset. Record P1-E2E-001…003 only after observing
-their results, then close the Phase 1 review. No Phase 2 work has begun.
+Start **Phase 2 — mock market-data provider and replay framework**
+(`docs/plan/phases.md` → Phase 2; 45 acceptance tests `P2-*`). Suggested order:
+
+1. `libs/providers`: `Clock`-driven `VirtualClock` (reuse/extend
+   `libs.domain.clock.ManualClock`), error taxonomy, token-bucket rate limiter,
+   bounded jittered retry, circuit breaker (P2-UNIT-017…020, P2-UNIT-026).
+2. `libs/calendars`: equity (XNYS via `exchange_calendars` + extended hours),
+   crypto 24/7, FX week with sessions and DST (P2-UNIT-021…025). Settle C-04
+   (exchange_calendars 4.13.3 with pandas 3.1.1) first and record the result;
+   record both packages in `dependency-decisions.md` before installing.
+3. `MarketDataProvider` protocol + shared conformance suite + seeded mock
+   provider labelled `SIMULATED` (P2-UNIT-001…003).
+4. `services/market_data`: normaliser, data-quality service + quarantine store,
+   calendar-aware bar aggregator with finality, provider-health registry
+   (P2-UNIT-004…016, P2-PROP-001…002).
+5. Event bus with Redis fan-out and in-process fallback, ingestion supervisor,
+   replay engine + fixtures (P2-REPLAY-*, P2-INT-006, P2-FAIL-007).
+6. API: instruments, bars, quarantine, provider health, market status, WS stream
+   with Origin allowlist and limits (P2-INT-001…005, P2-INT-007).
+7. Failure-injection suite (P2-FAIL-001…008), all gates, docs, self-review.
+
+Do not connect any real provider in Phase 2 (that is Phase 3).
 
 ### Current verification commands (2026-11-17)
 
@@ -170,6 +202,32 @@ uv run alembic check                                    # No new upgrade operati
 
 ---
 
+## Phase 1 closing verification (original environment, 2026-11-17)
+
+Reviewer re-ran everything on Codex commit `5ed43e2`:
+
+```bash
+uv sync && pnpm install --frozen-lockfile
+uv run pytest                                  # 165 passed
+uv run ruff check . && uv run ruff format --check .   # clean, 107 files
+uv run mypy                                    # 76 source files, no issues
+uv run lint-imports                            # 2 contracts kept
+pnpm -r typecheck && pnpm -r lint && pnpm -r test     # clean; 3 component tests passed
+uv run python -m scripts.export_openapi && pnpm --filter @klowb/types generate \
+  && git diff --exit-code -- packages/types/generated data/schemas/openapi.json   # reproducible
+pnpm --filter @klowb/web build
+pnpm audit --prod                              # No known vulnerabilities found
+pnpm audit                                     # GHSA-fc5q-39xc-vjpf (picomatch 4.0.7, 2.3.2; dev-only);
+                                               # registry latest is 4.0.7, advisory lists no patched version
+# Stack for e2e: API + built standalone web, local PostgreSQL 16 + Redis 7
+DATABASE_URL=postgresql+asyncpg://klowb:klowb@localhost:5432/klowb \
+  uv run uvicorn apps.api.main:create_app --factory --host 127.0.0.1 --port 8000
+cp -r apps/web/.next/static apps/web/.next/standalone/apps/web/.next/static
+(cd apps/web/.next/standalone && API_ORIGIN=http://127.0.0.1:8000 PORT=3000 HOSTNAME=127.0.0.1 node apps/web/server.js)
+KLOWB_WEB_URL=http://127.0.0.1:3000 pnpm --filter @klowb/web e2e --trace off --reporter=list   # 3 passed
+# Browser used: /opt/pw-browsers/chromium-1243 (153.0.8010.12) = Playwright 1.63.0's expected build
+```
+
 ## Adversarial self-review
 
 ### Phase 0
@@ -191,6 +249,21 @@ uv run alembic check                                    # No new upgrade operati
 - `libs/schemas` rejects binary floats on purpose; adapters must parse provider
   JSON with `parse_float=Decimal` (`libs.schemas.hashing.parse_json_exact`).
 
+
+### Phase 1 closing review (reviewer, 2026-11-17)
+
+- Every Phase 1 claim from Codex was reproduced independently; no discrepancy.
+- The e2e acceptance run used a locally started API + standalone web server, not
+  the Compose stack. Compose itself was smoke-tested by Codex (P1-SMOKE-001);
+  the two together cover the criterion, but a single e2e run against Compose
+  with the matching browser has not happened yet. Do it when an environment
+  has both Docker image pulls and Chromium build 1243.
+- The shell's API row shows "Up" whenever readiness loaded (the readiness call
+  itself proves the API answered); acceptable, but it has no latency figure.
+- The picomatch exception is real and correctly scoped (dev tooling only;
+  production audit clean). Recheck on every dependency update.
+- Phase 1 contains no market data, prices or orders, so feed-quality display
+  and trading-safety UI are only exercised as a legend and a mode badge.
 
 ### Phase 1 web and deployment self-review
 
