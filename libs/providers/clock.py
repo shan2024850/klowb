@@ -1,10 +1,29 @@
-"""Timers for offline replay. Only the replay driver moves event time."""
+"""Clocks that can also wait.
+
+``VirtualClock`` is for tests and replay: only the driver moves time.
+``RealTimeClock`` is for production streams.
+"""
 
 import asyncio
 from datetime import datetime, timedelta
 from math import isfinite
+from typing import Protocol, runtime_checkable
 
-from libs.domain.clock import ManualClock
+from libs.domain.clock import Clock, ManualClock, SystemClock
+
+
+@runtime_checkable
+class TimerClock(Clock, Protocol):
+    async def sleep(self, seconds: float) -> None:
+        """Wait ``seconds`` of this clock's time."""
+        ...
+
+
+class RealTimeClock(SystemClock):
+    async def sleep(self, seconds: float) -> None:
+        if not isfinite(seconds) or seconds < 0:
+            raise ValueError("delay must be finite and nonnegative")
+        await asyncio.sleep(seconds)
 
 
 class VirtualClock(ManualClock):

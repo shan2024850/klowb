@@ -13,10 +13,20 @@ class ErrorKind(StrEnum):
 
 
 class ProviderError(Exception):
-    def __init__(self, kind: ErrorKind, *, retry_after: float | None = None) -> None:
+    """Classified provider failure.
+
+    ``str(error)`` is only the kind, so messages are safe to log and expose;
+    ``detail`` carries a short internal explanation that must never contain
+    payload contents or credentials.
+    """
+
+    def __init__(
+        self, kind: ErrorKind, *, retry_after: float | None = None, detail: str | None = None
+    ) -> None:
         super().__init__(kind.value)
         self.kind = kind
         self.retry_after = retry_after
+        self.detail = detail
 
     @property
     def retryable(self) -> bool:

@@ -4,7 +4,7 @@
 finished, a blocker appears, or a session ends. A new contributor (human or model)
 should be able to continue from this file alone, with `docs/BRAIN.md` for context.
 
-- Last updated: 2026-11-19 (Phase 2 group 2: market calendars)
+- Last updated: 2026-11-19 (Phase 2 group 3: provider contract and mock provider)
 - Work branch: `claude/hopeful-einstein-krs00n` — **all work lives on this branch;
   `main` is still empty.**
 - Handoff instructions for the next agent: `docs/HANDOFF.md`
@@ -143,13 +143,27 @@ clean pnpm typecheck/lint and three passing component tests. Brain 8/8, tracker
    expected values from NYSE's published calendar. C-04, OQ-T16, OQ-T17 answered.
    Full suite 238 passed; ruff, mypy, import contracts clean. Phase 2: 10/45.
 
+3. Provider contract and mock provider (2026-11-19, original Claude environment):
+   `libs/schemas/providers.py` (`RawEvent` with canonical/byte hash,
+   `ProviderHealthSnapshot`), `libs/providers/base.py` (`MarketDataProvider`
+   protocol: `stream`, `normalize`, `health`, `aclose`), `libs/providers/clock.py`
+   (`TimerClock`, `RealTimeClock`), `libs/providers/mock/provider.py` (seeded
+   Decimal-tick random walk, trades + quotes, always `SIMULATED`/`SIM`).
+   `ProviderError` gained an optional `detail` (never payload text).
+   Reusable suite `tests/contract/provider_conformance.py` + negative tests proving
+   it rejects a wrong-clock provider and a payload-leaking provider.
+   `tests/stream_driver.py` drives streams on a VirtualClock with bounded loops.
+   P2-UNIT-001, 002 passing; P2-UNIT-003 `implemented` (replay half pending).
+   Full suite 258 passed; ruff, mypy, import contracts clean. Phase 2: 12/45 passing.
+
 ## Next action
 
-Group 3 of the Phase 2 work plan below: `MarketDataProvider` protocol, shared
-provider conformance suite (`tests/contract/provider_conformance.py`) and a
-seeded mock provider that only ever emits `SIMULATED` data (P2-UNIT-001…003).
-Then group 4 (normaliser, data-quality service, quarantine, bar aggregator,
-provider health).
+Group 4 of the Phase 2 work plan below, in `services/market_data/`:
+`normalizer.py` (wraps `provider.normalize`, turns `ProviderError` into a
+quarantine record — P2-UNIT-015), `quality.py` (stateful checks P2-UNIT-007…014),
+`health.py` (P2-UNIT-016), `bars.py` (P2-UNIT-004…006, calendar-aware via
+`libs.calendars.registry.get_calendar`), property tests P2-PROP-001…002.
+Then group 5 (bus, supervisor, replay — and finish P2-UNIT-003's replay half).
 
 If a Codex workspace still holds uncommitted `libs/calendars/` or
 `tests/unit/calendars/` files from its interrupted session, discard them and

@@ -914,11 +914,19 @@
       "phase": 2,
       "type": "contract",
       "description": "Provider conformance suite: any MarketDataProvider implementation must set provenance fields, use the injected clock, classify errors, expose health and stop cleanly; the mock provider passes it.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-19T03:14:49Z",
+        "command": "uv run pytest -q tests/contract/test_provider_conformance.py",
+        "result": "pass",
+        "commit": "aec0011+dirty"
+      },
       "relevant_files": [
         "libs/providers/base.py",
-        "tests/contract/provider_conformance.py"
+        "libs/schemas/providers.py",
+        "tests/contract/provider_conformance.py",
+        "tests/contract/test_provider_conformance.py",
+        "tests/stream_driver.py"
       ],
       "covers": [],
       "notes": ""
@@ -928,10 +936,15 @@
       "phase": 2,
       "type": "unit",
       "description": "Mock provider is deterministic: the same seed and virtual clock produce byte-identical event sequences.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-19T03:14:49Z",
+        "command": "uv run pytest -q tests/unit/providers/test_mock_provider.py",
+        "result": "pass",
+        "commit": "aec0011+dirty"
+      },
       "relevant_files": [
-        "libs/providers/mock",
+        "libs/providers/mock/provider.py",
         "tests/unit/providers/test_mock_provider.py"
       ],
       "covers": [],
@@ -942,14 +955,14 @@
       "phase": 2,
       "type": "unit",
       "description": "Mock and replay data are always labelled feed_quality=SIMULATED and can never be emitted with another label.",
-      "status": "planned",
+      "status": "implemented",
       "last_execution": null,
       "relevant_files": [
-        "libs/providers/mock",
+        "libs/providers/mock/provider.py",
         "tests/unit/providers/test_mock_provider.py"
       ],
       "covers": [],
-      "notes": ""
+      "notes": "Mock-provider half passes (uv run pytest -q tests/unit/providers/test_mock_provider.py, 2026-11-19): every observation SIMULATED, label not configurable, payload cannot upgrade it. Replay half pending: add the replay-engine assertion when services/market_data/replay.py exists (group 5), then mark passing."
     },
     {
       "id": "P2-UNIT-004",
