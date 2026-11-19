@@ -98,6 +98,14 @@ structlog 26.1.0, prometheus-client 0.26.0, httpx2 2.16.2; dev: pytest 9.2.0,
 pytest-asyncio 1.5.0, pytest-cov 7.1.0, hypothesis 6.170.15, ruff 0.17.5,
 mypy 2.4.1, import-linter 2.16, pip-audit 2.10.1 — all exactly the intended pins.
 Transitive: fastapi 0.163 depends on `opentelemetry-api` (Apache-2.0).
+
+**Installed in Phase 2 (2026-11-19):** exchange-calendars 4.13.3 (Apache-2.0) and
+pandas 3.1.1 (BSD-3-Clause), plus their transitive packages, licences read from
+PyPI for the exact locked versions: numpy 2.5.5 (BSD-3-Clause AND 0BSD AND MIT
+AND Zlib AND CC0-1.0), python-dateutil 4.0.0 (BSD-3-Clause), tzdata 2026.6
+(Apache-2.0), toolz 1.2.0 (BSD-3-Clause), korean-lunar-calendar 0.4.0 (MIT),
+pyluach 2.3.0 (MIT). All permissive. Holiday/time-zone rule changes and numpy
+wheel compatibility mean the calendar tests must be re-run on upgrades.
 The remaining rows are installed in the phase listed.
 
 ### 3.1 Backend runtime (Python ≥ 3.13)
@@ -209,7 +217,7 @@ Record the outcome here when settled.
 | C-01 | `eslint-plugin-jsx-a11y` 6.10.2 declares peer `eslint ^3…^9`; does it work with ESLint 10 flat config? | Pin ESLint 9.x. |
 | C-02 | Does `eslint-config-next` 16.4.6 work with ESLint 10 + TypeScript 6.0.3? | Pin ESLint 9.x. |
 | C-03 | Which OpenAPI→TS generator works cleanly with TypeScript 6.0.3? | Hand-written zod schemas validated against the OpenAPI snapshot. |
-| C-04 | Does `exchange_calendars` 4.13.3 (requires `pandas>=1.5.0`) work with pandas 3.1.1? | Pin pandas to the newest version that passes its calendars. |
+| C-04 | Does `exchange_calendars` 4.13.3 (requires `pandas>=1.5.0`) work with pandas 3.1.1? | **Settled 2026-11-19: works, with one caveat.** Sessions, holidays, early closes and DST shifts match NYSE's official 2026/2027 calendar (tests in `tests/unit/calendars/`). The library triggers pandas `Pandas4Warning` deprecations (`Series.values` / `DatetimeIndex.values` dropping timezone) while building a calendar and on per-minute lookups; today's results are correct UTC values. Mitigation: `libs/calendars/equity.py` extracts the schedule once, silencing only those two messages there, and never calls the library's per-minute API. **Do not upgrade to pandas 4 until exchange_calendars supports it** — re-run `tests/unit/calendars` on any upgrade of either package. |
 | C-05 | Is the `httpx2` API (AsyncClient, timeouts, mock transport) as expected? | **Settled 2026-11-17:** installed 2.16.2; exposes `MockTransport`, `ASGITransport`, `AsyncHTTPTransport`. Starlette 1.10's `TestClient` imports `httpx2` (plain `httpx` is deprecated there), so it is a runtime dependency in Phase 1. |
 | C-06 | Can Docker pull images through the agent proxy in this environment? | Record the Docker gates as `blocked` with evidence; validate `docker compose config` only. |
 | C-07 | Does Valkey pass the Redis integration tests with redis-py 8.1.0? | Use a BSD-licensed Redis 7.2 image. |

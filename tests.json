@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-11-17",
+  "updated": "2026-11-19",
   "description": "Every acceptance test for the klowb platform. Maintained by hand after initial generation. Rules: never delete an entry; never weaken a description to make it pass; 'passing' requires a last_execution record; 'skipped' is not a valid status.",
   "status_values": [
     "planned",
@@ -1234,10 +1234,16 @@
       "phase": 2,
       "type": "unit",
       "description": "Equity calendar: regular session open/close for XNYS in UTC; market holiday is closed.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-19T03:10:24Z",
+        "command": "uv run pytest -q tests/unit/calendars",
+        "result": "pass",
+        "commit": "eadc719+dirty"
+      },
       "relevant_files": [
-        "libs/calendars",
+        "libs/calendars/equity.py",
+        "libs/calendars/registry.py",
         "tests/unit/calendars/test_equity_calendar.py"
       ],
       "covers": [
@@ -1250,10 +1256,15 @@
       "phase": 2,
       "type": "unit",
       "description": "Equity calendar: early-close days end at the early close; premarket and postmarket windows are modelled and distinguishable from the regular session.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-19T03:10:24Z",
+        "command": "uv run pytest -q tests/unit/calendars",
+        "result": "pass",
+        "commit": "eadc719+dirty"
+      },
       "relevant_files": [
-        "libs/calendars",
+        "libs/calendars/equity.py",
         "tests/unit/calendars/test_equity_sessions.py"
       ],
       "covers": [
@@ -1266,10 +1277,15 @@
       "phase": 2,
       "type": "unit",
       "description": "Equity calendar across DST transitions: session times stay correct in exchange-local time and shift correctly in UTC.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-19T03:10:24Z",
+        "command": "uv run pytest -q tests/unit/calendars",
+        "result": "pass",
+        "commit": "eadc719+dirty"
+      },
       "relevant_files": [
-        "libs/calendars",
+        "libs/calendars/equity.py",
         "tests/unit/calendars/test_dst.py"
       ],
       "covers": [
@@ -1282,10 +1298,15 @@
       "phase": 2,
       "type": "unit",
       "description": "Crypto calendar is open 24/7 including weekends and holidays.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-19T03:10:24Z",
+        "command": "uv run pytest -q tests/unit/calendars",
+        "result": "pass",
+        "commit": "eadc719+dirty"
+      },
       "relevant_files": [
-        "libs/calendars",
+        "libs/calendars/continuous.py",
         "tests/unit/calendars/test_crypto_calendar.py"
       ],
       "covers": [
@@ -1298,10 +1319,15 @@
       "phase": 2,
       "type": "unit",
       "description": "FX calendar: open from the Sunday open to the Friday close with named session windows (Sydney/Tokyo/London/New York) and correct DST handling.",
-      "status": "planned",
-      "last_execution": null,
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-19T03:10:24Z",
+        "command": "uv run pytest -q tests/unit/calendars",
+        "result": "pass",
+        "commit": "eadc719+dirty"
+      },
       "relevant_files": [
-        "libs/calendars",
+        "libs/calendars/continuous.py",
         "tests/unit/calendars/test_fx_calendar.py"
       ],
       "covers": [

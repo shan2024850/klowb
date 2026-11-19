@@ -224,3 +224,23 @@ also needed explicit runtime read permissions. All three profiles subsequently
 built and passed smoke. The Valkey/redis-py readiness probe succeeded. Prod
 reported environment=prod and live_trading_available=false. The pnpm development
 advisory and exception are recorded in docs/security.md.
+
+### 2026-11-19 — Phase 2 calendars (original Claude environment, review + group 2)
+
+- Reviewed Codex commit `eadc719` (group 1: virtual timers, token bucket, retry,
+  circuit breaker, error classification). Full suite 187 passed; ruff, mypy,
+  import contracts and brain checks clean. Codex's uncommitted group 2 work
+  (calendar files) never reached the repository and was redone here.
+- NYSE hours and holidays read from https://www.nyse.com/trade/hours-calendars:
+  2026 holidays Jan 1, Jan 19, Feb 16, Apr 3, May 25, Jun 19, Jul 3, Sep 7,
+  Nov 26, Dec 25; early closes (1:00 p.m.) Nov 27 and Dec 24, 2026; NYSE Arca
+  early session 04:00-09:30 ET, late session 16:00-20:00 ET, late sessions close
+  17:00 ET on early-close days. 2027 holidays Jan 1, Jan 18, Feb 15, Mar 26,
+  May 31, Jun 18, Jul 5, Sep 6, Nov 25, Dec 24. The page did not mention a live
+  overnight session.
+- exchange_calendars 4.13.3 on pandas 3.1.1: schedule matches the list above
+  exactly, including DST shifts (open 14:30 UTC on 2026-03-06, 13:30 UTC on
+  2026-03-09, 14:30 UTC on 2026-11-02). **Discrepancy/caveat:** building the
+  calendar and per-minute lookups raise `pandas.errors.Pandas4Warning`
+  (`Series.values` / `DatetimeIndex.values` dropping timezone). Contained as
+  described under C-04.

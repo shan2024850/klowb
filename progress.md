@@ -4,7 +4,7 @@
 finished, a blocker appears, or a session ends. A new contributor (human or model)
 should be able to continue from this file alone, with `docs/BRAIN.md` for context.
 
-- Last updated: 2026-11-17 (Phase 2 development)
+- Last updated: 2026-11-19 (Phase 2 group 2: market calendars)
 - Work branch: `claude/hopeful-einstein-krs00n` — **all work lives on this branch;
   `main` is still empty.**
 - Handoff instructions for the next agent: `docs/HANDOFF.md`
@@ -130,11 +130,30 @@ clean pnpm typecheck/lint and three passing component tests. Brain 8/8, tracker
 
 1. Virtual timers, token bucket, retry, circuit breaker and classified errors:
    22 cases passed with `uv run pytest -q tests/unit/providers/test_resilience.py`.
-   Ruff, mypy and import contracts clean. Phase 2: 5/45.
+   Ruff, mypy and import contracts clean. Phase 2: 5/45. (Codex, commit `eadc719`;
+   reviewed and re-run green in the original environment on 2026-11-19.)
+2. Market calendars (2026-11-19, original Claude environment; Codex hit its usage
+   limit before committing its own group 2 attempt, which never reached git):
+   `libs/calendars/` — `base.py` (SessionPhase, TradingDay, MarketCalendar,
+   CalendarRangeError), `equity.py` (XNYS via exchange_calendars + NYSE Arca
+   extended hours, schedule extracted once into UTC datetimes), `continuous.py`
+   (crypto 24/7; FX week Sunday 17:00–Friday 17:00 New York with Sydney/Tokyo/
+   London/New York sessions), `registry.py` (`get_calendar(calendar_id)` for
+   `XNYS`, `CRYPTO_24_7`, `FX_24_5`). 52 tests in `tests/unit/calendars/` with
+   expected values from NYSE's published calendar. C-04, OQ-T16, OQ-T17 answered.
+   Full suite 238 passed; ruff, mypy, import contracts clean. Phase 2: 10/45.
 
 ## Next action
 
-Continue with group 2, the calendar compatibility test and session windows.
+Group 3 of the Phase 2 work plan below: `MarketDataProvider` protocol, shared
+provider conformance suite (`tests/contract/provider_conformance.py`) and a
+seeded mock provider that only ever emits `SIMULATED` data (P2-UNIT-001…003).
+Then group 4 (normaliser, data-quality service, quarantine, bar aggregator,
+provider health).
+
+If a Codex workspace still holds uncommitted `libs/calendars/` or
+`tests/unit/calendars/` files from its interrupted session, discard them and
+pull: the committed versions supersede them.
 
 Work plan for **Phase 2 — mock market-data provider and replay framework**
 (`docs/plan/phases.md` → Phase 2; 45 acceptance tests `P2-*`). Suggested order:

@@ -16,6 +16,8 @@ dependencies = [
     "structlog==26.1.0",
     "prometheus-client==0.26.0",
     "httpx2==2.16.2",
+    "exchange-calendars==4.13.3",
+    "pandas==3.1.1",
 ]
 
 [dependency-groups]
@@ -103,6 +105,12 @@ mypy_path = "."
 files = ["apps/api", "services", "libs", "tests", "scripts", "migrations"]
 plugins = ["pydantic.mypy"]
 exclude = ["apps/web/", "node_modules/"]
+
+[[tool.mypy.overrides]]
+# Ships no type information; its use is confined to
+# libs/calendars/equity.py, which converts results to typed Python immediately.
+module = ["exchange_calendars"]
+ignore_missing_imports = true
 
 [tool.pydantic-mypy]
 init_forbid_extra = true
