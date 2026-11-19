@@ -128,7 +128,9 @@ change is not.
 | 2026-11-17 | Codex | Phase 1 steps 2–3: backend tests, metrics-prefix fix, JSON Schema exports, `.env.example`; 164 tests; Phase 1 at 27/38. Stopped at the web step on a browser-provisioning rule. | `5e9eee8` |
 | 2026-11-17 | Claude (Opus 5.5), review | Re-ran every gate on `5e9eee8` in the original environment: 164 passed; ruff, mypy, import contracts, brain checks clean. Found the browser rule was a mis-stated environment fact; replaced it with ADR-0012 and unblocked P1-E2E-001…003. | `e135a5f` |
 | 2026-11-17 | Codex | Phase 1 steps 4–6: Next.js shell, generated API contracts, Compose dev/test/prod + smoke, audits (picomatch dev-only exception). Browser CDN blocked (HTTP 403); e2e passed only as a system-Chromium diagnostic. Phase 1 at 35/38. | `5ed43e2` |
-| 2026-11-17 | Claude (Opus 5.5), review | Reproduced every gate on `5ed43e2`; ran P1-E2E-001…003 with the matching Chromium build 1243 → passed. **Phase 1 closed (38/38).** Added Phase 2 prompt below. | this commit |
+| 2026-11-17 | Claude (Opus 5.5), review | Reproduced every gate on `5ed43e2`; ran P1-E2E-001…003 with the matching Chromium build 1243 → passed. **Phase 1 closed (38/38).** Added Phase 2 prompt below. | `b469bdc` |
+| 2026-11-17 | Codex | Phase 2 group 1 (virtual timers, token bucket, retry, circuit breaker, error classification). Hit its usage limit during group 2; the calendar files it had written were never committed. | `eadc719` |
+| 2026-11-19 | Claude (Opus 5.5) | Reviewed `eadc719` (green). Redid group 2 (market calendars, C-04 settled) and built group 3 (provider contract, conformance suite, mock provider). Phase 2: 12/45 passing, 1 implemented. | `aec0011`, `6f3c270`, this commit |
 
 ## Follow-up prompt for Codex (after the ADR-0012 fix)
 
@@ -186,4 +188,29 @@ as `passing`.
 
 Phase 2 is large (45 tests). Commit and push after each completed group of
 tests, and keep progress.md current so the next session can resume exactly.
+```
+
+## Prompt for Codex — resume Phase 2 at group 4
+
+```text
+Pull the latest `claude/hopeful-einstein-krs00n`. If your workspace still has
+uncommitted files from your interrupted session (for example libs/calendars/ or
+tests/unit/calendars/), discard them first (`git stash` or `git checkout -- .`
+plus removing untracked files): committed versions supersede them.
+
+Follow AGENTS.md and every rule in the original handoff prompt in
+docs/HANDOFF.md (anti-hallucination, safety, before-you-stop protocol).
+
+Baseline (expect): 258 pytest cases passing; ruff, mypy and lint-imports clean;
+pnpm typecheck/lint/test clean; 8/8 brain checks; Phase 2 at 12 passing and
+1 implemented of 45. Reconcile before coding if anything differs.
+
+Then do group 4 from "Next action" in progress.md, in services/market_data/:
+normalizer.py (P2-UNIT-015), quality.py (P2-UNIT-007..014), health.py
+(P2-UNIT-016), bars.py (P2-UNIT-004..006, using
+libs.calendars.registry.get_calendar), and P2-PROP-001..002. Read first:
+docs/architecture.md section 5, libs/providers/base.py,
+libs/providers/mock/provider.py, libs/schemas/market.py, libs/calendars/*.py,
+tests/stream_driver.py. Reuse the existing types; do not redefine them.
+Commit and push after each completed group of tests with progress.md updated.
 ```
