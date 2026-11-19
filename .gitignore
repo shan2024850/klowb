@@ -1,0 +1,51 @@
+# --- secrets: never commit ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# --- python ---
+__pycache__/
+*.py[cod]
+.venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.hypothesis/
+.coverage
+coverage.xml
+htmlcov/
+.import_linter_cache/
+*.egg-info/
+
+# --- node ---
+node_modules/
+.next/
+out/
+dist/
+*.tsbuildinfo
+next-env.d.ts
+.pnpm-store/
+
+# --- test artifacts ---
+playwright-report/
+test-results/
+blob-report/
+
+# --- local data (research snapshots are reproducible; fixtures under data/fixtures ARE committed) ---
+data/local/
+data/snapshots/
+*.duckdb
+*.duckdb.wal
+
+# --- os / editor ---
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# --- claude code local state (skills under .claude/skills ARE committed) ---
+.claude/settings.local.json
+.claude/worktrees/

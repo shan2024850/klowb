@@ -1,0 +1,128 @@
+{
+  "$defs": {
+    "AppEnv": {
+      "enum": [
+        "dev",
+        "test",
+        "prod"
+      ],
+      "title": "AppEnv",
+      "type": "string"
+    },
+    "FeedQuality": {
+      "description": "Provenance class of market data. Semantics: docs/data-providers.md section 1.",
+      "enum": [
+        "REALTIME_CONSOLIDATED",
+        "REALTIME_EXCHANGE",
+        "REALTIME_SINGLE_VENUE",
+        "DELAYED",
+        "EOD",
+        "UNOFFICIAL",
+        "SIMULATED"
+      ],
+      "title": "FeedQuality",
+      "type": "string"
+    },
+    "FeedQualityInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "execution_eligible": {
+          "title": "Execution Eligible",
+          "type": "boolean"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "rank": {
+          "title": "Rank",
+          "type": "integer"
+        },
+        "realtime": {
+          "title": "Realtime",
+          "type": "boolean"
+        },
+        "value": {
+          "$ref": "#/$defs/FeedQuality"
+        }
+      },
+      "required": [
+        "value",
+        "label",
+        "description",
+        "realtime",
+        "execution_eligible",
+        "rank"
+      ],
+      "title": "FeedQualityInfo",
+      "type": "object"
+    },
+    "TradingMode": {
+      "enum": [
+        "research",
+        "paper",
+        "live"
+      ],
+      "title": "TradingMode",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "disclaimer": {
+      "title": "Disclaimer",
+      "type": "string"
+    },
+    "environment": {
+      "$ref": "#/$defs/AppEnv"
+    },
+    "feed_quality_legend": {
+      "items": {
+        "$ref": "#/$defs/FeedQualityInfo"
+      },
+      "title": "Feed Quality Legend",
+      "type": "array"
+    },
+    "live_trading_available": {
+      "title": "Live Trading Available",
+      "type": "boolean"
+    },
+    "llm_enabled": {
+      "title": "Llm Enabled",
+      "type": "boolean"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "server_time": {
+      "format": "date-time",
+      "title": "Server Time",
+      "type": "string"
+    },
+    "trading_mode": {
+      "$ref": "#/$defs/TradingMode"
+    },
+    "version": {
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "version",
+    "environment",
+    "trading_mode",
+    "live_trading_available",
+    "llm_enabled",
+    "server_time",
+    "feed_quality_legend",
+    "disclaimer"
+  ],
+  "title": "SystemInfo",
+  "type": "object"
+}

@@ -1,0 +1,15 @@
+services:
+  api-dev:
+    build: &trust
+      args: { BUILD_CA: /run/secrets/build_ca }
+      secrets: [build_ca]
+  api-test:
+    build: *trust
+  api-prod:
+    build: *trust
+  web-dev:
+    build: *trust
+  web:
+    build: *trust
+secrets:
+  build_ca: { file: "${KLOWB_CA_FILE:-/etc/ssl/certs/ca-certificates.crt}" }

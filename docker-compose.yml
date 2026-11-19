@@ -1,0 +1,116 @@
+x-db: &db
+  build: { context: ., dockerfile: infra/postgres.Dockerfile }
+  # The bootstrap superuser is accessible via the container socket only.
+  command: ["sh", "-ec", "export POSTGRES_PASSWORD=$$(head -c 32 /dev/urandom | base64); exec docker-entrypoint.sh postgres"]
+  environment:
+    POSTGRES_USER: postgres
+    POSTGRES_DB: klowb
+    KLOWB_MIGRATION_PASSWORD: ${KLOWB_MIGRATION_PASSWORD:?set a separate local alphanumeric migration password}
+    KLOWB_DB_PASSWORD: ${KLOWB_DB_PASSWORD:?set a local alphanumeric database password}
+  healthcheck:
+    test: ["CMD","pg_isready","-h","127.0.0.1","-U","klowb","-d","klowb"]
+    interval: 2s
+    timeout: 3s
+    retries: 30
+
+x-api: &api
+  image: ${COMPOSE_PROJECT_NAME}-api:local
+  build:
+    context: .
+    dockerfile: apps/api/Dockerfile
+  depends_on:
+    migrate: { condition: service_completed_successfully }
+    cache: { condition: service_healthy }
+  environment: &api-env
+    DATABASE_URL: postgresql+asyncpg://klowb:${KLOWB_DB_PASSWORD:?set a local alphanumeric database password}@db:5432/klowb
+    REDIS_URL: redis://cache:6379/0
+    TRADING_MODE: research
+  networks:
+    default:
+      aliases: [api]
+  ports: ["127.0.0.1:${KLOWB_API_PORT:-8000}:8000"]
+  healthcheck:
+    test: ["CMD","python","-c","import urllib.request; urllib.request.urlopen('http://localhost:8000/readyz', timeout=4)"]
+    interval: 5s
+    timeout: 5s
+    retries: 20
+
+services:
+  db:
+    <<: *db
+    profiles: [dev, prod]
+    volumes: [klowb-db-data:/var/lib/postgresql/data]
+  db-test:
+    <<: *db
+    profiles: [test]
+    tmpfs: [/var/lib/postgresql/data]
+    networks:
+      default:
+        aliases: [db]
+  cache:
+    image: valkey/valkey:9.1.3
+    profiles: [dev, test, prod]
+    healthcheck:
+      test: ["CMD","valkey-cli","ping"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  migrate: &migrate
+    image: ${COMPOSE_PROJECT_NAME}-api:local
+    profiles: [dev, prod]
+    depends_on:
+      db: { condition: service_healthy }
+    environment:
+      DATABASE_URL: postgresql+asyncpg://klowb_migrate:${KLOWB_MIGRATION_PASSWORD:?set a separate local alphanumeric migration password}@db:5432/klowb
+    command: ["alembic", "upgrade", "head"]
+  migrate-test:
+    <<: *migrate
+    profiles: [test]
+    depends_on:
+      db-test: { condition: service_healthy }
+  api-dev:
+    <<: *api
+    profiles: [dev]
+    command: ["uvicorn", "apps.api.main:create_app", "--factory", "--host", "0.0.0.0", "--reload"]
+    develop:
+      watch:
+        - { action: rebuild, path: apps/api }
+        - { action: rebuild, path: libs }
+        - { action: rebuild, path: services }
+  api-test:
+    <<: *api
+    profiles: [test]
+    depends_on:
+      migrate-test: { condition: service_completed_successfully }
+      cache: { condition: service_healthy }
+    environment:
+      <<: *api-env
+      APP_ENV: test
+  api-prod:
+    <<: *api
+    profiles: [prod]
+    environment:
+      <<: *api-env
+      APP_ENV: prod
+  web: &web
+    profiles: [test, prod]
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    environment:
+      API_ORIGIN: http://api:8000
+    ports: ["127.0.0.1:${KLOWB_WEB_PORT:-3000}:3000"]
+  web-dev:
+    <<: *web
+    profiles: [dev]
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      target: development
+    develop:
+      watch:
+        - { action: sync, path: apps/web/src, target: /app/apps/web/src }
+        - { action: rebuild, path: apps/web/package.json }
+        - { action: rebuild, path: pnpm-lock.yaml }
+volumes:
+  klowb-db-data:

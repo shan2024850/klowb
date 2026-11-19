@@ -1,0 +1,4262 @@
+{
+  "schema_version": 1,
+  "updated": "2026-11-19",
+  "description": "Every acceptance test for the klowb platform. Maintained by hand after initial generation. Rules: never delete an entry; never weaken a description to make it pass; 'passing' requires a last_execution record; 'skipped' is not a valid status.",
+  "status_values": [
+    "planned",
+    "implemented",
+    "passing",
+    "failing",
+    "blocked"
+  ],
+  "type_values": [
+    "doc",
+    "static",
+    "unit",
+    "property",
+    "contract",
+    "integration",
+    "replay",
+    "e2e",
+    "failure-injection",
+    "security",
+    "smoke",
+    "live-optin"
+  ],
+  "last_execution_shape": {
+    "at": "RFC3339 UTC timestamp",
+    "command": "exact command",
+    "result": "pass | fail",
+    "commit": "git short sha the run was made on, or null if uncommitted"
+  },
+  "tests": [
+    {
+      "id": "P0-DOC-001",
+      "phase": 0,
+      "type": "doc",
+      "description": "All required brain documents exist and are non-empty (CLAUDE.md, README.md, progress.md, tests.json, docs/architecture.md, docs/data-providers.md, docs/risk-model.md, docs/execution-model.md, docs/security.md, docs/runbook.md, docs/decisions/, docs/BRAIN.md, docs/brief/original-brief.md, docs/plan/phases.md, docs/open-questions.md, docs/architecture/dependency-decisions.md).",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T00:52:33Z",
+        "command": "python3 scripts/validate_brain.py",
+        "result": "pass",
+        "commit": "d93a754+dirty"
+      },
+      "relevant_files": [
+        "scripts/validate_brain.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P0-DOC-002",
+      "phase": 0,
+      "type": "static",
+      "description": "tests.json is structurally valid: unique ids, allowed type/status values, required fields present, tests marked passing/failing have a last_execution record and their relevant files exist.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T00:52:33Z",
+        "command": "python3 scripts/validate_brain.py",
+        "result": "pass",
+        "commit": "d93a754+dirty"
+      },
+      "relevant_files": [
+        "scripts/validate_brain.py",
+        "tests.json"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P0-DOC-003",
+      "phase": 0,
+      "type": "doc",
+      "description": "docs/architecture/dependency-decisions.md records every repository URL the brief asks to investigate (18 repositories).",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T00:52:33Z",
+        "command": "python3 scripts/validate_brain.py",
+        "result": "pass",
+        "commit": "d93a754+dirty"
+      },
+      "relevant_files": [
+        "scripts/validate_brain.py",
+        "docs/architecture/dependency-decisions.md"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P0-DOC-004",
+      "phase": 0,
+      "type": "doc",
+      "description": "docs/data-providers.md covers every provider the brief names (Alpaca, Twelve Data, Massive, Tiingo, Finnhub, Interactive Brokers, Alpha Vantage, SEC EDGAR, yfinance, Stooq, FRED, ECB, CFTC, Binance, Coinbase, Kraken, CCXT).",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T00:52:33Z",
+        "command": "python3 scripts/validate_brain.py",
+        "result": "pass",
+        "commit": "d93a754+dirty"
+      },
+      "relevant_files": [
+        "scripts/validate_brain.py",
+        "docs/data-providers.md"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P0-DOC-005",
+      "phase": 0,
+      "type": "doc",
+      "description": "progress.md contains the five sections the brief requires: current phase, finished work, unresolved problems, next action, commands used for verification.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T00:52:33Z",
+        "command": "python3 scripts/validate_brain.py",
+        "result": "pass",
+        "commit": "d93a754+dirty"
+      },
+      "relevant_files": [
+        "scripts/validate_brain.py",
+        "progress.md"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P0-DOC-006",
+      "phase": 0,
+      "type": "doc",
+      "description": "Every ADR referenced in docs/BRAIN.md section 5 exists in docs/decisions/.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T00:52:33Z",
+        "command": "python3 scripts/validate_brain.py",
+        "result": "pass",
+        "commit": "d93a754+dirty"
+      },
+      "relevant_files": [
+        "scripts/validate_brain.py",
+        "docs/BRAIN.md",
+        "docs/decisions"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P0-DOC-007",
+      "phase": 0,
+      "type": "doc",
+      "description": "Every failure-injection case and every financial edge case listed in the brief is covered by at least one acceptance test in tests.json (traceability via the 'covers' field).",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T00:52:33Z",
+        "command": "python3 scripts/validate_brain.py",
+        "result": "pass",
+        "commit": "d93a754+dirty"
+      },
+      "relevant_files": [
+        "scripts/validate_brain.py",
+        "tests.json"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P0-SEC-001",
+      "phase": 0,
+      "type": "security",
+      "description": "No .env or key-like file is tracked by git and .gitignore ignores .env files.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T00:52:33Z",
+        "command": "python3 scripts/validate_brain.py",
+        "result": "pass",
+        "commit": "d93a754+dirty"
+      },
+      "relevant_files": [
+        "scripts/validate_brain.py",
+        ".gitignore"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P1-UNIT-001",
+      "phase": 1,
+      "type": "unit",
+      "description": "Canonical Observation schemas carry every provenance field from the brief; FeedQuality enum contains exactly the seven required values; DataType discriminates TRADE/QUOTE/BAR/TICKER.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run pytest tests/unit/schemas tests/property",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
+      "relevant_files": [
+        "libs/schemas/market.py",
+        "libs/domain/enums.py",
+        "tests/unit/schemas/test_observation.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P1-UNIT-002",
+      "phase": 1,
+      "type": "unit",
+      "description": "Timestamps: naive datetimes are rejected; timezone-aware non-UTC values are normalised to UTC; serialisation is RFC 3339 UTC.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run pytest tests/unit/schemas tests/property",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
+      "relevant_files": [
+        "libs/schemas/market.py",
+        "tests/unit/schemas/test_timestamps.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P1-UNIT-003",
+      "phase": 1,
+      "type": "unit",
+      "description": "Price/size validation: zero, negative, NaN and infinite prices are rejected; negative sizes rejected; Decimal precision is preserved for crypto (>= 8 dp) and forex pip/pipette precision.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run pytest tests/unit/schemas tests/property",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
+      "relevant_files": [
+        "libs/schemas/market.py",
+        "tests/unit/schemas/test_numeric.py"
+      ],
+      "covers": [
+        "negative/zero erroneous price",
+        "crypto decimal precision",
+        "forex pip precision"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P1-UNIT-004",
+      "phase": 1,
+      "type": "unit",
+      "description": "A crossed quote (bid > ask) is representable and exposes is_crossed; a locked quote exposes is_locked; spread and mid are computed in Decimal.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run pytest tests/unit/schemas tests/property",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
+      "relevant_files": [
+        "libs/schemas/market.py",
+        "tests/unit/schemas/test_quote.py"
+      ],
+      "covers": [
+        "crossed bid/ask"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P1-UNIT-005",
+      "phase": 1,
+      "type": "unit",
+      "description": "Bar validation: low <= min(open, close), high >= max(open, close), low <= high, volume >= 0; a zero-volume bar is valid and flagged; is_final defaults to false.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run pytest tests/unit/schemas tests/property",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
+      "relevant_files": [
+        "libs/schemas/market.py",
+        "tests/unit/schemas/test_bar.py"
+      ],
+      "covers": [
+        "zero-volume bar"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P1-UNIT-006",
+      "phase": 1,
+      "type": "unit",
+      "description": "Instrument model: canonical symbol rules per asset class (equity ticker, BASE/QUOTE for crypto and FX), instrument_id format, derivative-ready optional fields default to None, increments must be positive.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run pytest tests/unit/schemas tests/property",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
+      "relevant_files": [
+        "libs/schemas/instrument.py",
+        "tests/unit/schemas/test_instrument.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P1-UNIT-007",
+      "phase": 1,
+      "type": "unit",
+      "description": "Settings: TRADING_MODE defaults to research; live mode with any missing gate fails to load with an explicit error; paper never implies live; unknown modes are rejected.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
+      "relevant_files": [
+        "apps/api/settings.py",
+        "tests/unit/test_settings.py"
+      ],
+      "covers": [],
+      "notes": "Verified in the Codex Phase 1 backend run."
+    },
+    {
+      "id": "P1-UNIT-008",
+      "phase": 1,
+      "type": "security",
+      "description": "Secrets are SecretStr and never appear in repr(settings), the system info endpoint or log output.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
+      "relevant_files": [
+        "apps/api/settings.py",
+        "libs/observability/logging.py",
+        "tests/unit/test_secrets_redaction.py"
+      ],
+      "covers": [],
+      "notes": "Verified in the Codex Phase 1 backend run."
+    },
+    {
+      "id": "P1-UNIT-009",
+      "phase": 1,
+      "type": "unit",
+      "description": "delay_seconds > 0 if and only if feed_quality is DELAYED; SIMULATED/UNOFFICIAL/EOD observations cannot be marked redistribution_allowed by default.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run pytest tests/unit/schemas tests/property",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
+      "relevant_files": [
+        "libs/schemas/market.py",
+        "tests/unit/schemas/test_feed_quality.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P1-PROP-001",
+      "phase": 1,
+      "type": "property",
+      "description": "Property: any valid Observation survives a JSON round trip losslessly (Decimals as strings, timestamps UTC).",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run pytest tests/unit/schemas tests/property",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
+      "relevant_files": [
+        "tests/property/test_observation_roundtrip.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P1-PROP-002",
+      "phase": 1,
+      "type": "property",
+      "description": "Property: raw_payload_hash is deterministic and independent of JSON key order and whitespace.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run pytest tests/unit/schemas tests/property",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
+      "relevant_files": [
+        "libs/schemas/hashing.py",
+        "tests/property/test_payload_hash.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P1-INT-001",
+      "phase": 1,
+      "type": "integration",
+      "description": "GET /healthz returns 200 without touching PostgreSQL or Redis.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
+      "relevant_files": [
+        "apps/api/routers/health.py",
+        "tests/integration/test_health.py"
+      ],
+      "covers": [],
+      "notes": "Verified in the Codex Phase 1 backend run."
+    },
+    {
+      "id": "P1-INT-002",
+      "phase": 1,
+      "type": "integration",
+      "description": "GET /readyz returns 200 with per-dependency status when PostgreSQL and Redis are reachable.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
+      "relevant_files": [
+        "apps/api/routers/health.py",
+        "tests/integration/test_health.py"
+      ],
+      "covers": [],
+      "notes": "Verified in the Codex Phase 1 backend run."
+    },
+    {
+      "id": "P1-FAIL-001",
+      "phase": 1,
+      "type": "failure-injection",
+      "description": "PostgreSQL unavailable: /readyz returns 503 with db=down, /healthz stays 200, the process does not crash, and the failure is logged with a correlation id.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
+      "relevant_files": [
+        "tests/integration/test_health_failures.py"
+      ],
+      "covers": [
+        "DB unavailable"
+      ],
+      "notes": "Verified in the Codex Phase 1 backend run."
+    },
+    {
+      "id": "P1-FAIL-002",
+      "phase": 1,
+      "type": "failure-injection",
+      "description": "Redis unavailable: /readyz reports redis=down (degraded), /healthz stays 200, API requests that do not need Redis still succeed.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
+      "relevant_files": [
+        "tests/integration/test_health_failures.py"
+      ],
+      "covers": [
+        "Redis unavailable"
+      ],
+      "notes": "Verified in the Codex Phase 1 backend run."
+    },
+    {
+      "id": "P1-INT-003",
+      "phase": 1,
+      "type": "integration",
+      "description": "Alembic migrations apply on an empty database, downgrade to base, and apply again (round trip) without error.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
+      "relevant_files": [
+        "migrations",
+        "tests/integration/test_migrations.py"
+      ],
+      "covers": [],
+      "notes": "Verified in the Codex Phase 1 backend run."
+    },
+    {
+      "id": "P1-INT-004",
+      "phase": 1,
+      "type": "integration",
+      "description": "Structured JSON logs include a correlation id; an incoming X-Request-ID is honoured and echoed, otherwise one is generated.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
+      "relevant_files": [
+        "libs/observability",
+        "tests/integration/test_correlation.py"
+      ],
+      "covers": [],
+      "notes": "Verified in the Codex Phase 1 backend run."
+    },
+    {
+      "id": "P1-INT-005",
+      "phase": 1,
+      "type": "integration",
+      "description": "GET /metrics exposes Prometheus metrics including HTTP request counters/latency and dependency health gauges.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
+      "relevant_files": [
+        "libs/observability/metrics.py",
+        "tests/integration/test_metrics.py"
+      ],
+      "covers": [],
+      "notes": "Verified in the Codex Phase 1 backend run."
+    },
+    {
+      "id": "P1-INT-006",
+      "phase": 1,
+      "type": "integration",
+      "description": "GET /api/v1/system/info returns version, trading mode and the feed-quality legend and contains no secret.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
+      "relevant_files": [
+        "apps/api/routers/system.py",
+        "tests/integration/test_system_info.py"
+      ],
+      "covers": [],
+      "notes": "Verified in the Codex Phase 1 backend run."
+    },
+    {
+      "id": "P1-INT-007",
+      "phase": 1,
+      "type": "integration",
+      "description": "Errors use the standard envelope {error:{code,message,correlation_id}}; validation errors return 422 with field details; unknown routes return 404 in the same envelope.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
+      "relevant_files": [
+        "apps/api/errors.py",
+        "tests/integration/test_errors.py"
+      ],
+      "covers": [],
+      "notes": "Verified in the Codex Phase 1 backend run."
+    },
+    {
+      "id": "P1-CONTRACT-001",
+      "phase": 1,
+      "type": "contract",
+      "description": "The OpenAPI document matches the committed snapshot, and the generated TypeScript types compile.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T21:40:45Z",
+        "command": "uv run python -m scripts.export_openapi && pnpm --filter @klowb/types generate && git diff --exit-code -- packages/types/generated data/schemas/openapi.json && pnpm -r typecheck && uv run pytest -q tests/contract/test_openapi_snapshot.py",
+        "result": "pass",
+        "commit": "e135a5f+dirty"
+      },
+      "relevant_files": [
+        "data/schemas/openapi.json",
+        "packages/types",
+        "tests/contract/test_openapi_snapshot.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P1-CONTRACT-002",
+      "phase": 1,
+      "type": "contract",
+      "description": "JSON Schemas exported from canonical models match the committed files in data/schemas.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
+      "relevant_files": [
+        "data/schemas",
+        "tests/contract/test_json_schema_export.py"
+      ],
+      "covers": [],
+      "notes": "Verified in the Codex Phase 1 backend run."
+    },
+    {
+      "id": "P1-STATIC-001",
+      "phase": 1,
+      "type": "static",
+      "description": "ruff check and ruff format --check pass on the whole repository.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run ruff check . && uv run ruff format --check .",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
+      "relevant_files": [
+        "pyproject.toml"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P1-STATIC-002",
+      "phase": 1,
+      "type": "static",
+      "description": "mypy strict passes on apps, services, libs and tests.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run mypy",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
+      "relevant_files": [
+        "pyproject.toml"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P1-STATIC-003",
+      "phase": 1,
+      "type": "static",
+      "description": "import-linter contracts for the module layering in docs/architecture.md section 3 pass.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:31:46Z",
+        "command": "uv run lint-imports",
+        "result": "pass",
+        "commit": "980be4b+dirty"
+      },
+      "relevant_files": [
+        "pyproject.toml"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P1-STATIC-004",
+      "phase": 1,
+      "type": "static",
+      "description": "datetime.now()/utcnow() and naive datetime construction are banned outside the SystemClock implementation (lint rule or test).",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
+      "relevant_files": [
+        "tests/unit/domain/test_no_naive_time.py",
+        "pyproject.toml",
+        "libs/domain/clock.py"
+      ],
+      "covers": [],
+      "notes": "Verified in the Codex Phase 1 backend run."
+    },
+    {
+      "id": "P1-WEB-001",
+      "phase": 1,
+      "type": "static",
+      "description": "Web type check passes with strict TypeScript.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T21:40:45Z",
+        "command": "pnpm -r typecheck",
+        "result": "pass",
+        "commit": "e135a5f+dirty"
+      },
+      "relevant_files": [
+        "apps/web/tsconfig.json"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P1-WEB-002",
+      "phase": 1,
+      "type": "static",
+      "description": "Web lint passes (ESLint with Next and jsx-a11y rules).",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T21:40:45Z",
+        "command": "pnpm -r lint",
+        "result": "pass",
+        "commit": "e135a5f+dirty"
+      },
+      "relevant_files": [
+        "apps/web/eslint.config.mjs"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P1-WEB-003",
+      "phase": 1,
+      "type": "unit",
+      "description": "App shell renders header/nav/main landmarks, a skip link, and the trading-mode banner showing RESEARCH by default.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T21:40:45Z",
+        "command": "pnpm -r test",
+        "result": "pass",
+        "commit": "e135a5f+dirty"
+      },
+      "relevant_files": [
+        "apps/web/src/components/shell",
+        "apps/web/src/components/shell/app-shell.test.tsx"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P1-WEB-004",
+      "phase": 1,
+      "type": "unit",
+      "description": "FeedQualityBadge renders a distinct text label for each of the seven feed-quality values and never labels a non-consolidated feed as real-time consolidated.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T21:40:45Z",
+        "command": "pnpm -r test",
+        "result": "pass",
+        "commit": "e135a5f+dirty"
+      },
+      "relevant_files": [
+        "apps/web/src/components/feed-quality-badge.tsx",
+        "apps/web/src/components/feed-quality-badge.test.tsx"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P1-WEB-005",
+      "phase": 1,
+      "type": "unit",
+      "description": "System status panel renders loading, ok, degraded and error states from API health data.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T21:40:45Z",
+        "command": "pnpm -r test",
+        "result": "pass",
+        "commit": "e135a5f+dirty"
+      },
+      "relevant_files": [
+        "apps/web/src/components/system-status.tsx",
+        "apps/web/src/components/system-status.test.tsx"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P1-E2E-001",
+      "phase": 1,
+      "type": "e2e",
+      "description": "Shell loads against the running API and shows API/DB/Redis health; skip link and keyboard navigation reach the main content.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T22:33:05Z",
+        "command": "KLOWB_WEB_URL=http://127.0.0.1:3000 pnpm --filter @klowb/web e2e --trace off --reporter=list",
+        "result": "pass",
+        "commit": "5ed43e2+dirty"
+      },
+      "relevant_files": [
+        "apps/web/e2e/shell.spec.ts"
+      ],
+      "covers": [],
+      "notes": "Passed 2026-11-17 with the project-pinned @playwright/test 1.63.0 and its matching Chromium build 1243 (153.0.8010.12, preinstalled at /opt/pw-browsers in the original Claude cloud environment); KLOWB_DIAGNOSTIC_CHROMIUM unset. Stack: API via uvicorn + built standalone web server against local PostgreSQL 16 + Redis 7. Earlier diagnostic passes with system Chromium (Codex env) are in docs/research/verification-log.md."
+    },
+    {
+      "id": "P1-E2E-002",
+      "phase": 1,
+      "type": "e2e",
+      "description": "With the API unreachable the UI shows an explicit error state (not a blank page or an endless spinner).",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T22:33:05Z",
+        "command": "KLOWB_WEB_URL=http://127.0.0.1:3000 pnpm --filter @klowb/web e2e --trace off --reporter=list",
+        "result": "pass",
+        "commit": "5ed43e2+dirty"
+      },
+      "relevant_files": [
+        "apps/web/e2e/shell-degraded.spec.ts"
+      ],
+      "covers": [],
+      "notes": "Passed 2026-11-17 with the project-pinned @playwright/test 1.63.0 and its matching Chromium build 1243 (153.0.8010.12, preinstalled at /opt/pw-browsers in the original Claude cloud environment); KLOWB_DIAGNOSTIC_CHROMIUM unset. Stack: API via uvicorn + built standalone web server against local PostgreSQL 16 + Redis 7. Earlier diagnostic passes with system Chromium (Codex env) are in docs/research/verification-log.md."
+    },
+    {
+      "id": "P1-E2E-003",
+      "phase": 1,
+      "type": "e2e",
+      "description": "Automated axe scan of the shell reports no serious or critical accessibility violations.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T22:33:05Z",
+        "command": "KLOWB_WEB_URL=http://127.0.0.1:3000 pnpm --filter @klowb/web e2e --trace off --reporter=list",
+        "result": "pass",
+        "commit": "5ed43e2+dirty"
+      },
+      "relevant_files": [
+        "apps/web/e2e/a11y.spec.ts"
+      ],
+      "covers": [],
+      "notes": "Passed 2026-11-17 with the project-pinned @playwright/test 1.63.0 and its matching Chromium build 1243 (153.0.8010.12, preinstalled at /opt/pw-browsers in the original Claude cloud environment); KLOWB_DIAGNOSTIC_CHROMIUM unset. Stack: API via uvicorn + built standalone web server against local PostgreSQL 16 + Redis 7. Earlier diagnostic passes with system Chromium (Codex env) are in docs/research/verification-log.md."
+    },
+    {
+      "id": "P1-SMOKE-001",
+      "phase": 1,
+      "type": "smoke",
+      "description": "docker compose config is valid, images build, and the stack starts with /healthz and /readyz returning 200 and the web shell responding.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T21:42:26Z",
+        "command": "KLOWB_API_PORT=18000 KLOWB_WEB_PORT=13000 scripts/smoke.sh",
+        "result": "pass",
+        "commit": "e135a5f+dirty"
+      },
+      "relevant_files": [
+        "docker-compose.yml",
+        "scripts/smoke.sh"
+      ],
+      "covers": [],
+      "notes": "Test-profile images built with the CA overlay. dev, test and prod Compose configurations validated. The smoke script verifies liveness, both readiness probes, the web shell and research mode."
+    },
+    {
+      "id": "P1-SEC-001",
+      "phase": 1,
+      "type": "security",
+      "description": "Dependency scan (pip-audit, pnpm audit) reports no known high/critical vulnerability, or each finding has a dated documented exception.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T21:40:48Z",
+        "command": "pnpm audit --prod && uv run pip-audit --cache-dir /tmp/klowb-audit",
+        "result": "pass",
+        "commit": "e135a5f+dirty"
+      },
+      "relevant_files": [
+        "pyproject.toml",
+        "package.json"
+      ],
+      "covers": [],
+      "notes": "Production JS and Python scans clean. Full pnpm audit --json reports GHSA-fc5q-39xc-vjpf in two dev-only versions of picomatch. Dated exception, limits, and review trigger in docs/security.md."
+    },
+    {
+      "id": "P1-SEC-002",
+      "phase": 1,
+      "type": "security",
+      "description": "API responses carry the baseline security headers; CORS is disabled unless an explicit allowlist is configured and never returns * with credentials.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
+      "relevant_files": [
+        "apps/api/middleware.py",
+        "tests/integration/test_security_headers.py"
+      ],
+      "covers": [],
+      "notes": "Verified in the Codex Phase 1 backend run."
+    },
+    {
+      "id": "P1-SEC-003",
+      "phase": 1,
+      "type": "security",
+      "description": ".env.example exists, contains no real secret, and every setting the code reads is documented in it.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T20:48:50Z",
+        "command": "uv run pytest",
+        "result": "pass",
+        "commit": "11fc401+dirty"
+      },
+      "relevant_files": [
+        ".env.example",
+        "tests/unit/test_env_example.py"
+      ],
+      "covers": [],
+      "notes": "Verified in the Codex Phase 1 backend run."
+    },
+    {
+      "id": "P2-UNIT-001",
+      "phase": 2,
+      "type": "contract",
+      "description": "Provider conformance suite: any MarketDataProvider implementation must set provenance fields, use the injected clock, classify errors, expose health and stop cleanly; the mock provider passes it.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-19T03:14:49Z",
+        "command": "uv run pytest -q tests/contract/test_provider_conformance.py",
+        "result": "pass",
+        "commit": "aec0011+dirty"
+      },
+      "relevant_files": [
+        "libs/providers/base.py",
+        "libs/schemas/providers.py",
+        "tests/contract/provider_conformance.py",
+        "tests/contract/test_provider_conformance.py",
+        "tests/stream_driver.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-002",
+      "phase": 2,
+      "type": "unit",
+      "description": "Mock provider is deterministic: the same seed and virtual clock produce byte-identical event sequences.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-19T03:14:49Z",
+        "command": "uv run pytest -q tests/unit/providers/test_mock_provider.py",
+        "result": "pass",
+        "commit": "aec0011+dirty"
+      },
+      "relevant_files": [
+        "libs/providers/mock/provider.py",
+        "tests/unit/providers/test_mock_provider.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-003",
+      "phase": 2,
+      "type": "unit",
+      "description": "Mock and replay data are always labelled feed_quality=SIMULATED and can never be emitted with another label.",
+      "status": "implemented",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers/mock/provider.py",
+        "tests/unit/providers/test_mock_provider.py"
+      ],
+      "covers": [],
+      "notes": "Mock-provider half passes (uv run pytest -q tests/unit/providers/test_mock_provider.py, 2026-11-19): every observation SIMULATED, label not configurable, payload cannot upgrade it. Replay half pending: add the replay-engine assertion when services/market_data/replay.py exists (group 5), then mark passing."
+    },
+    {
+      "id": "P2-UNIT-004",
+      "phase": 2,
+      "type": "unit",
+      "description": "Bar aggregation from trades: correct OHLCV, VWAP and trade count per interval for 1m and higher timeframes.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/bars.py",
+        "tests/unit/market_data/test_bar_aggregator.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-005",
+      "phase": 2,
+      "type": "unit",
+      "description": "Bar finality: a bar is emitted as final only after the clock passes the interval end; in-progress bars are flagged is_final=false (no lookahead).",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/bars.py",
+        "tests/unit/market_data/test_bar_finality.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-006",
+      "phase": 2,
+      "type": "unit",
+      "description": "No bars are created across closed periods; a missing candle stays missing unless forward-fill is explicitly configured.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/bars.py",
+        "tests/unit/market_data/test_bar_gaps.py"
+      ],
+      "covers": [
+        "missing candle"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-007",
+      "phase": 2,
+      "type": "unit",
+      "description": "Data quality: stale timestamps (event far behind receipt during an open session) are flagged and surfaced.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/quality.py",
+        "tests/unit/market_data/test_quality_stale.py"
+      ],
+      "covers": [
+        "stale event"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-008",
+      "phase": 2,
+      "type": "unit",
+      "description": "Data quality: duplicate events are detected by event identity and dropped idempotently.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/quality.py",
+        "tests/unit/market_data/test_quality_duplicates.py"
+      ],
+      "covers": [
+        "duplicate event"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-009",
+      "phase": 2,
+      "type": "unit",
+      "description": "Data quality: backwards-time / reordered events are detected; late events within tolerance are re-ordered, beyond tolerance quarantined.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/quality.py",
+        "tests/unit/market_data/test_quality_ordering.py"
+      ],
+      "covers": [
+        "reordered event"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-010",
+      "phase": 2,
+      "type": "unit",
+      "description": "Data quality: missing sequence numbers are detected, counted and trigger a repair request.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/quality.py",
+        "tests/unit/market_data/test_quality_sequence.py"
+      ],
+      "covers": [
+        "sequence gap"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-011",
+      "phase": 2,
+      "type": "unit",
+      "description": "Data quality: non-positive and non-finite prices are quarantined with reason and never reach consumers.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/quality.py",
+        "tests/unit/market_data/test_quality_prices.py"
+      ],
+      "covers": [
+        "negative/zero erroneous price"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-012",
+      "phase": 2,
+      "type": "unit",
+      "description": "Data quality: crossed markets are flagged; persistent crossing on a single-venue feed is quarantined.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/quality.py",
+        "tests/unit/market_data/test_quality_crossed.py"
+      ],
+      "covers": [
+        "crossed bid/ask"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-013",
+      "phase": 2,
+      "type": "unit",
+      "description": "Data quality: extreme outliers (robust jump filter) are quarantined, while a genuine large gap confirmed by subsequent prints is accepted and flagged.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/quality.py",
+        "tests/unit/market_data/test_quality_outliers.py"
+      ],
+      "covers": [
+        "huge gap"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-014",
+      "phase": 2,
+      "type": "unit",
+      "description": "Data quality: zero or invalid volume is flagged according to data type.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/quality.py",
+        "tests/unit/market_data/test_quality_volume.py"
+      ],
+      "covers": [
+        "zero-volume bar"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-015",
+      "phase": 2,
+      "type": "unit",
+      "description": "Data quality: malformed symbols are rejected at normalisation and quarantined.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/normalizer.py",
+        "tests/unit/market_data/test_quality_symbols.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-016",
+      "phase": 2,
+      "type": "unit",
+      "description": "Data quality: sustained provider latency degradation moves provider health to DEGRADED and raises a stale-feed alert metric.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/health.py",
+        "tests/unit/market_data/test_provider_health.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-017",
+      "phase": 2,
+      "type": "unit",
+      "description": "Token-bucket rate limiter enforces the configured rate and burst using the injected clock.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T22:41:14Z",
+        "command": "uv run pytest -q tests/unit/providers/test_resilience.py",
+        "result": "pass",
+        "commit": "b469bdc+dirty"
+      },
+      "relevant_files": [
+        "libs/providers/resilience.py",
+        "tests/unit/providers/test_resilience.py"
+      ],
+      "covers": [
+        "rate-limit exhaustion"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-018",
+      "phase": 2,
+      "type": "unit",
+      "description": "Retry policy: exponential backoff with full jitter, capped delay, bounded attempts, honours Retry-After; non-retryable error kinds are never retried.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T22:41:14Z",
+        "command": "uv run pytest -q tests/unit/providers/test_resilience.py",
+        "result": "pass",
+        "commit": "b469bdc+dirty"
+      },
+      "relevant_files": [
+        "libs/providers/resilience.py",
+        "tests/unit/providers/test_resilience.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-019",
+      "phase": 2,
+      "type": "unit",
+      "description": "Circuit breaker: closed -> open after threshold failures -> half-open probe after cool-down -> closed on success / open on failure.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T22:41:14Z",
+        "command": "uv run pytest -q tests/unit/providers/test_resilience.py",
+        "result": "pass",
+        "commit": "b469bdc+dirty"
+      },
+      "relevant_files": [
+        "libs/providers/resilience.py",
+        "tests/unit/providers/test_resilience.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-020",
+      "phase": 2,
+      "type": "unit",
+      "description": "Error classification maps HTTP status codes, timeouts, connection errors and malformed payloads to the closed ProviderError kinds with the correct retryable flag.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T22:41:14Z",
+        "command": "uv run pytest -q tests/unit/providers/test_resilience.py",
+        "result": "pass",
+        "commit": "b469bdc+dirty"
+      },
+      "relevant_files": [
+        "libs/providers/errors.py",
+        "tests/unit/providers/test_resilience.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-021",
+      "phase": 2,
+      "type": "unit",
+      "description": "Equity calendar: regular session open/close for XNYS in UTC; market holiday is closed.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-19T03:10:24Z",
+        "command": "uv run pytest -q tests/unit/calendars",
+        "result": "pass",
+        "commit": "eadc719+dirty"
+      },
+      "relevant_files": [
+        "libs/calendars/equity.py",
+        "libs/calendars/registry.py",
+        "tests/unit/calendars/test_equity_calendar.py"
+      ],
+      "covers": [
+        "market holiday"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-022",
+      "phase": 2,
+      "type": "unit",
+      "description": "Equity calendar: early-close days end at the early close; premarket and postmarket windows are modelled and distinguishable from the regular session.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-19T03:10:24Z",
+        "command": "uv run pytest -q tests/unit/calendars",
+        "result": "pass",
+        "commit": "eadc719+dirty"
+      },
+      "relevant_files": [
+        "libs/calendars/equity.py",
+        "tests/unit/calendars/test_equity_sessions.py"
+      ],
+      "covers": [
+        "early close"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-023",
+      "phase": 2,
+      "type": "unit",
+      "description": "Equity calendar across DST transitions: session times stay correct in exchange-local time and shift correctly in UTC.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-19T03:10:24Z",
+        "command": "uv run pytest -q tests/unit/calendars",
+        "result": "pass",
+        "commit": "eadc719+dirty"
+      },
+      "relevant_files": [
+        "libs/calendars/equity.py",
+        "tests/unit/calendars/test_dst.py"
+      ],
+      "covers": [
+        "DST transition"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-024",
+      "phase": 2,
+      "type": "unit",
+      "description": "Crypto calendar is open 24/7 including weekends and holidays.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-19T03:10:24Z",
+        "command": "uv run pytest -q tests/unit/calendars",
+        "result": "pass",
+        "commit": "eadc719+dirty"
+      },
+      "relevant_files": [
+        "libs/calendars/continuous.py",
+        "tests/unit/calendars/test_crypto_calendar.py"
+      ],
+      "covers": [
+        "weekend crypto"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-025",
+      "phase": 2,
+      "type": "unit",
+      "description": "FX calendar: open from the Sunday open to the Friday close with named session windows (Sydney/Tokyo/London/New York) and correct DST handling.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-19T03:10:24Z",
+        "command": "uv run pytest -q tests/unit/calendars",
+        "result": "pass",
+        "commit": "eadc719+dirty"
+      },
+      "relevant_files": [
+        "libs/calendars/continuous.py",
+        "tests/unit/calendars/test_fx_calendar.py"
+      ],
+      "covers": [
+        "DST transition"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-UNIT-026",
+      "phase": 2,
+      "type": "unit",
+      "description": "VirtualClock and SystemClock satisfy the Clock protocol; VirtualClock advances only when told and drives timers deterministically.",
+      "status": "passing",
+      "last_execution": {
+        "at": "2026-11-17T22:41:14Z",
+        "command": "uv run pytest -q tests/unit/providers/test_resilience.py",
+        "result": "pass",
+        "commit": "b469bdc+dirty"
+      },
+      "relevant_files": [
+        "libs/providers/clock.py",
+        "tests/unit/providers/test_resilience.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-PROP-001",
+      "phase": 2,
+      "type": "property",
+      "description": "Property: for arbitrary valid trade sequences aggregated bars satisfy low <= open,close <= high and volume equals the sum of trade sizes.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/property/test_bar_invariants.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-PROP-002",
+      "phase": 2,
+      "type": "property",
+      "description": "Property: the quality service is idempotent - feeding the same event stream twice yields the same accepted set and no duplicates.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/property/test_quality_idempotent.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-REPLAY-001",
+      "phase": 2,
+      "type": "replay",
+      "description": "Replaying a recorded event file through the full pipeline yields an identical final-state hash on every run.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/replay.py",
+        "data/fixtures/replay",
+        "tests/replay/test_replay_determinism.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-REPLAY-002",
+      "phase": 2,
+      "type": "replay",
+      "description": "Replay runs on a virtual clock at any speed with no dependence on wall-clock time; results equal the real-time-paced run.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/replay.py",
+        "tests/replay/test_replay_clock.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-INT-001",
+      "phase": 2,
+      "type": "integration",
+      "description": "Quarantined events are persisted with reason, provider, instrument and payload hash and are returned by GET /api/v1/quality/quarantine.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/quarantine.py",
+        "apps/api/routers/quality.py",
+        "tests/integration/test_quarantine_api.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-INT-002",
+      "phase": 2,
+      "type": "integration",
+      "description": "WS /api/v1/stream delivers canonical events with feed-quality metadata to a subscribed client; unsubscribed instruments are not delivered.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/api/routers/stream.py",
+        "tests/integration/test_stream_ws.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-INT-003",
+      "phase": 2,
+      "type": "integration",
+      "description": "GET /api/v1/bars returns bars for an instrument/timeframe/range with pagination and input validation.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/api/routers/bars.py",
+        "tests/integration/test_bars_api.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-INT-004",
+      "phase": 2,
+      "type": "integration",
+      "description": "GET /api/v1/providers/health returns state, last message age, error counts and circuit state per provider.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/api/routers/providers.py",
+        "tests/integration/test_provider_health_api.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-INT-005",
+      "phase": 2,
+      "type": "integration",
+      "description": "GET /api/v1/market/status returns the session state per calendar from the injected clock.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/api/routers/market.py",
+        "tests/integration/test_market_status_api.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-INT-006",
+      "phase": 2,
+      "type": "integration",
+      "description": "The ingestion supervisor restarts a crashed stream task with bounded backoff and shuts down cleanly on application stop.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/supervisor.py",
+        "tests/integration/test_supervisor.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-INT-007",
+      "phase": 2,
+      "type": "integration",
+      "description": "WebSocket endpoint rejects disallowed Origins, enforces per-connection subscription limits and disconnects slow consumers.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/api/routers/stream.py",
+        "tests/integration/test_stream_ws_limits.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P2-FAIL-001",
+      "phase": 2,
+      "type": "failure-injection",
+      "description": "Injected HTTP 429: the client backs off honouring Retry-After, stays within the attempt budget, and reports rate_limited in health.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/integration/test_failure_injection.py"
+      ],
+      "covers": [
+        "API 429",
+        "rate-limit exhaustion"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-FAIL-002",
+      "phase": 2,
+      "type": "failure-injection",
+      "description": "Injected HTTP 500s: retried with jitter up to the bound, then the circuit opens and calls fail fast.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/integration/test_failure_injection.py"
+      ],
+      "covers": [
+        "API 500"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-FAIL-003",
+      "phase": 2,
+      "type": "failure-injection",
+      "description": "Injected timeout: classified as retryable timeout, bounded retries, no hang.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/integration/test_failure_injection.py"
+      ],
+      "covers": [
+        "timeout"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-FAIL-004",
+      "phase": 2,
+      "type": "failure-injection",
+      "description": "Injected malformed JSON in the stream: the message is quarantined and the stream continues.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/integration/test_failure_injection.py"
+      ],
+      "covers": [
+        "malformed JSON"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-FAIL-005",
+      "phase": 2,
+      "type": "failure-injection",
+      "description": "Injected WebSocket disconnect: reconnect with bounded jittered backoff, resubscribe, reconnect counter increments, no duplicate bars after resume.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/integration/test_failure_injection.py"
+      ],
+      "covers": [
+        "disconnected websocket"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-FAIL-006",
+      "phase": 2,
+      "type": "failure-injection",
+      "description": "Injected stale, duplicate and reordered events in one stream are each handled per the quality rules and counted in metrics.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/integration/test_failure_injection.py"
+      ],
+      "covers": [
+        "stale event",
+        "duplicate event",
+        "reordered event"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-FAIL-007",
+      "phase": 2,
+      "type": "failure-injection",
+      "description": "Redis unavailable at runtime: the event bus falls back to in-process delivery and the stream keeps working; health reports degraded.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers/bus.py",
+        "tests/integration/test_bus_fallback.py"
+      ],
+      "covers": [
+        "Redis unavailable"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P2-FAIL-008",
+      "phase": 2,
+      "type": "failure-injection",
+      "description": "PostgreSQL unavailable at runtime: bar/quarantine writes fail with explicit errors and bounded buffering, live streaming to clients continues, recovery resumes persistence.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/integration/test_db_outage_stream.py"
+      ],
+      "covers": [
+        "DB unavailable"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P3-CONTRACT-001",
+      "phase": 3,
+      "type": "contract",
+      "description": "Recorded Kraken WS v2 fixtures (status, subscribe ack, ticker snapshot/update, trade snapshot/update, ohlc, heartbeat, pong, error) parse into provider models and map to canonical observations, tolerating unknown fields.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers/kraken",
+        "data/fixtures/kraken",
+        "tests/contract/test_kraken_ws_fixtures.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P3-CONTRACT-002",
+      "phase": 3,
+      "type": "contract",
+      "description": "Recorded Kraken REST fixtures (OHLC, AssetPairs, error envelopes) parse correctly; the last OHLC entry is marked not final.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers/kraken",
+        "data/fixtures/kraken",
+        "tests/contract/test_kraken_rest_fixtures.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P3-UNIT-001",
+      "phase": 3,
+      "type": "unit",
+      "description": "Kraken symbol mapping: canonical BTC/USD <-> WS v2 BTC/USD <-> REST legacy names; unsupported pairs are rejected.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers/kraken/symbols.py",
+        "tests/unit/providers/kraken/test_symbols.py"
+      ],
+      "covers": [
+        "symbol changes"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P3-UNIT-002",
+      "phase": 3,
+      "type": "unit",
+      "description": "Kraken numeric fields are parsed as Decimal without float rounding (parse_float=Decimal), preserving 8+ decimal places.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers/kraken/parse.py",
+        "tests/unit/providers/kraken/test_precision.py"
+      ],
+      "covers": [
+        "crypto decimal precision"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P3-UNIT-003",
+      "phase": 3,
+      "type": "unit",
+      "description": "Heartbeat watchdog: silence longer than the tolerance forces a reconnect; heartbeats and data both reset the watchdog; an application ping keeps an idle connection alive.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers/ws_session.py",
+        "tests/unit/providers/test_heartbeat_watchdog.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P3-UNIT-004",
+      "phase": 3,
+      "type": "unit",
+      "description": "Reconnect policy: immediate bounded retries after a random drop, >= 5 s spacing after maintenance, and a hard attempt budget far below 150 per 10 minutes; exceeding the budget opens the circuit instead of looping.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers/ws_session.py",
+        "tests/unit/providers/test_reconnect_policy.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P3-UNIT-005",
+      "phase": 3,
+      "type": "unit",
+      "description": "trade_id gap detection per symbol raises a gap event and requests REST backfill; duplicates after reconnect are dropped.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers/kraken",
+        "tests/unit/providers/kraken/test_trade_gaps.py"
+      ],
+      "covers": [
+        "sequence gap"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P3-UNIT-006",
+      "phase": 3,
+      "type": "unit",
+      "description": "Kraken system status other than online (maintenance, cancel_only, post_only) marks provider health degraded/down and blocks execution eligibility.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers/kraken",
+        "tests/unit/providers/kraken/test_status.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P3-UNIT-007",
+      "phase": 3,
+      "type": "unit",
+      "description": "Kraken observations are labelled REALTIME_SINGLE_VENUE with venue KRAKEN, entitlement kraken-public and redistribution_allowed=false.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers/kraken",
+        "tests/unit/providers/kraken/test_provenance.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P3-UNIT-008",
+      "phase": 3,
+      "type": "unit",
+      "description": "Subscription failures (success=false) are surfaced as classified errors and do not leave the adapter believing it is subscribed.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers/kraken",
+        "tests/unit/providers/kraken/test_subscribe_errors.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P3-UNIT-009",
+      "phase": 3,
+      "type": "unit",
+      "description": "Stablecoin depeg detection: a stablecoin quote deviating beyond the configured band from its peg raises a quality flag and marks dependent pairs.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/quality.py",
+        "tests/unit/market_data/test_stablecoin_depeg.py"
+      ],
+      "covers": [
+        "stablecoin depeg"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P3-INT-001",
+      "phase": 3,
+      "type": "integration",
+      "description": "Against a local fake Kraken WS server: connect, receive status, subscribe, stream trades/ticker, build bars, survive a forced disconnect, resubscribe and continue with no duplicate or missing bars.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/integration/kraken/fake_server.py",
+        "tests/integration/kraken/test_kraken_stream.py"
+      ],
+      "covers": [
+        "disconnected websocket"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P3-INT-002",
+      "phase": 3,
+      "type": "integration",
+      "description": "REST backfill fills the gap after a reconnect and merges with streamed data idempotently.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers/kraken/rest.py",
+        "tests/integration/kraken/test_backfill.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P3-INT-003",
+      "phase": 3,
+      "type": "integration",
+      "description": "Kraken provider passes the shared provider conformance suite.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/contract/provider_conformance.py",
+        "tests/integration/kraken/test_conformance.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P3-INT-004",
+      "phase": 3,
+      "type": "integration",
+      "description": "Provider health metrics for Kraken (latency, error rate by kind, reconnects, gaps, last message age) are exported on /metrics and the health API.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/integration/kraken/test_metrics.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P3-FAIL-001",
+      "phase": 3,
+      "type": "failure-injection",
+      "description": "Kraken REST backfill under 429, 5xx, timeout and the EAPI:Rate limit exceeded / EService:Throttled error envelopes behaves per the retry policy.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/integration/kraken/test_rest_failures.py"
+      ],
+      "covers": [
+        "API 429",
+        "API 500",
+        "timeout",
+        "rate-limit exhaustion"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P3-LIVE-001",
+      "phase": 3,
+      "type": "live-optin",
+      "description": "Opt-in live smoke test against the real Kraken public WebSocket: connect, subscribe to BTC/USD, receive status + ticker + trade, clean shutdown. Excluded from default test runs.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/live/test_kraken_live.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P4-WEB-001",
+      "phase": 4,
+      "type": "unit",
+      "description": "PriceChart creates one chart per mount with the v5 API (addSeries with CandlestickSeries/HistogramSeries), removes it on unmount, and never disables the TradingView attribution logo.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/src/components/charts/price-chart.tsx",
+        "apps/web/src/components/charts/price-chart.test.tsx"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P4-WEB-002",
+      "phase": 4,
+      "type": "unit",
+      "description": "Bar-to-chart mapping produces strictly ascending unique UTC-second timestamps, parses Decimal strings safely, and emits whitespace points for closed periods/missing candles.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/src/lib/chart-data.ts",
+        "apps/web/src/lib/chart-data.test.ts"
+      ],
+      "covers": [
+        "missing candle"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P4-WEB-003",
+      "phase": 4,
+      "type": "unit",
+      "description": "Live updates call series.update for the latest bar and do not call setData per tick.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/src/components/charts/price-chart.test.tsx"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P4-WEB-004",
+      "phase": 4,
+      "type": "unit",
+      "description": "Provider health panel renders HEALTHY, DEGRADED, DOWN and UNKNOWN states with text labels and a stale-data warning.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/src/components/provider-health.tsx",
+        "apps/web/src/components/provider-health.test.tsx"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P4-WEB-005",
+      "phase": 4,
+      "type": "unit",
+      "description": "Every price display includes the feed-quality badge; DELAYED shows the delay; SIMULATED and UNOFFICIAL are unmistakable.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/src/components/price-display.tsx",
+        "apps/web/src/components/price-display.test.tsx"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P4-WEB-006",
+      "phase": 4,
+      "type": "unit",
+      "description": "Chart text alternative: a screen-reader summary and data table describe the visible range (last, change, high, low, range, feed quality).",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/src/components/charts/chart-summary.tsx",
+        "apps/web/src/components/charts/chart-summary.test.tsx"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P4-WEB-007",
+      "phase": 4,
+      "type": "unit",
+      "description": "Stream hook reconnects with bounded backoff, surfaces connection state, and marks data stale after the freshness threshold.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/src/lib/use-market-stream.ts",
+        "apps/web/src/lib/use-market-stream.test.ts"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P4-E2E-001",
+      "phase": 4,
+      "type": "e2e",
+      "description": "Market Command Center renders market status, provider health and a candlestick chart with volume from the mock provider.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/e2e/command-center.spec.ts"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P4-E2E-002",
+      "phase": 4,
+      "type": "e2e",
+      "description": "Switching timeframe reloads bars and updates the chart; the selected timeframe is reflected in the URL.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/e2e/timeframes.spec.ts"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P4-E2E-003",
+      "phase": 4,
+      "type": "e2e",
+      "description": "Loading, error, empty and degraded states are shown for the chart and health panels when the API misbehaves.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/e2e/panel-states.spec.ts"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P4-E2E-004",
+      "phase": 4,
+      "type": "e2e",
+      "description": "Responsive layouts: desktop multi-panel, tablet functional two-column, mobile single-column with only the supported views and no horizontal scroll.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/e2e/responsive.spec.ts"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P4-E2E-005",
+      "phase": 4,
+      "type": "e2e",
+      "description": "Keyboard-only use reaches every control with a visible focus indicator; prefers-reduced-motion disables animation.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/e2e/keyboard.spec.ts"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P4-E2E-006",
+      "phase": 4,
+      "type": "e2e",
+      "description": "Automated axe scan of the dashboard reports no serious or critical violations.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/e2e/a11y.spec.ts"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P4-E2E-007",
+      "phase": 4,
+      "type": "e2e",
+      "description": "A live price update streamed over the WebSocket updates the last price and the chart without a page reload.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/e2e/live-update.spec.ts"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P4-INT-001",
+      "phase": 4,
+      "type": "integration",
+      "description": "Frontend error reports are accepted by the API endpoint, rate-limited, size-limited and logged without PII.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/api/routers/client_errors.py",
+        "tests/integration/test_client_errors.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P5-UNIT-001",
+      "phase": 5,
+      "type": "unit",
+      "description": "Return features (1m, 5m, 15m, 30m, 1h, daily) match hand-computed golden values.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/features",
+        "tests/unit/features/test_returns.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P5-UNIT-002",
+      "phase": 5,
+      "type": "unit",
+      "description": "Trend features (moving averages, distance from MA, trend slope, breakout distance) match golden values.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/features",
+        "tests/unit/features/test_trend.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P5-UNIT-003",
+      "phase": 5,
+      "type": "unit",
+      "description": "Momentum features (ROC, RSI, relative strength, multi-horizon momentum) match golden values.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/features",
+        "tests/unit/features/test_momentum.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P5-UNIT-004",
+      "phase": 5,
+      "type": "unit",
+      "description": "Volatility features (ATR, realized volatility, Parkinson, Garman-Klass, volatility percentile, compression/expansion) match golden values.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/features",
+        "tests/unit/features/test_volatility.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P5-UNIT-005",
+      "phase": 5,
+      "type": "unit",
+      "description": "Volume features (relative volume, volume z-score, session VWAP, price/VWAP distance) match golden values; VWAP resets per session.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/features",
+        "tests/unit/features/test_volume.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P5-UNIT-006",
+      "phase": 5,
+      "type": "unit",
+      "description": "Market-structure features (gap, prior high/low, opening range, intraday high/low, mechanical support/resistance) match golden values.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/features",
+        "tests/unit/features/test_structure.py"
+      ],
+      "covers": [
+        "huge gap"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P5-UNIT-007",
+      "phase": 5,
+      "type": "unit",
+      "description": "Order-flow features (spread, depth, imbalance, aggressive-trade proxy, microprice) are computed only when true quote/book data exists and are otherwise absent, not fabricated.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/features",
+        "tests/unit/features/test_orderflow.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P5-UNIT-008",
+      "phase": 5,
+      "type": "unit",
+      "description": "Cross-asset features (rolling correlation, beta, residual return, index-relative return) match golden values on aligned timestamps.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/features",
+        "tests/unit/features/test_cross_asset.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P5-UNIT-009",
+      "phase": 5,
+      "type": "unit",
+      "description": "Feature registry: every feature has a name, version, inputs and warm-up length; a FeatureSnapshot id is a deterministic hash of inputs, feature versions and as-of time.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/features",
+        "tests/unit/features/test_registry.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P5-UNIT-010",
+      "phase": 5,
+      "type": "unit",
+      "description": "Features handle zero-volume bars, missing candles and insufficient history by returning NaN/absent with a reason, never a misleading number.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/features",
+        "tests/unit/features/test_edge_cases.py"
+      ],
+      "covers": [
+        "zero-volume bar",
+        "missing candle"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P5-UNIT-011",
+      "phase": 5,
+      "type": "unit",
+      "description": "Corporate-action handling in features: split, reverse split and dividend adjustments are applied consistently to return features and never mixed with unadjusted prices.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/features",
+        "tests/unit/features/test_adjustments.py"
+      ],
+      "covers": [
+        "stock splits",
+        "reverse splits",
+        "dividends"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P5-PROP-001",
+      "phase": 5,
+      "type": "property",
+      "description": "No-lookahead property for every registered feature: the value at time t is unchanged when data after t is appended or perturbed.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/property/test_feature_no_lookahead.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P5-PROP-002",
+      "phase": 5,
+      "type": "property",
+      "description": "Determinism property: recomputing any feature on the same input gives bit-identical output regardless of batch vs incremental computation.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/property/test_feature_determinism.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P5-UNIT-012",
+      "phase": 5,
+      "type": "unit",
+      "description": "Stock universe filters: minimum price, minimum ADV, minimum dollar volume, spread threshold, market cap when available, session eligibility, corporate-event flags, borrow availability for shorts when known.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/universe",
+        "tests/unit/universe/test_stock_filters.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P5-UNIT-013",
+      "phase": 5,
+      "type": "unit",
+      "description": "Crypto universe filters: minimum quote volume, exchange status, spread, depth, funding when relevant, stablecoin/quote-currency filters.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/universe",
+        "tests/unit/universe/test_crypto_filters.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P5-UNIT-014",
+      "phase": 5,
+      "type": "unit",
+      "description": "Forex universe filters: supported pair, spread, session activity, liquidity proxy.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/universe",
+        "tests/unit/universe/test_fx_filters.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P5-UNIT-015",
+      "phase": 5,
+      "type": "unit",
+      "description": "Universe exclusions: halted and delisted instruments are excluded with an explicit reason; a renamed symbol keeps its history under the stable instrument id.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/universe",
+        "tests/unit/universe/test_status_filters.py"
+      ],
+      "covers": [
+        "halted asset",
+        "delisting",
+        "symbol changes"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P5-UNIT-016",
+      "phase": 5,
+      "type": "unit",
+      "description": "Multi-stage selection is deterministic, records the reason each instrument was dropped at each stage, and never passes a filtered-out instrument to the expensive (agent) stage.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/universe",
+        "tests/unit/universe/test_multistage.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P5-REPLAY-001",
+      "phase": 5,
+      "type": "replay",
+      "description": "Replaying the same market data yields identical feature snapshots and an identical selected universe.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/replay/test_feature_replay.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P5-INT-001",
+      "phase": 5,
+      "type": "integration",
+      "description": "Feature snapshots are persisted with their versions and can be reloaded by id; the API exposes the latest snapshot per instrument.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/integration/test_feature_snapshots.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P6-UNIT-001",
+      "phase": 6,
+      "type": "unit",
+      "description": "Opportunity model validates direction, horizon, strategy family, expected move/cost/edge in bps, confidence in [0,1], freshness and feed quality.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/schemas/opportunity.py",
+        "tests/unit/signals/test_opportunity_model.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P6-UNIT-002",
+      "phase": 6,
+      "type": "unit",
+      "description": "Net expected edge = gross expected edge minus modelled costs (spread, slippage, commissions, funding, borrow) using the shared cost model.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/signals/edge.py",
+        "tests/unit/signals/test_net_edge.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P6-UNIT-003",
+      "phase": 6,
+      "type": "unit",
+      "description": "Scanner ranking is deterministic with explicit tie-breaks; stale candidates and candidates on unhealthy feeds are demoted or excluded with a reason.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/signals/ranking.py",
+        "tests/unit/signals/test_ranking.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P6-UNIT-004",
+      "phase": 6,
+      "type": "unit",
+      "description": "Scanner never ranks an instrument that failed universe selection.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/signals/ranking.py",
+        "tests/unit/signals/test_ranking_universe.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P6-INT-001",
+      "phase": 6,
+      "type": "integration",
+      "description": "GET /api/v1/scanner returns ranked candidates with all required columns, filtering, sorting and pagination.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/api/routers/scanner.py",
+        "tests/integration/test_scanner_api.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P6-INT-002",
+      "phase": 6,
+      "type": "integration",
+      "description": "GET /api/v1/opportunities/{id} returns the idea with entry zone, stop, targets, expected R:R, costs and provenance.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/api/routers/opportunities.py",
+        "tests/integration/test_opportunity_api.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P6-WEB-001",
+      "phase": 6,
+      "type": "unit",
+      "description": "Scanner table renders every required column including the data-feed badge and freshness, and is sortable by keyboard with correct aria-sort.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/src/app/scanner",
+        "apps/web/src/app/scanner/scanner-table.test.tsx"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P6-E2E-001",
+      "phase": 6,
+      "type": "e2e",
+      "description": "Scanner page lists ranked candidates, filters by asset class and opens a trade idea detail page.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/e2e/scanner.spec.ts"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P6-E2E-002",
+      "phase": 6,
+      "type": "e2e",
+      "description": "Trade idea detail shows chart with entry zone, stop and targets, expected R:R, expected costs, and provenance; mobile layout is usable.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/e2e/trade-idea.spec.ts"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P7-UNIT-001",
+      "phase": 7,
+      "type": "unit",
+      "description": "AgentSignal contract contains every field from the brief with bounds (probability and confidence in [0,1], non-empty invalidators for directional signals, source ids present).",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/schemas/agents.py",
+        "tests/unit/agents/test_signal_contract.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P7-UNIT-002",
+      "phase": 7,
+      "type": "unit",
+      "description": "Routing runs only eligible agents for the asset class, available data, horizon, regime and strategy eligibility; not all agents run for every asset.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/agents",
+        "tests/unit/agents/test_routing.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P7-UNIT-003",
+      "phase": 7,
+      "type": "unit",
+      "description": "Each agent declares one evidence class; correlated agents in the same class are aggregated before cross-class weighting so they are not double-counted.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/agents",
+        "tests/unit/agents/test_independence.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P7-UNIT-004",
+      "phase": 7,
+      "type": "unit",
+      "description": "Ensemble math: agent_edge and ensemble_edge follow the documented formula including cost and uncertainty penalties; golden cases.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/agents",
+        "tests/unit/agents/test_ensemble.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P7-UNIT-005",
+      "phase": 7,
+      "type": "unit",
+      "description": "Disagreement statistics reduce confidence and size monotonically; abstention occurs only above the extreme threshold; ordinary disagreement never yields NO TRADE.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/agents",
+        "tests/unit/agents/test_disagreement.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P7-UNIT-006",
+      "phase": 7,
+      "type": "unit",
+      "description": "Reliability history is keyed by agent, asset class, regime, strategy and horizon and is applied only after the minimum observation count; before that a neutral prior is used.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/agents",
+        "tests/unit/agents/test_reliability.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P7-UNIT-007",
+      "phase": 7,
+      "type": "unit",
+      "description": "Deterministic agents (momentum, mean reversion, volatility, technical structure, order flow, cross-asset, regime) produce signals solely from the feature snapshot and are reproducible.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/agents",
+        "tests/unit/agents/test_deterministic_agents.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P7-UNIT-008",
+      "phase": 7,
+      "type": "unit",
+      "description": "MockLLMClient returns deterministic typed outputs from fixtures; LLM-assisted agents validate output against the schema and reject unknown source ids.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/agents",
+        "tests/unit/agents/test_mock_llm.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P7-UNIT-009",
+      "phase": 7,
+      "type": "security",
+      "description": "Type-level and runtime guarantee: no code path creates an OrderIntent from free-form text; only EnsembleDecision objects can produce one.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/agents",
+        "tests/unit/agents/test_no_freeform_orders.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P7-UNIT-010",
+      "phase": 7,
+      "type": "unit",
+      "description": "Adversarial critic receives the committee output and can lower confidence or veto with explicit counter-evidence; its effect is recorded separately.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/agents",
+        "tests/unit/agents/test_critic.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P7-FAIL-001",
+      "phase": 7,
+      "type": "failure-injection",
+      "description": "Agent timeout: the agent is cancelled, recorded as an error with latency, and the committee completes with the remaining agents.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/agents",
+        "tests/unit/agents/test_agent_timeout.py"
+      ],
+      "covers": [
+        "agent timeout"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P7-FAIL-002",
+      "phase": 7,
+      "type": "failure-injection",
+      "description": "Agent raising or returning schema-invalid output is isolated; the decision log records the error and the ensemble excludes it.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/agents",
+        "tests/unit/agents/test_agent_failure.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P7-INT-001",
+      "phase": 7,
+      "type": "integration",
+      "description": "Every decision is persisted and traceable: input snapshot id, model, prompt version, output, latency, errors and downstream ensemble result.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/integration/test_decision_log.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P7-INT-002",
+      "phase": 7,
+      "type": "integration",
+      "description": "GET /api/v1/agents/decisions returns the decision log with filtering by instrument, agent and time.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/api/routers/agents.py",
+        "tests/integration/test_agents_api.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P7-REPLAY-001",
+      "phase": 7,
+      "type": "replay",
+      "description": "Replaying the same snapshots through the committee with the mock LLM yields identical ensemble decisions.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/replay/test_committee_replay.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P7-E2E-001",
+      "phase": 7,
+      "type": "e2e",
+      "description": "Agent Decision Log page shows each agent's input snapshot, output, probability, evidence, disagreement, latency, errors and model/version.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/e2e/agent-log.spec.ts"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P8-UNIT-001",
+      "phase": 8,
+      "type": "contract",
+      "description": "Anthropic client builds requests per the current official SDK (model id, structured output format, no forced tool choice, no deprecated thinking parameters) - verified against recorded request fixtures.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/agents/llm",
+        "tests/contract/test_anthropic_requests.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P8-UNIT-002",
+      "phase": 8,
+      "type": "contract",
+      "description": "Recorded Anthropic responses parse into the typed schemas; refusal and max_tokens stop reasons are handled before content is read.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/agents/llm",
+        "data/fixtures/anthropic",
+        "tests/contract/test_anthropic_responses.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P8-UNIT-003",
+      "phase": 8,
+      "type": "unit",
+      "description": "Budget control: per-call max tokens and timeout; the daily USD cap is enforced from token usage and model pricing; when exceeded the client refuses calls and agents abstain.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/agents/llm",
+        "tests/unit/agents/test_llm_budget.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P8-UNIT-004",
+      "phase": 8,
+      "type": "unit",
+      "description": "Token and cost usage are recorded per call and exported as metrics by agent and model.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/agents/llm",
+        "tests/unit/agents/test_llm_usage_metrics.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P8-UNIT-005",
+      "phase": 8,
+      "type": "security",
+      "description": "The API key is never logged, never included in errors, and never sent anywhere except the provider host; LLM is disabled by default.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/agents/llm",
+        "tests/unit/agents/test_llm_secrets.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P8-UNIT-006",
+      "phase": 8,
+      "type": "unit",
+      "description": "Prompts are versioned; the prompt version and model id are stored with every decision; changing a prompt changes its version hash.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/agents/llm",
+        "tests/unit/agents/test_prompt_versioning.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P8-UNIT-007",
+      "phase": 8,
+      "type": "security",
+      "description": "Untrusted content (news, filings) is delimited; an injected instruction inside content does not change the output schema or produce actions; outputs citing unknown sources are rejected.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/agents/llm",
+        "tests/unit/agents/test_prompt_injection.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P8-FAIL-001",
+      "phase": 8,
+      "type": "failure-injection",
+      "description": "LLM API 429/5xx/timeout: bounded retries per the SDK policy, then a typed abstain; the committee completes.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/agents/llm",
+        "tests/unit/agents/test_llm_failures.py"
+      ],
+      "covers": [
+        "API 429",
+        "API 500",
+        "timeout",
+        "agent timeout"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P8-FAIL-002",
+      "phase": 8,
+      "type": "failure-injection",
+      "description": "LLM returns malformed or schema-invalid output: rejected, logged, agent abstains; no partial data reaches the ensemble.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/agents/llm",
+        "tests/unit/agents/test_llm_malformed.py"
+      ],
+      "covers": [
+        "malformed JSON"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P8-LIVE-001",
+      "phase": 8,
+      "type": "live-optin",
+      "description": "Opt-in live test with a real API key: one structured call returns a schema-valid signal within budget. Excluded from default runs.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/live/test_anthropic_live.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P9-UNIT-001",
+      "phase": 9,
+      "type": "unit",
+      "description": "Market orders fill at the opposite quote side after latency (buy at ask, sell at bid) plus modelled slippage.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/execution/sim",
+        "tests/unit/sim/test_market_orders.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P9-UNIT-002",
+      "phase": 9,
+      "type": "unit",
+      "description": "Limit orders fill only when the market trades through the limit; price improvement on gaps; no fill at the touch with bar data.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/execution/sim",
+        "tests/unit/sim/test_limit_orders.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P9-UNIT-003",
+      "phase": 9,
+      "type": "unit",
+      "description": "Stop and stop-limit orders trigger correctly; gap-through-stop fills at the worse post-gap price, not the stop price.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/execution/sim",
+        "tests/unit/sim/test_stop_orders.py"
+      ],
+      "covers": [
+        "huge gap"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P9-UNIT-004",
+      "phase": 9,
+      "type": "unit",
+      "description": "Partial fills respect the volume-participation cap and displayed size; remaining quantity keeps working.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/execution/sim",
+        "tests/unit/sim/test_partial_fills.py"
+      ],
+      "covers": [
+        "partial fill"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P9-UNIT-005",
+      "phase": 9,
+      "type": "unit",
+      "description": "Order rejection: closed market, halted or delisted instrument, below minimum notional, unsupported TIF, insufficient buying power, short without borrow.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/execution/sim",
+        "tests/unit/sim/test_rejections.py"
+      ],
+      "covers": [
+        "broker rejection",
+        "halted asset",
+        "delisting"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P9-UNIT-006",
+      "phase": 9,
+      "type": "unit",
+      "description": "Cost model: commissions, spread, slippage, borrow fees and funding are itemised per fill and total correctly in currency and bps.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/execution/costs.py",
+        "tests/unit/sim/test_costs.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P9-UNIT-007",
+      "phase": 9,
+      "type": "unit",
+      "description": "Latency model: no fill occurs at or before the timestamp of the data that triggered the decision.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/execution/sim",
+        "tests/unit/sim/test_latency.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P9-UNIT-008",
+      "phase": 9,
+      "type": "unit",
+      "description": "Market hours: no fills while closed, DAY orders expire at the session close, early closes and holidays honoured, crypto fills on weekends.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/execution/sim",
+        "tests/unit/sim/test_market_hours.py"
+      ],
+      "covers": [
+        "early close",
+        "market holiday",
+        "weekend crypto"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P9-UNIT-009",
+      "phase": 9,
+      "type": "unit",
+      "description": "Corporate actions: split, reverse split, cash dividend and delisting adjust positions, working orders and cash correctly.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/execution/sim",
+        "tests/unit/sim/test_corporate_actions.py"
+      ],
+      "covers": [
+        "stock splits",
+        "reverse splits",
+        "dividends",
+        "delisting"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P9-UNIT-010",
+      "phase": 9,
+      "type": "unit",
+      "description": "Stale working orders are cancelled/expired at their maximum age.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/execution/sim",
+        "tests/unit/sim/test_stale_orders.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P9-UNIT-011",
+      "phase": 9,
+      "type": "unit",
+      "description": "Order state machine: only legal transitions are possible; terminal states are final; every transition is recorded.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/execution/orders.py",
+        "tests/unit/execution/test_state_machine.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P9-PROP-001",
+      "phase": 9,
+      "type": "property",
+      "description": "Lookahead guard: perturbing data after time t never changes decisions or fills up to t; no fill timestamp is <= its decision timestamp.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/property/test_backtest_no_lookahead.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P9-PROP-002",
+      "phase": 9,
+      "type": "property",
+      "description": "Accounting invariants: cash + position value changes equal the sum of fills and costs; filled quantity never exceeds order quantity.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/property/test_sim_accounting.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P9-REPLAY-001",
+      "phase": 9,
+      "type": "replay",
+      "description": "A backtest with the same data snapshot, parameters and seed reproduces identical trades and statistics.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/backtesting",
+        "tests/replay/test_backtest_determinism.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P9-UNIT-012",
+      "phase": 9,
+      "type": "unit",
+      "description": "Closing-price rule: a strategy cannot use a bar's close to fill an order within that bar unless it declares the close-auction timing model, which is recorded in run metadata.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/backtesting",
+        "tests/unit/backtesting/test_close_timing.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P9-UNIT-013",
+      "phase": 9,
+      "type": "unit",
+      "description": "Chronological train/test split and walk-forward windows never overlap in a way that leaks test data into training.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/backtesting",
+        "tests/unit/backtesting/test_splits.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P9-UNIT-014",
+      "phase": 9,
+      "type": "unit",
+      "description": "Performance statistics (return, volatility, Sharpe, Sortino, max drawdown, hit rate, profit factor, exposure, turnover) match hand-computed golden values.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/backtesting",
+        "tests/unit/backtesting/test_statistics.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P9-UNIT-015",
+      "phase": 9,
+      "type": "unit",
+      "description": "Parameter-stability analysis, benchmark comparison and bootstrap confidence intervals are computed deterministically from a seed.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/backtesting",
+        "tests/unit/backtesting/test_robustness.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P9-UNIT-016",
+      "phase": 9,
+      "type": "unit",
+      "description": "A multiple-hypothesis warning is attached when a parameter search exceeds the configured number of trials.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/backtesting",
+        "tests/unit/backtesting/test_multiple_hypothesis.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P9-INT-001",
+      "phase": 9,
+      "type": "integration",
+      "description": "Each run persists code version, data snapshot id, parameters, provider, date range, cost model, random seed and results; runs are retrievable by id.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/backtesting",
+        "tests/integration/test_backtest_registry.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P9-INT-002",
+      "phase": 9,
+      "type": "integration",
+      "description": "Data snapshots are immutable Parquet sets identified by content hash and queryable with DuckDB.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/backtesting",
+        "tests/integration/test_data_snapshots.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P9-E2E-001",
+      "phase": 9,
+      "type": "e2e",
+      "description": "Strategy Lab: configure a backtest (ranges, costs), run it, and view performance, benchmark, drawdown, rolling performance, trade distribution and parameter sensitivity with text alternatives.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/e2e/strategy-lab.spec.ts"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P10-UNIT-001",
+      "phase": 10,
+      "type": "unit",
+      "description": "Hard rule: stale, malformed, quarantined or below-minimum-quality execution-critical data rejects with DATA_INTEGRITY.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/risk",
+        "tests/unit/risk/test_hard_data_integrity.py"
+      ],
+      "covers": [
+        "stale event"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P10-UNIT-002",
+      "phase": 10,
+      "type": "unit",
+      "description": "Hard rule: invalid, missing or stale account balance rejects with ACCOUNT_INVALID.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/risk",
+        "tests/unit/risk/test_hard_account.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P10-UNIT-003",
+      "phase": 10,
+      "type": "unit",
+      "description": "Hard rule: duplicate order (same client_order_id or equivalent open order) rejects with DUPLICATE_ORDER.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/risk",
+        "tests/unit/risk/test_hard_duplicate.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P10-UNIT-004",
+      "phase": 10,
+      "type": "unit",
+      "description": "Hard rule: maximum account gross/net exposure.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/risk",
+        "tests/unit/risk/test_hard_exposure.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P10-UNIT-005",
+      "phase": 10,
+      "type": "unit",
+      "description": "Hard rule: configured max daily drawdown blocks new risk but allows risk-reducing exits.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/risk",
+        "tests/unit/risk/test_hard_drawdown.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P10-UNIT-006",
+      "phase": 10,
+      "type": "unit",
+      "description": "Hard rule: per-symbol hard cap.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/risk",
+        "tests/unit/risk/test_hard_symbol_cap.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P10-UNIT-007",
+      "phase": 10,
+      "type": "unit",
+      "description": "Hard rule: impossible stop or size (wrong side, non-positive, too tight, zero quantity after rounding, below minimum lot).",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/risk",
+        "tests/unit/risk/test_hard_stop_size.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P10-UNIT-008",
+      "phase": 10,
+      "type": "unit",
+      "description": "Hard rule: market closed / instrument halted or delisted.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/risk",
+        "tests/unit/risk/test_hard_market_closed.py"
+      ],
+      "covers": [
+        "halted asset",
+        "market holiday"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P10-UNIT-009",
+      "phase": 10,
+      "type": "unit",
+      "description": "Hard rule: broker disconnected or unknown state during an exposure-changing order rejects with BROKER_UNSAFE.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/risk",
+        "tests/unit/risk/test_hard_broker.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P10-UNIT-010",
+      "phase": 10,
+      "type": "unit",
+      "description": "Kill switch: BLOCK_NEW_RISK and BLOCK_ALL semantics; state persists across restart; changes are audited.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/risk",
+        "tests/unit/risk/test_kill_switch.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P10-UNIT-011",
+      "phase": 10,
+      "type": "unit",
+      "description": "Each soft multiplier (confidence, liquidity, regime, disagreement, correlation, event) is monotonic, bounded in [floor, 1] and can only reduce size.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/risk",
+        "tests/unit/risk/test_soft_multipliers.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P10-UNIT-012",
+      "phase": 10,
+      "type": "unit",
+      "description": "Soft factors alone never produce zero size: the global floor applies and SOFT_FLOOR_REACHED is reported.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/risk",
+        "tests/unit/risk/test_soft_floor.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P10-UNIT-013",
+      "phase": 10,
+      "type": "unit",
+      "description": "Sizing formula golden cases: risk_budget, base_qty from stop distance, multipliers, rounding down to the quantity increment.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/risk",
+        "tests/unit/risk/test_sizing.py"
+      ],
+      "covers": [
+        "crypto decimal precision",
+        "forex pip precision"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P10-UNIT-014",
+      "phase": 10,
+      "type": "unit",
+      "description": "Caps: max notional, symbol exposure, sector/theme exposure, gross/net exposure, remaining portfolio risk and participation each bind correctly and record their effect.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/risk",
+        "tests/unit/risk/test_caps.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P10-UNIT-015",
+      "phase": 10,
+      "type": "unit",
+      "description": "RiskConfig validation rejects values outside the hard bounds; there is no unbounded or Kelly-fraction sizing path.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/risk",
+        "tests/unit/risk/test_config_bounds.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P10-PROP-001",
+      "phase": 10,
+      "type": "property",
+      "description": "Property: final quantity never exceeds any cap, is never negative, and never exceeds base quantity.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/property/test_risk_invariants.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P10-PROP-002",
+      "phase": 10,
+      "type": "property",
+      "description": "Property: identical inputs always give identical RiskDecision (determinism).",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/property/test_risk_determinism.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P10-UNIT-016",
+      "phase": 10,
+      "type": "unit",
+      "description": "Portfolio accounting: cash, positions, realised/unrealised P&L, gross/net exposure and concentration match golden scenarios including fees.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/portfolio",
+        "tests/unit/portfolio/test_accounting.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P10-UNIT-017",
+      "phase": 10,
+      "type": "unit",
+      "description": "Historical-simulation VaR and expected shortfall at 95%/99% match golden values; insufficient history is reported, not estimated silently.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/risk/var.py",
+        "tests/unit/risk/test_var_es.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P10-INT-001",
+      "phase": 10,
+      "type": "integration",
+      "description": "Every evaluation persists a RiskDecision with rule results, multipliers, caps and reason codes; decision metrics are exported.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/integration/test_risk_decisions.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P10-E2E-001",
+      "phase": 10,
+      "type": "e2e",
+      "description": "Portfolio/Risk page shows cash, positions, P&L, exposures, correlation, VaR/ES with stated limitations, risk budget, drawdown and concentration; mobile risk overview works.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/e2e/portfolio-risk.spec.ts"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P11-UNIT-001",
+      "phase": 11,
+      "type": "unit",
+      "description": "Paper broker submits, acknowledges, partially fills, fills, cancels and rejects orders through the shared state machine.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/execution",
+        "tests/unit/execution/test_paper_broker.py"
+      ],
+      "covers": [
+        "partial fill",
+        "broker rejection"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P11-UNIT-002",
+      "phase": 11,
+      "type": "unit",
+      "description": "Idempotent submission: the same client_order_id never creates two orders; a submit timeout is resolved by lookup, not re-send.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/execution",
+        "tests/unit/execution/test_idempotency.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P11-UNIT-003",
+      "phase": 11,
+      "type": "unit",
+      "description": "Duplicate order acknowledgements and duplicate fill reports are no-ops; out-of-order fills are applied correctly.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/execution",
+        "tests/unit/execution/test_duplicate_ack.py"
+      ],
+      "covers": [
+        "duplicate order acknowledgement"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P11-UNIT-004",
+      "phase": 11,
+      "type": "security",
+      "description": "Mode safety: research mode rejects all orders; paper never routes to a live endpoint; the paper adapter refuses a non-paper base URL; live mode cannot start without every gate.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/execution",
+        "tests/unit/execution/test_mode_safety.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P11-UNIT-005",
+      "phase": 11,
+      "type": "unit",
+      "description": "Fail closed: an instrument whose required feed is unhealthy, stale or below minimum quality cannot receive new risk-increasing orders; working entry orders are cancelled; protective stops remain.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/execution",
+        "tests/unit/execution/test_fail_closed.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P11-UNIT-006",
+      "phase": 11,
+      "type": "unit",
+      "description": "Reconciliation detects position/order mismatches with the broker, engages BLOCK_NEW_RISK and raises an alert.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/execution",
+        "tests/unit/execution/test_reconciliation.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P11-FAIL-001",
+      "phase": 11,
+      "type": "failure-injection",
+      "description": "Broker rejection is surfaced with a classified reason and leaves portfolio state unchanged.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/execution",
+        "tests/unit/execution/test_broker_rejection.py"
+      ],
+      "covers": [
+        "broker rejection"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P11-FAIL-002",
+      "phase": 11,
+      "type": "failure-injection",
+      "description": "Broker disconnect mid-order: state becomes unknown, new risk is blocked, reconnect reconciles without duplicate orders.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/execution",
+        "tests/unit/execution/test_broker_disconnect.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P11-CONTRACT-001",
+      "phase": 11,
+      "type": "contract",
+      "description": "Alpaca paper trading API fixtures (order, order update stream, account, positions, error envelopes) parse and map to the canonical order model.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "data/fixtures/alpaca",
+        "tests/contract/test_alpaca_paper_fixtures.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P11-SEC-001",
+      "phase": 11,
+      "type": "security",
+      "description": "Authentication: Argon2id password hashing, server-side sessions, HttpOnly/Secure/SameSite cookies, idle timeout, rotation on login, rate-limited login.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/api/auth",
+        "tests/integration/test_auth.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P11-SEC-002",
+      "phase": 11,
+      "type": "security",
+      "description": "Every state-changing endpoint requires an authenticated session, the correct role, a valid CSRF token and an allowed Origin.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/api/auth",
+        "tests/integration/test_csrf_authz.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P11-SEC-003",
+      "phase": 11,
+      "type": "security",
+      "description": "Audit log records logins, order lifecycle, risk decisions, kill-switch and configuration changes; the application role cannot update or delete audit rows.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/integration/test_audit_log.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P11-SEC-004",
+      "phase": 11,
+      "type": "security",
+      "description": "Private WebSocket channels (orders, portfolio) require an authenticated session.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/integration/test_private_ws.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P11-INT-001",
+      "phase": 11,
+      "type": "integration",
+      "description": "End-to-end paper flow: ensemble decision -> order intent -> risk decision -> order -> fills -> position -> attribution record.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/integration/test_paper_flow.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P11-INT-002",
+      "phase": 11,
+      "type": "integration",
+      "description": "Post-trade attribution compares expected edge and costs with realised results and feeds forecast error to the reliability tracker.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/execution/attribution.py",
+        "tests/integration/test_attribution.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P11-E2E-001",
+      "phase": 11,
+      "type": "e2e",
+      "description": "Order Blotter shows submitted, acknowledged, partial, filled, rejected and cancelled orders with timestamps and broker ids; updates live.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/e2e/order-blotter.spec.ts"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P11-E2E-002",
+      "phase": 11,
+      "type": "e2e",
+      "description": "Post-Trade Attribution page shows expected edge, realised result, signal contribution, cost difference, execution quality and forecast error.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/e2e/attribution.spec.ts"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P11-E2E-003",
+      "phase": 11,
+      "type": "e2e",
+      "description": "Paper-mode banner is always visible in paper mode; order entry is impossible in research mode.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/e2e/mode-banner.spec.ts"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P12-CONTRACT-001",
+      "phase": 12,
+      "type": "contract",
+      "description": "Alpaca market-data fixtures (bars, trades, quotes, stream messages, errors) map to canonical observations; IEX is labelled REALTIME_SINGLE_VENUE and delayed SIP DELAYED with delay_seconds=900.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers/alpaca",
+        "data/fixtures/alpaca",
+        "tests/contract/test_alpaca_data_fixtures.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P12-CONTRACT-002",
+      "phase": 12,
+      "type": "contract",
+      "description": "FX/reference provider fixtures map to canonical observations with the weakest plausible feed quality and correct pip precision.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers",
+        "tests/contract/test_fx_fixtures.py"
+      ],
+      "covers": [
+        "forex pip precision"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P12-INT-001",
+      "phase": 12,
+      "type": "integration",
+      "description": "Each new adapter passes the shared provider conformance suite and the failure-injection suite.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/integration/test_adapter_conformance.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P12-UNIT-001",
+      "phase": 12,
+      "type": "unit",
+      "description": "Corporate actions ingestion: splits, reverse splits and dividends are stored and applied to adjusted series; raw series stay unadjusted.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/corporate_actions.py",
+        "tests/unit/market_data/test_corporate_actions.py"
+      ],
+      "covers": [
+        "stock splits",
+        "reverse splits",
+        "dividends"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P12-UNIT-002",
+      "phase": 12,
+      "type": "unit",
+      "description": "Symbol changes and delistings: history follows the instrument id; delisted instruments stop streaming and are flagged.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/instruments.py",
+        "tests/unit/market_data/test_symbol_changes.py"
+      ],
+      "covers": [
+        "symbol changes",
+        "delisting"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P12-UNIT-003",
+      "phase": 12,
+      "type": "unit",
+      "description": "Trading halts: a halted instrument is flagged, bars are not fabricated during the halt, and execution is blocked.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data",
+        "tests/unit/market_data/test_halts.py"
+      ],
+      "covers": [
+        "halted asset"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P12-UNIT-004",
+      "phase": 12,
+      "type": "unit",
+      "description": "Equity bars respect regular/pre/post sessions; no bar spans the overnight gap.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/market_data/bars.py",
+        "tests/unit/market_data/test_equity_sessions_bars.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P12-UNIT-005",
+      "phase": 12,
+      "type": "unit",
+      "description": "yfinance (if enabled) is labelled UNOFFICIAL, is off by default, and cannot be selected as an execution-critical source.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers",
+        "tests/unit/providers/test_unofficial_sources.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P12-E2E-001",
+      "phase": 12,
+      "type": "e2e",
+      "description": "Command Center shows crypto, equity and FX overviews with per-asset-class market status and correct feed badges.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/e2e/multi-asset.spec.ts"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P13-CONTRACT-001",
+      "phase": 13,
+      "type": "contract",
+      "description": "SEC EDGAR fixtures (submissions, company facts, frames) parse into typed filing/event models.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers/sec_edgar",
+        "data/fixtures/sec",
+        "tests/contract/test_sec_fixtures.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P13-UNIT-001",
+      "phase": 13,
+      "type": "unit",
+      "description": "SEC client sends the declared User-Agent, stays at or below 10 requests/second and backs off when throttled.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers/sec_edgar",
+        "tests/unit/providers/test_sec_fair_access.py"
+      ],
+      "covers": [
+        "rate-limit exhaustion"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P13-CONTRACT-002",
+      "phase": 13,
+      "type": "contract",
+      "description": "FRED fixtures parse; copyrighted series are flagged; the required FRED notice is attached to responses that include FRED data.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers/fred",
+        "tests/contract/test_fred_fixtures.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P13-CONTRACT-003",
+      "phase": 13,
+      "type": "contract",
+      "description": "CFTC COT fixtures parse; report-date vs release-date are distinguished so data is never used before its release time.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers/cftc",
+        "tests/contract/test_cftc_fixtures.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P13-CONTRACT-004",
+      "phase": 13,
+      "type": "contract",
+      "description": "ECB reference-rate fixtures parse and are labelled EOD reference data.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/providers/ecb",
+        "tests/contract/test_ecb_fixtures.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P13-UNIT-002",
+      "phase": 13,
+      "type": "unit",
+      "description": "Event model: timestamp, source, symbol, category, relevance, optional sentiment, link/provenance; point-in-time availability is enforced (no use before publication).",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/schemas/events.py",
+        "tests/unit/events/test_event_model.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P13-INT-001",
+      "phase": 13,
+      "type": "integration",
+      "description": "GET /api/v1/news and /events return items with provenance links, filtering and pagination.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/api/routers/news.py",
+        "tests/integration/test_news_api.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P13-E2E-001",
+      "phase": 13,
+      "type": "e2e",
+      "description": "News/Events page lists items with timestamp, source, symbol, category, relevance, sentiment where applicable and a provenance link; scheduled events appear on the Command Center.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/e2e/news-events.spec.ts"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P14-UNIT-001",
+      "phase": 14,
+      "type": "unit",
+      "description": "Pairs/stat-arb: cointegration test, hedge ratio and spread z-score are computed on training data only and applied out of sample.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/statarb",
+        "tests/unit/research/test_statarb.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P14-UNIT-002",
+      "phase": 14,
+      "type": "unit",
+      "description": "Time-aware cross-validation (purged/embargoed splits) never places a training sample after a validation sample it could leak into.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/ml",
+        "tests/unit/research/test_time_cv.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P14-UNIT-003",
+      "phase": 14,
+      "type": "unit",
+      "description": "Feature-leakage test: labels are constructed strictly from future returns and never included in features; a planted leak is detected.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/ml",
+        "tests/unit/research/test_leakage.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P14-UNIT-004",
+      "phase": 14,
+      "type": "unit",
+      "description": "Probability calibration (reliability curve, Brier score) is computed out of sample; an uncalibrated model is flagged.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/ml",
+        "tests/unit/research/test_calibration.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P14-UNIT-005",
+      "phase": 14,
+      "type": "unit",
+      "description": "Model acceptance gate: a model is rejected unless it beats the simple-rule benchmark out of sample with stability across windows; training accuracy alone never qualifies.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/ml",
+        "tests/unit/research/test_model_gate.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P14-UNIT-006",
+      "phase": 14,
+      "type": "unit",
+      "description": "Interpretable baselines (logistic regression, linear, tree) train reproducibly from a seed and record data snapshot and feature versions.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/ml",
+        "tests/unit/research/test_baselines.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P14-UNIT-007",
+      "phase": 14,
+      "type": "unit",
+      "description": "RL/FinRL-style experiments are flagged research-only and cannot be registered as a production signal source.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/ml",
+        "tests/unit/research/test_research_only_flag.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P14-INT-001",
+      "phase": 14,
+      "type": "integration",
+      "description": "Walk-forward ML evaluation persists per-window metrics and the model card; results are reproducible.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "services/research/ml",
+        "tests/integration/test_ml_walk_forward.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P15-SEC-001",
+      "phase": 15,
+      "type": "security",
+      "description": "Built web bundle contains no secret and no non-public environment variable.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "scripts/check_bundle_secrets.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P15-SEC-002",
+      "phase": 15,
+      "type": "security",
+      "description": "Inbound rate limiting on API routes (strict on login and order endpoints) returns 429 with Retry-After.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/integration/test_rate_limits.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P15-SEC-003",
+      "phase": 15,
+      "type": "security",
+      "description": "Content-Security-Policy, HSTS and frame-ancestors are enforced in the prod profile; containers run as non-root.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "docker-compose.yml",
+        "tests/integration/test_prod_headers.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P15-SEC-004",
+      "phase": 15,
+      "type": "security",
+      "description": "Database roles: the application role has no DDL rights and no UPDATE/DELETE on the audit log.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "migrations",
+        "tests/integration/test_db_roles.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P15-INT-001",
+      "phase": 15,
+      "type": "integration",
+      "description": "Backup and restore of PostgreSQL round-trips state; documented in the runbook.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "scripts/backup.sh",
+        "scripts/restore.sh"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P15-INT-002",
+      "phase": 15,
+      "type": "integration",
+      "description": "Load test: the stream pipeline sustains the target message rate without unbounded queue growth; queue depth metrics stay bounded.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/load/test_stream_load.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P15-INT-003",
+      "phase": 15,
+      "type": "integration",
+      "description": "Tracing: a request produces correlated spans across API, provider call and database when tracing is enabled.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "libs/observability/tracing.py",
+        "tests/integration/test_tracing.py"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P15-INT-004",
+      "phase": 15,
+      "type": "integration",
+      "description": "Chaos run: random provider disconnects, DB and Redis restarts during streaming leave the system consistent and recover without manual action.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "tests/chaos/test_chaos.py"
+      ],
+      "covers": [
+        "disconnected websocket",
+        "DB unavailable",
+        "Redis unavailable"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "P15-SMOKE-001",
+      "phase": 15,
+      "type": "smoke",
+      "description": "Full prod-profile compose stack builds, starts, passes health checks and the cross-stack smoke script.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "docker-compose.yml",
+        "scripts/smoke.sh"
+      ],
+      "covers": [],
+      "notes": ""
+    },
+    {
+      "id": "P15-E2E-001",
+      "phase": 15,
+      "type": "e2e",
+      "description": "Full regression: every page passes its e2e and axe checks on desktop, tablet and mobile viewports.",
+      "status": "planned",
+      "last_execution": null,
+      "relevant_files": [
+        "apps/web/e2e"
+      ],
+      "covers": [],
+      "notes": ""
+    }
+  ]
+}

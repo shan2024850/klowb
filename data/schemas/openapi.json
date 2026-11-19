@@ -1,0 +1,391 @@
+{
+  "components": {
+    "schemas": {
+      "AppEnv": {
+        "enum": [
+          "dev",
+          "test",
+          "prod"
+        ],
+        "title": "AppEnv",
+        "type": "string"
+      },
+      "DependencyHealth": {
+        "additionalProperties": false,
+        "properties": {
+          "detail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Detail"
+          },
+          "latency_ms": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latency Ms"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "required": {
+            "title": "Required",
+            "type": "boolean"
+          },
+          "status": {
+            "$ref": "#/components/schemas/DependencyStatus"
+          }
+        },
+        "required": [
+          "name",
+          "status",
+          "required"
+        ],
+        "title": "DependencyHealth",
+        "type": "object"
+      },
+      "DependencyStatus": {
+        "enum": [
+          "up",
+          "down"
+        ],
+        "title": "DependencyStatus",
+        "type": "string"
+      },
+      "ErrorBody": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "correlation_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Correlation Id"
+          },
+          "details": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Details"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "ErrorBody",
+        "type": "object"
+      },
+      "ErrorEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ErrorBody"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "title": "ErrorEnvelope",
+        "type": "object"
+      },
+      "FeedQuality": {
+        "description": "Provenance class of market data. Semantics: docs/data-providers.md section 1.",
+        "enum": [
+          "REALTIME_CONSOLIDATED",
+          "REALTIME_EXCHANGE",
+          "REALTIME_SINGLE_VENUE",
+          "DELAYED",
+          "EOD",
+          "UNOFFICIAL",
+          "SIMULATED"
+        ],
+        "title": "FeedQuality",
+        "type": "string"
+      },
+      "FeedQualityInfo": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "execution_eligible": {
+            "title": "Execution Eligible",
+            "type": "boolean"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "rank": {
+            "title": "Rank",
+            "type": "integer"
+          },
+          "realtime": {
+            "title": "Realtime",
+            "type": "boolean"
+          },
+          "value": {
+            "$ref": "#/components/schemas/FeedQuality"
+          }
+        },
+        "required": [
+          "value",
+          "label",
+          "description",
+          "realtime",
+          "execution_eligible",
+          "rank"
+        ],
+        "title": "FeedQualityInfo",
+        "type": "object"
+      },
+      "LivenessReport": {
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "default": "ok",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "title": "LivenessReport",
+        "type": "object"
+      },
+      "ReadinessReport": {
+        "additionalProperties": false,
+        "properties": {
+          "checked_at": {
+            "format": "date-time",
+            "title": "Checked At",
+            "type": "string"
+          },
+          "dependencies": {
+            "items": {
+              "$ref": "#/components/schemas/DependencyHealth"
+            },
+            "title": "Dependencies",
+            "type": "array"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ReadinessStatus"
+          }
+        },
+        "required": [
+          "status",
+          "checked_at",
+          "dependencies"
+        ],
+        "title": "ReadinessReport",
+        "type": "object"
+      },
+      "ReadinessStatus": {
+        "enum": [
+          "ok",
+          "degraded",
+          "unavailable"
+        ],
+        "title": "ReadinessStatus",
+        "type": "string"
+      },
+      "SystemInfo": {
+        "additionalProperties": false,
+        "properties": {
+          "disclaimer": {
+            "title": "Disclaimer",
+            "type": "string"
+          },
+          "environment": {
+            "$ref": "#/components/schemas/AppEnv"
+          },
+          "feed_quality_legend": {
+            "items": {
+              "$ref": "#/components/schemas/FeedQualityInfo"
+            },
+            "title": "Feed Quality Legend",
+            "type": "array"
+          },
+          "live_trading_available": {
+            "title": "Live Trading Available",
+            "type": "boolean"
+          },
+          "llm_enabled": {
+            "title": "Llm Enabled",
+            "type": "boolean"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "server_time": {
+            "format": "date-time",
+            "title": "Server Time",
+            "type": "string"
+          },
+          "trading_mode": {
+            "$ref": "#/components/schemas/TradingMode"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "version",
+          "environment",
+          "trading_mode",
+          "live_trading_available",
+          "llm_enabled",
+          "server_time",
+          "feed_quality_legend",
+          "disclaimer"
+        ],
+        "title": "SystemInfo",
+        "type": "object"
+      },
+      "TradingMode": {
+        "enum": [
+          "research",
+          "paper",
+          "live"
+        ],
+        "title": "TradingMode",
+        "type": "string"
+      }
+    }
+  },
+  "info": {
+    "summary": "Quantitative research and trading platform API. Research mode by default.",
+    "title": "klowb API",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/system/info": {
+      "get": {
+        "operationId": "system_info_api_v1_system_info_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemInfo"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Build, trading mode and data legend.",
+        "tags": [
+          "system"
+        ]
+      }
+    },
+    "/healthz": {
+      "get": {
+        "operationId": "healthz_healthz_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LivenessReport"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Liveness: the process is running. Touches no dependency.",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/metrics": {
+      "get": {
+        "operationId": "metrics_metrics_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          }
+        },
+        "summary": "Prometheus metrics.",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/readyz": {
+      "get": {
+        "operationId": "readyz_readyz_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadinessReport"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadinessReport"
+                }
+              }
+            },
+            "description": "A required dependency is down."
+          }
+        },
+        "summary": "Readiness: dependency status. 503 when a required dependency is down.",
+        "tags": [
+          "health"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+@import "tailwindcss";
+:root { color-scheme: light; color: #18332f; background: #f5f6f1; font-family: "Inter", system-ui, sans-serif; }
+* { box-sizing: border-box; }
+header { background: #153c35; color: white; display:flex; justify-content:space-between; align-items:center; padding: 14px clamp(1rem,4vw,4rem); }
+.brand { font: bold 2rem Georgia,serif; letter-spacing:-.06em; } .brand span { color:#c4dc86; }
+.mode { font-size:.85rem; } .mode strong { margin-left:.5rem; padding:.35rem .55rem; background:#d9edb5; color:#1a3d28; letter-spacing:.06em; }
+.workspace { display:grid; grid-template-columns: minmax(10rem, 14rem) minmax(0,1fr); max-width:90rem; margin:auto; }
+nav { padding:2rem 1rem; } nav a { display:block; padding:.5rem .75rem; } nav a:hover { background:#e4ebe1; }
+hr { border:0; border-top:1px solid #c5cec3; margin:.8rem; }
+main { padding:clamp(1rem,4vw,4rem); max-width:68rem; width:100%; }
+h1,h2 { font-family:"Georgia",serif; font-weight:500; line-height:1.1; } h1 { font-size:clamp(2.4rem,5vw,4.5rem); letter-spacing:-.045em; margin-bottom:2rem; } h2 { font-size:1.65rem; margin-bottom:1rem; }
+section { background:white; border:1px solid #c9d3ca; padding:clamp(1rem,2.5vw,2rem); margin-bottom:1.5rem; }
+.summary { font-weight:bold; color:#234d3a; } table { width:100%; border-collapse:collapse; margin:1rem 0; font-variant-numeric:tabular-nums; }
+th,td { padding:.65rem .4rem; text-align:left; border-bottom:1px solid #d9e0d6; } thead th,.checked { color:#495c54; font-size:.85rem; }
+button { background:#214d41; color:white; padding:.45rem 1rem; margin-top:1rem; cursor:pointer; } button:disabled { opacity:.65; }
+dl div { display:grid; grid-template-columns:minmax(10rem, 1fr) 2fr; gap:1rem; padding:.7rem 0; border-top:1px solid #d9e0d6; }
+.quality { font-size:.9rem; font-weight:650; } dd { color:#40544a; }
+.skip { position:absolute; top:-10rem; background:#fff; color:#153c35; padding:.6rem; z-index:2; } .skip:focus { top:0; }
+:focus-visible { outline:3px solid #b45309; outline-offset:3px; }
+@media (max-width:700px) { .workspace { display:block; } nav { display:flex; overflow-x:auto; white-space:nowrap; padding:.6rem; } nav hr {display:none;} dl div {grid-template-columns:1fr;gap:.3rem;} }
